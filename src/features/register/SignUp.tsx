@@ -12,8 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Input } from "@mui/material";
 import { useState } from "react";
-
-
+import { validateChange, validateEmpty } from "./SignUpUtils";
 
 function Copyright(props: any) {
   return (
@@ -38,60 +37,25 @@ const theme = createTheme();
 export default function SignUp() {
   const [error, setError] = useState<string | null>(null);
 
-  const isValidEmail = (email: any) => {
-    return /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email);
-  };
-
-  const isValidPassword = (password: any) => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password);
-  };
-  const isValidUserName = (username: string) => {
-    return username.length < 20;
-  };
-
   const handleChange = (event: any) => {
-    switch (event.target.name) {
-      case "email":
-        !isValidEmail(event.target.value) && event.target.value !== ""
-          ? setError("Email is invalid")
-          : setError(null);
-        break;
-      case "password":
-        !isValidPassword(event.target.value) && event.target.value !== ""
-          ? setError("Password is invalid")
-          : setError(null);
-        break;
-      case "userName":
-        !isValidUserName(event.target.value) && event.target.value !== ""
-          ? setError("Username is invalid")
-          : setError(null);
-        break;
-      default:
-    }
+    setError(validateChange(event.target.name, event.target.value));
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    switch (error) {
-      case "Email is invalid":
-        alert("Email is invalid");
-        break;
-      case "Username is invalid":
-        alert("Username is invalid");
-        break;
-      case "Password is invalid":
-        alert("Password is invalid");
-        break;
-      case null:
-        data.get("email") !== "" && data.get("userName") !== "" && data.get("password") !== "" ? console.log({
-          username: data.get("userName"),
-          email: data.get("email"),
-          password: data.get("password"),
-          avatar: data.get("avatar"),
-        }) : alert("Requiered field missing"); 
-        break;
-      default:
-        console.log(error);
+    const userJson = {
+      username: data.get("userName"),
+      email: data.get("email"),
+      password: data.get("password"),
+      avatar: data.get("avatar"),
+    };
+    setError(
+      validateEmpty(userJson.password, userJson.email, userJson.username)
+    );
+    if (error === null) {
+      console.log();
+    } else {
+      alert(error);
     }
   };
 
