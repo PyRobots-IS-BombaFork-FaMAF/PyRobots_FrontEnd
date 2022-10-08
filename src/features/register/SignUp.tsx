@@ -12,7 +12,12 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Input } from "@mui/material";
 import { useState } from "react";
-import { validateChange, validateEmpty } from "./SignUpUtils";
+import { validateChange } from "./SingUpUtils";
+
+
+
+
+
 
 function Copyright(props: any) {
   return (
@@ -35,10 +40,11 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const [error, setError] = useState<string | null>(null);
-
+  const [errorPassword, setErrorPassword] = useState<string | null>("password is invalid");
+  const [errorEmail, setErrorEmail] = useState<string | null>("email is invalid");
+  const [errorUserName, setErrorUserName] = useState<string | null>("userName is invalid");
   const handleChange = (event: any) => {
-    setError(validateChange(event.target.name, event.target.value));
+    return validateChange(event.target.name, event.target.value);
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,13 +55,18 @@ export default function SignUp() {
       password: data.get("password"),
       avatar: data.get("avatar"),
     };
-    setError(
-      validateEmpty(userJson.password, userJson.email, userJson.username)
-    );
-    if (error === null) {
-      console.log();
-    } else {
-      alert(error);
+    setErrorUserName(validateChange("userName", userJson.username));
+    setErrorPassword(validateChange("password", userJson.password));
+    setErrorEmail(validateChange("email", userJson.email));
+    
+    if(errorUserName !== null){
+      alert(errorUserName);
+    }else if(errorPassword !== null){
+      alert(errorPassword);
+    } else if (errorEmail !== null){
+      alert(errorEmail);
+    }else{
+      console.log(userJson);
     }
   };
 
@@ -90,9 +101,11 @@ export default function SignUp() {
                   name="userName"
                   required
                   fullWidth
-                  onChange={handleChange}
+                  onChange={event => setErrorUserName(handleChange(event))}
                   id="userName"
                   label="User Name"
+                  error={errorUserName !== null}
+                  helperText={errorUserName === "" ? `${errorUserName}` : " "}
                   autoFocus
                 />
               </Grid>
@@ -100,23 +113,27 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  onChange={handleChange}
+                  onChange={event => setErrorEmail(handleChange(event))}
                   id="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  error={errorEmail !== null}
+                  helperText={errorEmail === "" ? `${errorEmail}` : " "}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  onChange={handleChange}
+                  onChange={ event => setErrorPassword(handleChange(event))}
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  error={errorPassword !== null}
+                  helperText={errorPassword === "" ? `${errorPassword}` : " "}
                 />
               </Grid>
               <Grid item xs={12}>
