@@ -41,7 +41,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const SignUp = () => {
+export default function SignUp() {
   const validate = useAppSelector(selectSignUp);
 
   const dispatch = useAppDispatch();
@@ -115,6 +115,11 @@ const SignUp = () => {
                   label="User Name"
                   error={!validate.errUser}
                   autoFocus
+                  helperText={
+                    !validate.errUser
+                      ? "Invalid Length, maximum size 22 characters"
+                      : " "
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -129,6 +134,7 @@ const SignUp = () => {
                   name="email"
                   autoComplete="email"
                   error={!validate.errEmail}
+                  helperText={!validate.errEmail ? "Invalid Email" : " "}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -144,6 +150,11 @@ const SignUp = () => {
                   id="password"
                   autoComplete="new-password"
                   error={!validate.errPass}
+                  helperText={
+                    !validate.errEmail
+                      ? "Invalid Password, Verify if the password have at least 1 lowercase, 1 uppercase, 1 symbol, 1 number and at least 8 characteres."
+                      : " "
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -166,7 +177,7 @@ const SignUp = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
@@ -177,6 +188,4 @@ const SignUp = () => {
       </Container>
     </ThemeProvider>
   );
-};
-
-export default SignUp;
+}
