@@ -11,9 +11,15 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Input } from "@mui/material";
-import { useState } from "react";
+import {
+  setErrUser,
+  setErrEmail,
+  setErrPass,
+  selectSignUp,
+} from "../../reducers/signUpSlice";
 import { isValidEmail, isValidPassword, isValidUserName } from "./SingUpUtils";
 import { postUser } from "./SignUpApi";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 
 function Copyright(props: any) {
   return (
@@ -35,27 +41,27 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignUp() {
-  const [errorUserName, setErrorUserName] = useState<boolean | undefined>(
-    false
-  );
-  const [errorEmail, setErrorEmail] = useState<boolean | undefined>(false);
-  const [errorPassword, setErrorPassword] = useState<boolean | undefined>(
-    false
-  );
+const SignUp = () => {
+  const validate = useAppSelector(selectSignUp);
+
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: any, fun: Function) => {
-    return fun(event.target.value);
+    return event.target.value !== "" && fun(event.target.value);
   };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
+
     const userJson = {
       username: data.get("userName"),
       email: data.get("email"),
       password: data.get("password"), //,
       //avatar: data.get("avatar"),
     };
+
     if (
       data.get("userName") !== null &&
       data.get("password") !== null &&
@@ -103,11 +109,11 @@ export default function SignUp() {
                   required
                   fullWidth
                   onChange={(event) =>
-                    setErrorUserName(handleChange(event, isValidUserName))
+                    dispatch(setErrUser(handleChange(event, isValidUserName)))
                   }
                   id="userName"
                   label="User Name"
-                  error={!errorUserName}
+                  error={!validate.errUser}
                   autoFocus
                 />
               </Grid>
@@ -116,13 +122,13 @@ export default function SignUp() {
                   required
                   fullWidth
                   onChange={(event) =>
-                    setErrorEmail(handleChange(event, isValidEmail))
+                    dispatch(setErrEmail(handleChange(event, isValidEmail)))
                   }
                   id="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  error={!errorEmail}
+                  error={!validate.errEmail}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -130,14 +136,14 @@ export default function SignUp() {
                   required
                   fullWidth
                   onChange={(event) =>
-                    setErrorPassword(handleChange(event, isValidPassword))
+                    dispatch(setErrPass(handleChange(event, isValidPassword)))
                   }
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  error={!errorPassword}
+                  error={!validate.errPass}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -171,4 +177,6 @@ export default function SignUp() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default SignUp;
