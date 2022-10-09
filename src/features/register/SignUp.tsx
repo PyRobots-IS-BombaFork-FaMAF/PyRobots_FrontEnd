@@ -12,12 +12,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Input } from "@mui/material";
 import { useState } from "react";
-import { validateChange } from "./SingUpUtils";
-
-
-
-
-
+import { isValidEmail, isValidPassword, isValidUserName } from "./SingUpUtils";
+import { postUser } from "./SignUpApi";
 
 function Copyright(props: any) {
   return (
@@ -40,11 +36,10 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const [errorPassword, setErrorPassword] = useState<string | null>("password is invalid");
-  const [errorEmail, setErrorEmail] = useState<string | null>("email is invalid");
-  const [errorUserName, setErrorUserName] = useState<string | null>("userName is invalid");
-  const handleChange = (event: any) => {
-    return validateChange(event.target.name, event.target.value);
+  const [error, setError] = useState<string | null>("Some Field is invalid");
+
+  const handleChange = (event: any, fun: Function) => {
+    return fun(event.target.value);
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,21 +47,21 @@ export default function SignUp() {
     const userJson = {
       username: data.get("userName"),
       email: data.get("email"),
-      password: data.get("password"),
-      avatar: data.get("avatar"),
+      password: data.get("password"), //,
+      //avatar: data.get("avatar"),
     };
-    setErrorUserName(validateChange("userName", userJson.username));
-    setErrorPassword(validateChange("password", userJson.password));
-    setErrorEmail(validateChange("email", userJson.email));
-    
-    if(errorUserName !== null){
-      alert(errorUserName);
-    }else if(errorPassword !== null){
-      alert(errorPassword);
-    } else if (errorEmail !== null){
-      alert(errorEmail);
-    }else{
-      console.log(userJson);
+    if (
+      data.get("userName") !== null &&
+      data.get("password") !== null &&
+      data.get("email") !== null
+    ) {
+      if (
+        isValidUserName(data.get("userName")?.toString()!) &&
+        isValidPassword(data.get("password")?.toString()!) &&
+        isValidEmail(data.get("email")?.toString()!)
+      ) {
+        postUser(userJson);
+      }
     }
   };
 
@@ -101,11 +96,13 @@ export default function SignUp() {
                   name="userName"
                   required
                   fullWidth
-                  onChange={event => setErrorUserName(handleChange(event))}
+                  onChange={(event) =>
+                    setError(handleChange(event, isValidUserName))
+                  }
                   id="userName"
                   label="User Name"
-                  error={errorUserName !== null}
-                  helperText={errorUserName === "" ? `${errorUserName}` : " "}
+                  error={error !== null}
+                  helperText={error === "" ? `${error}` : " "}
                   autoFocus
                 />
               </Grid>
@@ -113,27 +110,31 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  onChange={event => setErrorEmail(handleChange(event))}
+                  onChange={(event) =>
+                    setError(handleChange(event, isValidEmail))
+                  }
                   id="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  error={errorEmail !== null}
-                  helperText={errorEmail === "" ? `${errorEmail}` : " "}
+                  error={error !== null}
+                  helperText={error === "" ? `${error}` : " "}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  onChange={ event => setErrorPassword(handleChange(event))}
+                  onChange={(event) =>
+                    setError(handleChange(event, isValidPassword))
+                  }
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  error={errorPassword !== null}
-                  helperText={errorPassword === "" ? `${errorPassword}` : " "}
+                  error={error !== null}
+                  helperText={error === "" ? `${error}` : " "}
                 />
               </Grid>
               <Grid item xs={12}>
