@@ -36,7 +36,9 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const [error, setError] = useState<string | null>("Some Field is invalid");
+  const [errorUserName, setErrorUserName] = useState<boolean | undefined>(false);
+  const [errorEmail, setErrorEmail] = useState<boolean | undefined>(false);
+  const [errorPassword, setErrorPassword] = useState<boolean | undefined>(false);
 
   const handleChange = (event: any, fun: Function) => {
     return fun(event.target.value);
@@ -97,12 +99,11 @@ export default function SignUp() {
                   required
                   fullWidth
                   onChange={(event) =>
-                    setError(handleChange(event, isValidUserName))
+                    setErrorUserName(handleChange(event, isValidUserName))
                   }
                   id="userName"
                   label="User Name"
-                  error={error !== null}
-                  helperText={error === "" ? `${error}` : " "}
+                  error={!errorUserName}
                   autoFocus
                 />
               </Grid>
@@ -111,14 +112,13 @@ export default function SignUp() {
                   required
                   fullWidth
                   onChange={(event) =>
-                    setError(handleChange(event, isValidEmail))
+                    setErrorEmail(handleChange(event, isValidEmail))
                   }
                   id="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  error={error !== null}
-                  helperText={error === "" ? `${error}` : " "}
+                  error={!errorEmail}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -126,15 +126,14 @@ export default function SignUp() {
                   required
                   fullWidth
                   onChange={(event) =>
-                    setError(handleChange(event, isValidPassword))
+                    setErrorPassword(handleChange(event, isValidPassword))
                   }
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  error={error !== null}
-                  helperText={error === "" ? `${error}` : " "}
+                  error={!errorPassword}
                 />
               </Grid>
               <Grid item xs={12}>
