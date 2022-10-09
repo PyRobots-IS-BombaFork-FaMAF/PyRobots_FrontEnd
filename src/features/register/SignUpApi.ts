@@ -5,9 +5,9 @@ export async function postUser(user: any) {
     method: "POST",
     credentials: "same-origin",
     headers: {
-     "Access-Control-Allow-Origin": "http://localhost:3000/",
+      "Access-Control-Allow-Origin": "http://localhost:3000/",
       "content-type": "application/json",
-      "accept": "application/json",
+      accept: "application/json",
     },
     body: JSON.stringify({
       username: user.username,

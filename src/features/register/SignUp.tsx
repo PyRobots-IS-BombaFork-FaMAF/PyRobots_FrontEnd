@@ -36,9 +36,13 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const [errorUserName, setErrorUserName] = useState<boolean | undefined>(false);
+  const [errorUserName, setErrorUserName] = useState<boolean | undefined>(
+    false
+  );
   const [errorEmail, setErrorEmail] = useState<boolean | undefined>(false);
-  const [errorPassword, setErrorPassword] = useState<boolean | undefined>(false);
+  const [errorPassword, setErrorPassword] = useState<boolean | undefined>(
+    false
+  );
 
   const handleChange = (event: any, fun: Function) => {
     return fun(event.target.value);
