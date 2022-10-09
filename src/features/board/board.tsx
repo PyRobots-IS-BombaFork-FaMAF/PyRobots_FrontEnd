@@ -8,13 +8,13 @@ function Board() {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Rect
-            x={window_min_size * 0.025}
-            y={window_min_size * 0.025}
-            width={window_min_size * 0.95}
-            height={window_min_size * 0.95}
-            fill="white"
-            shadowBlur={10}
-          />
+          x={window_min_size * 0.025}
+          y={window_min_size * 0.025}
+          width={window_min_size * 0.95}
+          height={window_min_size * 0.95}
+          fill="white"
+          shadowBlur={10}
+        />
       </Layer>
     </Stage>
   );
