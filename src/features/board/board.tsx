@@ -1,13 +1,13 @@
 import { Stage, Layer, Rect } from 'react-konva';
+import { boardConfig } from './boardHelper';
 
-
-function BackGround(boardSize: {x0: number, y0: number, size: number}) {
+function BackGround(board: boardConfig) {
   return (
     <Rect
-      x={boardSize.x0}
-      y={boardSize.y0}
-      width={boardSize.size}
-      height={boardSize.size}
+      x={board.x0}
+      y={board.y0}
+      width={board.size}
+      height={board.size}
       fill="white"
       shadowBlur={10}
     />
