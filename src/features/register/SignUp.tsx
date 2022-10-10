@@ -17,7 +17,7 @@ import {
   setErrPass,
   selectSignUp,
 } from "../../reducers/signUpSlice";
-import { isValidEmail, isValidPassword, isValidUserName } from "./SingUpUtils";
+import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 import { postUser } from "./SignUpApi";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 
@@ -31,7 +31,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        pyrobots.com
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -46,7 +46,10 @@ export default function SignUp() {
 
   const dispatch = useAppDispatch();
 
-  const handleChange = (event: any, fun: Function) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    fun: Function
+  ) => {
     return event.target.value !== "" && fun(event.target.value);
   };
 
@@ -54,25 +57,17 @@ export default function SignUp() {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-
-    const userJson = {
-      username: data.get("userName"),
-      email: data.get("email"),
-      password: data.get("password"), //,
-      //avatar: data.get("avatar"),
-    };
-
     if (
-      data.get("userName") !== null &&
+      data.get("username") !== null &&
       data.get("password") !== null &&
       data.get("email") !== null
     ) {
       if (
-        isValidUserName(data.get("userName")?.toString()!) &&
+        isValidUserName(data.get("username")?.toString()!) &&
         isValidPassword(data.get("password")?.toString()!) &&
         isValidEmail(data.get("email")?.toString()!)
       ) {
-        postUser(userJson);
+        postUser(data);
       }
     }
   };
@@ -105,7 +100,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   autoComplete="given-userName"
-                  name="userName"
+                  name="username"
                   required
                   fullWidth
                   onChange={(event) =>
@@ -117,7 +112,7 @@ export default function SignUp() {
                   autoFocus
                   helperText={
                     !validate.errUser
-                      ? "Invalid Length, maximum size 22 characters"
+                      ? "Tamaño invalido maximo 22 caracteres."
                       : " "
                   }
                 />
@@ -134,7 +129,11 @@ export default function SignUp() {
                   name="email"
                   autoComplete="email"
                   error={!validate.errEmail}
-                  helperText={!validate.errEmail ? "Invalid Email" : " "}
+                  helperText={
+                    !validate.errEmail
+                      ? "Email Invalido formato something@example.com"
+                      : " "
+                  }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -148,11 +147,11 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="new-password"
+                  autoComplete="nueva-password"
                   error={!validate.errPass}
                   helperText={
                     !validate.errEmail
-                      ? "Invalid Password, Verify if the password have at least 1 lowercase, 1 uppercase, 1 symbol, 1 number and at least 8 characteres."
+                      ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres, una mayúscula, una minúscula, un símbolo y un número."
                       : " "
                   }
                 />
@@ -161,14 +160,16 @@ export default function SignUp() {
                 <Input
                   fullWidth
                   type="file"
+                  role="button"
                   name="avatar"
                   id="avatar"
-                  autoComplete="insert Avatar"
+                  autoComplete="insertar Avatar"
                 />
               </Grid>
             </Grid>
             <Button
               type="submit"
+              role="button"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
@@ -177,7 +178,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link href="/login" variant="body2" role="link">
                   Already have an account? Sign in
                 </Link>
               </Grid>

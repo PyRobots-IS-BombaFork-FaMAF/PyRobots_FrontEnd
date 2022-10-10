@@ -1,15 +1,19 @@
-import axios from "axios";
 import { API } from "../../App";
+import axios from "axios";
 
-export function postUser(user: any) {
-  const baseURL = API + "users/register";
-  console.log(user);
+export function postUser(formData: FormData) {
+  const baseURL: string = API + "users/register";
+
   axios
-    .post(baseURL, user)
+    .post(baseURL, formData)
     .then((res) => {
-      alert(res.data[0]);
+      if (res.status === 201) {
+        console.log(res);
+        alert(res.data[0]);
+      }
     })
     .catch((err) => {
+      console.log(err);
       alert(err.response.data.detail);
     });
 }
