@@ -112,7 +112,7 @@ export default function SignUp() {
                   autoFocus
                   helperText={
                     !validate.errUser
-                      ? "Tamaño invalido maximo 22 caracteres."
+                      ? "Tamaño invalido minimo 7 y maximo 22 caracteres."
                       : " "
                   }
                 />
@@ -151,7 +151,7 @@ export default function SignUp() {
                   error={!validate.errPass}
                   helperText={
                     !validate.errEmail
-                      ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres, una mayúscula, una minúscula, un símbolo y un número."
+                      ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres, una mayúscula, una minúscula, y un número. Puede agregar un simbolo."
                       : " "
                   }
                 />

@@ -8,7 +8,5 @@ export const isValidPassword = (password: string) => {
   );
 };
 export const isValidUserName = (username: string) => {
-  return /^[A-Za-z][A-Za-z0-9_]{7,22}$/.test(
-    username
-  );
+  return /^[A-Za-z][A-Za-z0-9_]{7,22}$/.test(username);
 };
