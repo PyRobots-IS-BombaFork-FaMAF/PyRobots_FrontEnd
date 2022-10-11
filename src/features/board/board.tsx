@@ -37,6 +37,13 @@ function Board() {
   const margin_percentage: number = 0.025
   const margin: number = window_min_size * margin_percentage
 
+  const sideText: sideTextConfig =
+    window.innerWidth < window.innerHeight
+      ? // Vertical screen
+        {x0: margin, y0: window_min_size, x1: window.innerWidth - margin, y1: window.innerHeight - margin}
+      : // Horizontal screen 
+        {x0: window_min_size, y0: margin, x1: window.innerWidth - margin, y1: window.innerHeight - margin}
+
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
@@ -46,10 +53,10 @@ function Board() {
           size={window_min_size * (1 - 2 * margin_percentage)}
         />
         <SideText
-          x0={window_min_size}
-          y0={margin}
-          x1={window.innerWidth - margin}
-          y1={window.innerHeight - margin}
+          x0={sideText.x0}
+          y0={sideText.y0}
+          x1={sideText.x1}
+          y1={sideText.y1}
         />
       </Layer>
     </Stage>
