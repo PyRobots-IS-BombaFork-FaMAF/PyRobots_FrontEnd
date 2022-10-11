@@ -1,5 +1,7 @@
-import { Stage, Layer, Rect, Text } from 'react-konva';
-import { boardConfig, sideTextConfig } from './boardHelper';
+import { Stage, Layer, Rect } from 'react-konva';
+import { boardConfig } from './boardHelper';
+
+import './board.css';
 
 function BackGround(board: boardConfig) {
   return (
@@ -8,58 +10,50 @@ function BackGround(board: boardConfig) {
       y={board.y0}
       width={board.size}
       height={board.size}
-      fill="white"
+      fill="#FDFD96"
       shadowBlur={10}
     />
   );
 }
 
-
-function SideText(sideText: sideTextConfig) {
-  const { x0, y0, x1, y1} = sideText;
-  return (
-    <Text
-      x={x0}
-      y={y0}
-      width={x1}
-      height={y1}
-      fill="black"
-      text="Simulación"
-      fontSize={50}
-    />
-  );
-}
-
-
-function Board() {
-
+function MainBoard() {
   const window_min_size: number = Math.min(window.innerWidth, window.innerHeight)
   const margin_percentage: number = 0.025
   const margin: number = window_min_size * margin_percentage
 
-  const sideText: sideTextConfig =
-    window.innerWidth < window.innerHeight
-      ? // Vertical screen
-        {x0: margin, y0: window_min_size, x1: window.innerWidth - margin, y1: window.innerHeight - margin}
-      : // Horizontal screen 
-        {x0: window_min_size, y0: margin, x1: window.innerWidth - margin, y1: window.innerHeight - margin}
-
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
+    <Stage width={window_min_size} height={window_min_size}>
       <Layer>
         <BackGround
           x0={margin}
           y0={margin}
           size={window_min_size * (1 - 2 * margin_percentage)}
         />
-        <SideText
-          x0={sideText.x0}
-          y0={sideText.y0}
-          x1={sideText.x1}
-          y1={sideText.y1}
-        />
       </Layer>
     </Stage>
+  )
+}
+
+function SideText() {
+  return (
+    <div>
+      <h1>
+        Simulación
+      </h1>
+    </div>
+  );
+}
+
+function Board() {
+  return (
+    <div className="Board">
+      <div className="MainBoard">
+        <MainBoard />
+      </div>
+      <div className="SideText">
+        <SideText />
+      </div>
+    </div>
   );
 }
 
