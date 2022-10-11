@@ -15,7 +15,7 @@ describe("funciones dentro del componente SignUp", () => {
       expect(typeof result).toBe("boolean");
     });
 
-    test("Debe retornar true si el tamaño del string es menor a 22", () => {
+    test("Debe retornar true si el tamaño del string es menor a 12 y contiene caracteres especiales", () => {
       const result = isValidUserName("SoyUn_User");
       expect(result).toBeTruthy();
     });
@@ -27,18 +27,13 @@ describe("funciones dentro del componente SignUp", () => {
       expect(result).toBeFalsy();
     });
 
-    test("Debe retornar false si comienza con caracteres especiales", () => {
+    test("Debe retornar true si comienza con caracteres especiales", () => {
       const result = isValidUserName("_SoyunUser");
-      expect(result).toBeFalsy();
+      expect(result).toBeTruthy();
     });
 
-    test("Debe retornar false si tiene caracteres invalidos", () => {
-      const result = isValidUserName("Soyu!nUser");
-      expect(result).toBeFalsy();
-    });
-
-    test("Debe retornar false si tiene menos de 7 caracteres", () => {
-      const result = isValidUserName("unUser");
+    test("Debe retornar false si tiene menos de 6 caracteres", () => {
+      const result = isValidUserName("unUse");
       expect(result).toBeFalsy();
     });
   });
