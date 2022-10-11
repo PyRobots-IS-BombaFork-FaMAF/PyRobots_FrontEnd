@@ -3,6 +3,8 @@ import { Stage, Layer, Rect, Circle } from 'react-konva';
 import { boardConfig, gameCoords, robotConfig, gameToBoard_coordinates } from './boardHelper';
 
 
+import './board.css';
+
 function BackGround(board: boardConfig) {
   return (
     <Rect
@@ -10,7 +12,7 @@ function BackGround(board: boardConfig) {
       y={board.y0}
       width={board.size}
       height={board.size}
-      fill="white"
+      fill="#FDFD96"
       shadowBlur={10}
     />
   );
@@ -46,20 +48,21 @@ function RobotInBoard_Frame(config: {
 }
 
 
-function Board() {
+function MainBoard() {
 
+  const robot_size_relative: number = 0.02
   const window_min_size: number = Math.min(window.innerWidth, window.innerHeight)
   const margin_percentage: number = 0.025
-  const robot_size_relative: number = 0.02
+  const margin: number = window_min_size * margin_percentage
 
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
+    <Stage width={window_min_size} height={window_min_size}>
       <Layer>
         <RobotInBoard_Frame
           board={{
             x0: window_min_size * margin_percentage,
             y0: window_min_size * margin_percentage,
-            size: window_min_size * (1 - 2 * margin_percentage)
+            size: window_min_size - 2 * margin
           }}
           robotCoordinates={{
             x: 500,
@@ -72,6 +75,29 @@ function Board() {
         />
       </Layer>
     </Stage>
+  )
+}
+
+function SideText() {
+  return (
+    <div>
+      <h1>
+        Simulación
+      </h1>
+    </div>
+  );
+}
+
+function Board() {
+  return (
+    <div className="Board">
+      <div className="MainBoard">
+        <MainBoard />
+      </div>
+      <div className="SideText">
+        <SideText />
+      </div>
+    </div>
   );
 }
 
