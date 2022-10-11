@@ -20,12 +20,11 @@ function BackGround(board: boardConfig) {
 
 function Robot(config: {
   board: boardConfig,
-  robotCoordinates: gameCoords,
   robotConfig: robotConfig
 }) {
 
-  const { board, robotCoordinates, robotConfig } = config
-  const robot_board: gameCoords = gameToBoard_coordinates(board, robotCoordinates)
+  const { board, robotConfig } = config
+  const robot_board: gameCoords = gameToBoard_coordinates(board, robotConfig.coords)
 
   return (
     <Circle
@@ -41,10 +40,9 @@ function Robot(config: {
 
 function MainBoardWithRobot(config: {
   board: boardConfig,
-  robotCoordinates: gameCoords,
-  robotConfig: robotConfig
+  robots: Array<robotConfig>
 }) {
-  const { board, robotCoordinates, robotConfig } = config
+  const { board, robots } = config
 
   return (
     <div>
@@ -54,11 +52,9 @@ function MainBoardWithRobot(config: {
         size={board.size}
         robotsSize={board.robotsSize}
       />
-      <Robot
-        board={board}
-        robotCoordinates={robotCoordinates}
-        robotConfig={robotConfig}
-      />
+      {
+        robots.map((robot: robotConfig) => Robot({ board: board, robotConfig: robot }))
+      }
     </div>
   )
 }
@@ -81,13 +77,11 @@ function MainBoard() {
             size: window_min_size - 2 * margin,
             robotsSize: robot_size_relative * window_min_size
           }}
-          robotCoordinates={{
-            x: 500,
-            y: 500
-          }}
-          robotConfig={{
-            color: "red"
-          }}
+          robots={[
+            { color: "red", coords: { x: 500, y: 500 } },
+            { color: "blue", coords: { x: 200, y: 200 } },
+            { color: "green", coords: { x: 800, y: 200 } },
+          ]}
         />
       </Layer>
     </Stage>
