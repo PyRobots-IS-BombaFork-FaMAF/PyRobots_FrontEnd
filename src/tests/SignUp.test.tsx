@@ -7,7 +7,6 @@ import {
 import SignUp from "../features/register/SignUp";
 import { store } from "../app/store";
 import { Provider } from "react-redux";
-import axios from "axios";
 
 describe("funciones dentro del componente SignUp", () => {
   describe("isValidUserName", () => {
@@ -105,7 +104,10 @@ describe("funciones dentro del componente SignUp", () => {
 });
 
 describe("Componente SignUp", () => {
-  let user: HTMLElement, email: HTMLElement, pass: HTMLElement, avatar: HTMLElement;
+  let user: HTMLElement,
+    email: HTMLElement,
+    pass: HTMLElement,
+    avatar: HTMLElement;
   test("El textfield username esta en el componente", () => {
     render(
       <Provider store={store}>
@@ -142,7 +144,7 @@ describe("Componente SignUp", () => {
         <SignUp />
       </Provider>
     );
-    avatar = screen.getByTitle(/^avatar/i)
+    avatar = screen.getByTitle(/^avatar/i);
     expect(avatar).toBeInTheDocument();
   });
 });
