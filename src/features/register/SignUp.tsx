@@ -56,6 +56,9 @@ export default function SignUp() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    /*
+      Los datos del formulario nunca devuelven null por lo tanto no hace falta chequearlo, si devuelven cadena " " pero esto lo revisa el isValid.. de cualquier manera
+    */
     const data = new FormData(event.currentTarget);
     if (
       isValidUserName(data.get("username")?.toString()!) &&
