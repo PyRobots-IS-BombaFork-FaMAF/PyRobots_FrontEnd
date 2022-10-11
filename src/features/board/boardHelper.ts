@@ -1,10 +1,10 @@
 
 // types
-export type boardConfig = { x0: number, y0: number, size: number }
+export type boardConfig = { x0: number, y0: number, size: number, robotsSize: number }
 export type gameCoords = { x: number, y: number }
 export type boardCoords = { x: number, y: number }
 
-export type robotConfig = { size: number, color: string }
+export type robotConfig = { color: string }
 
 
 

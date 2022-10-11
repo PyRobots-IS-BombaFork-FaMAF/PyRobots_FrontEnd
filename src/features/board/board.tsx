@@ -18,15 +18,33 @@ function BackGround(board: boardConfig) {
   );
 }
 
+function Robot(config: {
+  board: boardConfig,
+  robotCoordinates: gameCoords,
+  robotConfig: robotConfig
+}) {
 
-function RobotInBoard_Frame(config: {
+  const { board, robotCoordinates, robotConfig } = config
+  const robot_board: gameCoords = gameToBoard_coordinates(board, robotCoordinates)
+
+  return (
+    <Circle
+      x={robot_board.x}
+      y={robot_board.y}
+      radius={board.robotsSize / 2}
+      fill={robotConfig.color}
+      stroke="black"
+      strokeWidth={1}
+    />
+  )
+}
+
+function MainBoardWithRobot(config: {
   board: boardConfig,
   robotCoordinates: gameCoords,
   robotConfig: robotConfig
 }) {
   const { board, robotCoordinates, robotConfig } = config
-
-  const robot_board: gameCoords = gameToBoard_coordinates(board, robotCoordinates)
 
   return (
     <div>
@@ -34,14 +52,12 @@ function RobotInBoard_Frame(config: {
         x0={board.x0}
         y0={board.y0}
         size={board.size}
+        robotsSize={board.robotsSize}
       />
-      <Circle
-        x={robot_board.x}
-        y={robot_board.y}
-        radius={robotConfig.size / 2}
-        fill={robotConfig.color}
-        stroke="black"
-        strokeWidth={1}
+      <Robot
+        board={board}
+        robotCoordinates={robotCoordinates}
+        robotConfig={robotConfig}
       />
     </div>
   )
@@ -58,18 +74,18 @@ function MainBoard() {
   return (
     <Stage width={window_min_size} height={window_min_size}>
       <Layer>
-        <RobotInBoard_Frame
+        <MainBoardWithRobot
           board={{
             x0: window_min_size * margin_percentage,
             y0: window_min_size * margin_percentage,
-            size: window_min_size - 2 * margin
+            size: window_min_size - 2 * margin,
+            robotsSize: robot_size_relative * window_min_size
           }}
           robotCoordinates={{
             x: 500,
             y: 500
           }}
           robotConfig={{
-            size: robot_size_relative * window_min_size,
             color: "red"
           }}
         />
