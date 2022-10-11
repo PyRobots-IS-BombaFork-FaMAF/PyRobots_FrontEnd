@@ -10,6 +10,6 @@ test("renders learn react link", () => {
       <App />
     </Provider>
   );
-  const app = screen.getByText(/^Sign Up/i);
+  const app = screen.getByLabelText(/^User Name/i);
   expect(app).toBeInTheDocument();
 });

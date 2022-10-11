@@ -156,13 +156,15 @@ export default function SignUp() {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} textAlign="left">
+              Cargar Avatar(Opcional)
                 <Input
                   fullWidth
                   type="file"
                   role="button"
                   name="avatar"
                   id="avatar"
+                  title="avatar"
                   autoComplete="insertar Avatar"
                 />
               </Grid>
