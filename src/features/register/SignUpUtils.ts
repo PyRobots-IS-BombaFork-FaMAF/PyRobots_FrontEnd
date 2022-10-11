@@ -3,10 +3,10 @@ export const isValidEmail = (email: string) => {
 };
 
 export const isValidPassword = (password: string) => {
-  return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*.;:",?]{8,}$/.test(
+  return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*.;:",?]{8,16}$/.test(
     password
   );
 };
 export const isValidUserName = (username: string) => {
-  return /^[A-Za-z][A-Za-z0-9_]{7,22}$/.test(username);
+  return /^[0-9a-zA-Z!@#$%^&*.;:",?]{6,12}$/.test(username);
 };

@@ -58,17 +58,11 @@ export default function SignUp() {
 
     const data = new FormData(event.currentTarget);
     if (
-      data.get("username") !== null &&
-      data.get("password") !== null &&
-      data.get("email") !== null
+      isValidUserName(data.get("username")?.toString()!) &&
+      isValidPassword(data.get("password")?.toString()!) &&
+      isValidEmail(data.get("email")?.toString()!)
     ) {
-      if (
-        isValidUserName(data.get("username")?.toString()!) &&
-        isValidPassword(data.get("password")?.toString()!) &&
-        isValidEmail(data.get("email")?.toString()!)
-      ) {
-        postUser(data);
-      }
+      postUser(data);
     }
   };
 
@@ -112,7 +106,7 @@ export default function SignUp() {
                   autoFocus
                   helperText={
                     !validate.errUser
-                      ? "Tamaño invalido minimo 7 y maximo 22 caracteres."
+                      ? "Tamaño invalido minimo 6 y maximo 12 caracteres."
                       : " "
                   }
                 />
@@ -151,7 +145,8 @@ export default function SignUp() {
                   error={!validate.errPass}
                   helperText={
                     !validate.errEmail
-                      ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres, una mayúscula, una minúscula, y un número. Puede agregar un simbolo."
+                      ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres," +
+                      "una mayúscula, una minúscula, y un número. Puede agregar un simbolo. Tamaño maximo 16 caracteres."
                       : " "
                   }
                 />
