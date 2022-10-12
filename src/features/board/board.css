@@ -1,0 +1,14 @@
+.Board {
+  text-align: left;
+}
+
+.MainBoard {
+  vertical-align: middle;
+  float: left;
+}
+
+.SideText {
+  vertical-align: middle;
+  float: left;
+}
+
