@@ -1,7 +1,7 @@
 import { API } from "../../App";
 import axios from "axios";
 
-export function postUser(formData: FormData) {
+export function signUpApi(formData: FormData) {
   const baseURL: string = API + "users/register";
 
   axios

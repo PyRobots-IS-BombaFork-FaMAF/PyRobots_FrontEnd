@@ -18,8 +18,8 @@ import {
   selectSignUp,
 } from "../../reducers/signUpSlice";
 import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
-import { postUser } from "./SignUpApi";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { signUpApi } from "./SignUpApi";
 
 function Copyright(props: any) {
   return (
@@ -65,7 +65,7 @@ export default function SignUp() {
       isValidPassword(data.get("password")?.toString()!) &&
       isValidEmail(data.get("email")?.toString()!)
     ) {
-      postUser(data);
+      signUpApi(data);
     }
   };
 
@@ -179,7 +179,7 @@ export default function SignUp() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2" role="link">
-                  Already have an account? Sign in
+                  Ya tienes cuenta? Inicie sesión
                 </Link>
               </Grid>
             </Grid>
