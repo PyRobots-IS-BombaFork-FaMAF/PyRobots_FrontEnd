@@ -13,6 +13,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { signInApi } from "./SignInApi"
+import { selectSignIn, setToken } from "../../reducers/signInSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { store } from "../../app/store";
 
 function Copyright(props: any) {
   return (
@@ -35,14 +38,23 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn() {
+  const validate = useAppSelector(selectSignIn);
+  const dispatch = useAppDispatch();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     if (data.get("username") !== "" && data.get("password") !== "") {
-      signInApi(data);
-    } else {
-      alert("No ha ingresado un usuario o contraseña");
-    }
+        signInApi(data).then(res => {
+          if(res !== "error"){
+            console.log(res);
+            dispatch(setToken(res));
+      } else{
+        alert("No ha ingresado un usuario o contraseña");
+      }
+    
+    
+    }); 
+    } 
   };
 
   return (
