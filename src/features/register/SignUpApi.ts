@@ -9,6 +9,7 @@ export function signUpApi(formData: FormData) {
     .then((res) => {
       if (res.status === 201) {
         alert(res.data[0]);
+        console.log(res.data[0]);
       }
     })
     .catch((err) => {

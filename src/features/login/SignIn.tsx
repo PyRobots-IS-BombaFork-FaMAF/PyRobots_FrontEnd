@@ -12,10 +12,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { signInApi } from "./SignInApi"
-import { selectSignIn, setToken } from "../../reducers/signInSlice";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { store } from "../../app/store";
+
+import { API } from "../../App";
+import axios from "axios";
+import useAuth from "../../app/useAuth";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -38,23 +39,33 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const validate = useAppSelector(selectSignIn);
-  const dispatch = useAppDispatch();
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const { setAuth }: any = useAuth();
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (data.get("username") !== "" && data.get("password") !== "") {
-        signInApi(data).then(res => {
-          if(res !== "error"){
-            console.log(res);
-            dispatch(setToken(res));
-      } else{
-        alert("No ha ingresado un usuario o contraseña");
+    try {
+      const response = await axios.post(API + "token", data, {});
+      console.log(JSON.stringify(response?.data));
+      const user = data.get("username");
+      const password = data.get("password");
+      const access_token = response?.data?.access_token;
+      setAuth({ user, password, access_token });
+      navigate(from, {replace: true});
+      
+    } catch (err: any) {
+      if (!err?.response) {
+        alert("No hay respuesta del servidor");
+      } else if (err.response?.status === 401) {
+        alert("Contraseña Invalida");
+      } else {
+        alert("Inicio de sesión fallido");
       }
-    
-    
-    }); 
-    } 
+    }
   };
 
   return (
@@ -88,7 +99,7 @@ export default function SignIn() {
               id="username"
               label="UserName"
               name="username"
-              autoComplete="username"
+              autoComplete="off"
               autoFocus
             />
             <TextField
@@ -99,7 +110,6 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -116,12 +126,12 @@ export default function SignIn() {
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  ¿Olvido la contraseña?
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="/" variant="body2">
-                  {"No tienes cuenta? Registrate"}
+                  {"¿No tienes cuenta? Registrate"}
                 </Link>
               </Grid>
             </Grid>
@@ -132,5 +142,3 @@ export default function SignIn() {
     </ThemeProvider>
   );
 }
-
-
