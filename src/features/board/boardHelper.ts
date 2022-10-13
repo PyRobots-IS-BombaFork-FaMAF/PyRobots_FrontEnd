@@ -4,7 +4,7 @@ export type boardConfig = { x0: number, y0: number, size: number, robotsSize: nu
 export type gameCoords = { x: number, y: number }
 export type boardCoords = { x: number, y: number }
 
-export type robotConfig = { color: string, coords: gameCoords }
+export type robotConfig = { name: string, color: string, coords: gameCoords }
 
 
 

@@ -2,8 +2,8 @@ import { Stage, Layer, Rect, Circle } from 'react-konva';
 
 import { boardConfig, gameCoords, robotConfig, gameToBoard_coordinates } from './boardHelper';
 
-
 import './board.css';
+
 
 function BackGround(board: boardConfig) {
   return (
@@ -40,7 +40,7 @@ function Robot(config: {
 
 function MainBoardWithRobot(config: {
   board: boardConfig,
-  robots: Array<robotConfig>
+  robots: robotConfig[]
 }) {
   const { board, robots } = config
 
@@ -60,7 +60,8 @@ function MainBoardWithRobot(config: {
 }
 
 
-function MainBoard() {
+function MainBoard(config: { robots: robotConfig[] }) {
+  const { robots } = config
 
   const robot_size_relative: number = 0.02
   const window_min_size: number = Math.min(window.innerWidth, window.innerHeight)
@@ -77,35 +78,56 @@ function MainBoard() {
             size: window_min_size - 2 * margin,
             robotsSize: robot_size_relative * window_min_size
           }}
-          robots={[
-            { color: "red", coords: { x: 500, y: 500 } },
-            { color: "blue", coords: { x: 200, y: 200 } },
-            { color: "green", coords: { x: 800, y: 200 } },
-          ]}
+          robots={robots}
         />
       </Layer>
     </Stage>
   )
 }
 
-function SideText() {
+function SideText(config: { robots: robotConfig[] }) {
+  const { robots } = config
+
   return (
     <div>
       <h1>
         Simulación
       </h1>
+      {
+        robots.map((robot: robotConfig) => {
+          return (
+            <div>
+              <h3>
+                <span style={{ color: robot.color }}>
+                  {"• "}
+                </span>
+                {robot.name}
+              </h3>
+              <p>
+                {"Vida: 100%"}
+              </p>
+            </div>
+          )
+        })
+      }
     </div>
   );
 }
 
 function Board() {
+  const robots: robotConfig[] = [
+    { name: "robot1", color: "red", coords: { x: 500, y: 500 } },
+    { name: "robot2", color: "blue", coords: { x: 200, y: 200 } },
+    { name: "robot3", color: "green", coords: { x: 800, y: 200 } },
+  ]
+
   return (
     <div className="Board">
       <div className="MainBoard">
-        <MainBoard />
+        <MainBoard robots={robots} />
       </div>
       <div className="SideText">
-        <SideText />
+        <SideText robots={robots} />
       </div>
     </div>
   );

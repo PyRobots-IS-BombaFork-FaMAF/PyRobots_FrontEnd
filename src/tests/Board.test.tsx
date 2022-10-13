@@ -2,14 +2,17 @@ import { render, screen } from "@testing-library/react";
 import Board from "../features/board/board";
 import { gameToBoard_coordinates, boardConfig, gameCoords, boardCoords } from "../features/board/boardHelper";
 
+
 describe("Componente Board", () => {
+
   test("El textfield 'Simulación' esta en el componente `Board`", () => {
     render(
       <Board />
     );
-    const user: HTMLElement = screen.getByText("Simulación");
-    expect(user).toBeInTheDocument();
+    const board: HTMLElement = screen.getByText("Simulación");
+    expect(board).toBeInTheDocument();
   });
+
 });
 
 
