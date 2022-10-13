@@ -85,6 +85,24 @@ function MainBoard(config: { robots: robotConfig[] }) {
   )
 }
 
+
+export function RobotInfo(robot: robotConfig) {
+  return (
+    <div data-testid={"RobotInfo " + robot.name}>
+      <h3>
+        <span style={{ color: robot.color }}>
+          {"• "}
+        </span>
+        {robot.name}
+      </h3>
+      <p>
+        {"Vida: 100%"}
+      </p>
+    </div>
+  )
+}
+
+
 function SideText(config: { robots: robotConfig[] }) {
   const { robots } = config
 
@@ -94,27 +112,13 @@ function SideText(config: { robots: robotConfig[] }) {
         Simulación
       </h1>
       {
-        robots.map((robot: robotConfig) => {
-          return (
-            <div>
-              <h3>
-                <span style={{ color: robot.color }}>
-                  {"• "}
-                </span>
-                {robot.name}
-              </h3>
-              <p>
-                {"Vida: 100%"}
-              </p>
-            </div>
-          )
-        })
+        robots.map(RobotInfo)
       }
     </div>
   );
 }
 
-function Board() {
+export function Board() {
   const robots: robotConfig[] = [
     { name: "robot1", color: "red", coords: { x: 500, y: 500 } },
     { name: "robot2", color: "blue", coords: { x: 200, y: 200 } },

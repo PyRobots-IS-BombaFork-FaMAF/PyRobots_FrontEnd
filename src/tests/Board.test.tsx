@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Board from "../features/board/board";
+import { Board, RobotInfo } from "../features/board/board";
 import { gameToBoard_coordinates, boardConfig, gameCoords, boardCoords } from "../features/board/boardHelper";
 
 
@@ -12,6 +12,15 @@ describe("Componente Board", () => {
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
+  });
+
+  test("Componente `RobotInfo`", () => {
+    render(
+      <RobotInfo name="Robot de prueba" color="Red" coords={{ x: 500, y: 500 }} />
+    );
+    const board: HTMLElement = screen.getByTestId("RobotInfo Robot de prueba");
+    expect(board).toHaveTextContent("Robot de prueba");
+    expect(board).toHaveTextContent("Vida: ");
   });
 
 });
