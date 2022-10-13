@@ -20,6 +20,8 @@ import {
 import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { signUpApi } from "./SignUpApi";
+import { useNavigate } from "react-router-dom";
+
 
 function Copyright(props: any) {
   return (
@@ -46,6 +48,9 @@ export default function SignUp() {
 
   const dispatch = useAppDispatch();
 
+  const navigate = useNavigate();
+  
+  
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     fun: Function
@@ -67,6 +72,7 @@ export default function SignUp() {
     ) {
       signUpApi(data);
     }
+    navigate("/login", {replace: true});
   };
 
   return (
@@ -85,7 +91,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Registrarse
           </Typography>
           <Box
             component="form"

@@ -1,11 +1,8 @@
-import { API } from "../../App";
-import axios from "axios";
+import axios from "../../api/axios";
 
 export function signUpApi(formData: FormData) {
-  const baseURL: string = API + "users/register";
-
   axios
-    .post(baseURL, formData)
+    .post("users/register", formData)
     .then((res) => {
       if (res.status === 201) {
         alert(res.data[0]);

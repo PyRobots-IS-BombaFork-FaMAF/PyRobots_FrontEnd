@@ -12,12 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-import { API } from "../../App";
-import axios from "axios";
-import useAuth from "../../app/useAuth";
-import { useLocation, useNavigate } from "react-router-dom";
-
+import useAuth from "../../app/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 function Copyright(props: any) {
   return (
     <Typography
@@ -40,23 +37,30 @@ const theme = createTheme();
 
 export default function SignIn() {
   const { setAuth }: any = useAuth();
-  
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
-  
+ 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
-      const response = await axios.post(API + "token", data, {});
+      const response = await axios.post("token", data, {});
       console.log(JSON.stringify(response?.data));
-      const user = data.get("username");
+      const username = data.get("username");
       const password = data.get("password");
       const access_token = response?.data?.access_token;
-      setAuth({ user, password, access_token });
-      navigate(from, {replace: true});
+
+      localStorage.setItem("access_token", access_token);
+      if(username){
+        localStorage.setItem("username", username?.toString());
+      }
+      if(password){
+        localStorage.setItem("password", password?.toString());
+      }
+
+
       
+      setAuth({ username, password, access_token });
+      navigate("/tableroDePrueba", { replace: true });
     } catch (err: any) {
       if (!err?.response) {
         alert("No hay respuesta del servidor");
@@ -110,6 +114,7 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
+              autoComplete="off"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -123,6 +128,7 @@ export default function SignIn() {
             >
               Iniciar Sesión
             </Button>
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
