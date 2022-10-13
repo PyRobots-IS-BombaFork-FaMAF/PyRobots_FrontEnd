@@ -9,8 +9,9 @@ describe("Componente Board", () => {
     render(
       <Board />
     );
-    const board: HTMLElement = screen.getByText("Simulación");
+    const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
+    expect(board).toHaveTextContent("Simulación");
   });
 
 });

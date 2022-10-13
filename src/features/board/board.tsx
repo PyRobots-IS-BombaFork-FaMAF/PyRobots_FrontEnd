@@ -122,7 +122,7 @@ function Board() {
   ]
 
   return (
-    <div className="Board">
+    <div className="Board" data-testid="Board">
       <div className="MainBoard">
         <MainBoard robots={robots} />
       </div>
