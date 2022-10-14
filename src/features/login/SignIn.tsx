@@ -97,6 +97,7 @@ export default function SignIn() {
           >
             <TextField
               margin="normal"
+              data-testid="user"
               required
               fullWidth
               id="username"
@@ -107,6 +108,7 @@ export default function SignIn() {
             />
             <TextField
               margin="normal"
+              data-testid="pass"
               required
               fullWidth
               name="password"
@@ -120,6 +122,7 @@ export default function SignIn() {
               label="Remember me"
             />
             <Button
+              data-testid="submit"
               type="submit"
               fullWidth
               variant="contained"
