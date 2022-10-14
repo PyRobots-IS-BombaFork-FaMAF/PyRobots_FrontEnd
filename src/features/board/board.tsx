@@ -1,4 +1,4 @@
-import { Stage, Layer, Rect, Circle } from 'react-konva';
+import { Stage, Layer, Rect, Circle, Group } from 'react-konva';
 
 import { boardConfig, gameCoords, robotConfig, gameToBoard_coordinates } from './boardHelper';
 
@@ -45,7 +45,7 @@ function MainBoardWithRobot(config: {
   const { board, robots } = config
 
   return (
-    <div>
+    <Group>
       <BackGround
         x0={board.x0}
         y0={board.y0}
@@ -55,7 +55,7 @@ function MainBoardWithRobot(config: {
       {
         robots.map((robot: robotConfig) => Robot({ board: board, robotConfig: robot }))
       }
-    </div>
+    </Group>
   )
 }
 
