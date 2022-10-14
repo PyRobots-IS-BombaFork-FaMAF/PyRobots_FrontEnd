@@ -1,17 +1,18 @@
-import { Outlet } from "react-router-dom"
+import { Navigate, Outlet, useLocation } from "react-router-dom"
 import { useState, useEffect } from "react";
 import useAuth from "../app/hooks/useAuth"
 import LoadingSpin from "react-loading-spin";
-import { margin } from "@mui/system";
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
-  
-  
-   
-  
+  const [isLocation, setIsLocation] = useState(true);
+
+  const location = useLocation();
   const { auth, setAuth } = useAuth();
 
+  if(isLocation && location.pathname !== "/" && location.pathname !== "/login"){
+    setIsLocation(false);
+  }
   useEffect(() => {
     const verifyToken = async () => {
       const username = localStorage.getItem("username")?.toString();
@@ -20,27 +21,29 @@ const PersistLogin = () => {
       if(username && password && access_token){
         setAuth({username, password, access_token})
       }
-      const timer = setTimeout(() =>{
+      setTimeout(() =>{
         setIsLoading(false);
       }, 3000);
     }
-    console.log(`Resultado del op ternario ${auth?.access_token === undefined}`)
     auth?.access_token === undefined ?  verifyToken() : setIsLoading(false);
 
   }, [])
 
-  useEffect (() => {
-    console.log(`isLoading: ${isLoading}`)
-    console.log(`aT: ${JSON.stringify(auth)}` )
-  })
-
   return (
     <div>
+      <div>
+        
+      </div>
+    <div>
       { isLoading ? 
-      <p>
-        <h2>Cargando.. </h2>
-        <LoadingSpin size = "400px" width = "40px"/>
-       </p> : <Outlet/> }
+        <div>
+          <h2>Cargando..</h2>
+          <LoadingSpin size = "500px" width = "50px"/>
+        </div>
+        : (isLocation ?  <Navigate to="/tableroDePrueba" state={{ from: location }} replace /> :
+          <Outlet/>
+        )}
+    </div>
     </div>
   )
 }

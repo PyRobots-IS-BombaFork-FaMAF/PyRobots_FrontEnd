@@ -4,8 +4,6 @@ import useAuth from "../app/hooks/useAuth";
 const RequiereAuth = () => {
   const { auth }: any = useAuth();
   const location = useLocation();
-  console.log(`Requiere auth ${JSON.stringify(auth)}`)
-  console.log(location.pathname);
 
   return  (
     auth?.username ? <Outlet />

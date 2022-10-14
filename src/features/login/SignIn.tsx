@@ -44,7 +44,6 @@ export default function SignIn() {
     const data = new FormData(event.currentTarget);
     try {
       const response = await axios.post("token", data, {});
-      console.log(JSON.stringify(response?.data));
       const username = data.get("username");
       const password = data.get("password");
       const access_token = response?.data?.access_token;
@@ -101,7 +100,7 @@ export default function SignIn() {
               required
               fullWidth
               id="username"
-              label="UserName"
+              label="User Name"
               name="username"
               autoComplete="off"
               autoFocus
