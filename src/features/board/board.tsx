@@ -38,7 +38,7 @@ function Robot(config: {
   )
 }
 
-function MainBoardWithRobot(config: {
+function MainBoardWithRobots(config: {
   board: boardConfig,
   robots: robotConfig[]
 }) {
@@ -71,7 +71,7 @@ function MainBoard(config: { robots: robotConfig[] }) {
   return (
     <Stage width={window_min_size} height={window_min_size}>
       <Layer>
-        <MainBoardWithRobot
+        <MainBoardWithRobots
           board={{
             x0: window_min_size * margin_percentage,
             y0: window_min_size * margin_percentage,
