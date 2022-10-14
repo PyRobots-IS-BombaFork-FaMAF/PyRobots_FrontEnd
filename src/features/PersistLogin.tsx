@@ -26,7 +26,7 @@ const PersistLogin = () => {
       }, 3000);
     }
     auth?.access_token === undefined ?  verifyToken() : setIsLoading(false);
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
