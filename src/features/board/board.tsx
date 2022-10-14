@@ -27,7 +27,7 @@ function Robot(config: {
   const robot_board: gameCoords = gameToBoard_coordinates(board, robotConfig.coords)
 
   return (
-    <Circle
+    <Circle key={"Robot in board" + robotConfig.name}
       x={robot_board.x}
       y={robot_board.y}
       radius={board.robotsSize / 2}
@@ -88,7 +88,7 @@ function MainBoard(config: { robots: robotConfig[] }) {
 
 export function RobotInfo(robot: robotConfig) {
   return (
-    <div data-testid={"RobotInfo " + robot.name}>
+    <div data-testid={"RobotInfo " + robot.name} key={"Robot in board" + robot.name} >
       <h3>
         <span style={{ color: robot.color }}>
           {"• "}
