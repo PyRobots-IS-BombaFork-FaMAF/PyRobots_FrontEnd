@@ -7,6 +7,8 @@ import {
 import SignUp from "../features/register/SignUp";
 import { store } from "../app/store";
 import { Provider } from "react-redux";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
 
 describe("funciones dentro del componente SignUp", () => {
   describe("isValidUserName", () => {
@@ -105,9 +107,11 @@ describe("Componente SignUp", () => {
     avatar: HTMLElement;
   test("El textfield username esta en el componente", () => {
     render(
-      <Provider store={store}>
-        <SignUp />
-      </Provider>
+      <BrowserRouter>
+        <Provider store={store}>
+          <SignUp />
+        </Provider>
+      </BrowserRouter>
     );
     user = screen.getByLabelText(/^User Name/i);
     expect(user).toBeInTheDocument();
@@ -115,9 +119,11 @@ describe("Componente SignUp", () => {
 
   test("El textfield password esta en el componente", () => {
     render(
-      <Provider store={store}>
-        <SignUp />
-      </Provider>
+      <BrowserRouter>
+        <Provider store={store}>
+          <SignUp />
+        </Provider>
+      </BrowserRouter>
     );
     pass = screen.getByLabelText(/^Password/i);
     expect(pass).toBeInTheDocument();
@@ -125,9 +131,11 @@ describe("Componente SignUp", () => {
 
   test("El textfield email esta en el componente", () => {
     render(
-      <Provider store={store}>
-        <SignUp />
-      </Provider>
+      <BrowserRouter>
+        <Provider store={store}>
+          <SignUp />
+        </Provider>
+      </BrowserRouter>
     );
     email = screen.getByLabelText(/^Email Address/i);
     expect(email).toBeInTheDocument();
@@ -135,9 +143,11 @@ describe("Componente SignUp", () => {
 
   test("El Input avatar esta en el componente", () => {
     render(
-      <Provider store={store}>
-        <SignUp />
-      </Provider>
+      <BrowserRouter>
+        <Provider store={store}>
+          <SignUp />
+        </Provider>
+      </BrowserRouter>
     );
     avatar = screen.getByTitle(/^avatar/i);
     expect(avatar).toBeInTheDocument();

@@ -1,13 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import SignIn from "../features/login/SignIn";
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "../app/store";
 
 describe("Componente SignIn", () => {
     let user: HTMLElement,
       pass: HTMLElement;
     test("El textfield username esta en el componente", () => {
       render(
-        <SignIn />
+        <BrowserRouter>
+            <Provider store={store}>
+              <SignIn />
+            </Provider>
+        </BrowserRouter>
       );
       user = screen.getByLabelText(/^User Name/i);
       expect(user).toBeInTheDocument();
@@ -15,7 +22,11 @@ describe("Componente SignIn", () => {
   
     test("El textfield password esta en el componente", () => {
       render(
-        <SignIn />
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignIn />
+          </Provider>
+        </BrowserRouter>
       );
       pass = screen.getByLabelText(/^Password/i);
       expect(pass).toBeInTheDocument();
