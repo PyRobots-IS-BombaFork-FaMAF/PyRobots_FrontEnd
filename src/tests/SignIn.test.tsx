@@ -6,12 +6,6 @@ import { Provider } from "react-redux";
 import { store } from "../app/store";
 
 
-
-afterEach(() => {
-  // cleaning up the mess left behind the previous test
-  mockAxios.reset();
-});
-
 describe("Componente SignIn", () => {
   let user: HTMLElement, pass: HTMLElement;
   test("El textfield username esta en el componente", () => {

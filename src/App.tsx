@@ -13,13 +13,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route element={<PersistLogin />}>
+        
             {/* public routes */}
-            <Route path="/" element={<SignUp />} />
+            <Route path="/register" element={<SignUp />} />
             <Route path="/login" element={<SignIn />} />
 
             {/* protected routes */}
-
+          <Route element={<PersistLogin />}>
             <Route element={<RequiereAuth />}>
               <Route path="/tableroDePrueba/" element={<Board />} />
             </Route>
