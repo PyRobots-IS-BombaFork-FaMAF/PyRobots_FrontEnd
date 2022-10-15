@@ -7,7 +7,7 @@ import SignIn from "./features/login/SignIn";
 import NotFound from "./features/NotFound";
 import RequiereAuth from "./features/RequiereAuth";
 import PersistLogin from "./features/PersistLogin";
-
+import Home from "./features/directories/Home"
 function App() {
   return (
     <div className="App">
@@ -19,11 +19,13 @@ function App() {
             <Route path="/login" element={<SignIn />} />
 
             {/* protected routes */}
-          <Route element={<PersistLogin />}>
+          
             <Route element={<RequiereAuth />}>
               <Route path="/tableroDePrueba/" element={<Board />} />
+              <Route element={<PersistLogin />}>
+                <Route path="/" element ={<Home/>}/>
+              </Route>
             </Route>
-          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
