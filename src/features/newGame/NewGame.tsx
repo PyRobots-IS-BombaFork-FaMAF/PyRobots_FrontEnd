@@ -1,5 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import { createTheme, ThemeProvider, Theme } from "@mui/material/styles";
 
 
 function GameForm() {
@@ -23,18 +25,36 @@ function GameForm() {
       <Grid item xs={12} >
         <TextField id="password" label="Contraseña" variant="standard" />
       </Grid>
-      <input type="submit" value="Crear robot"></input>
-    </form>
+      <Button
+        type="submit"
+        role="button"
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+      >
+        Crear Partida
+      </Button>
+      </form>
   );
 };
 
 
 function NewGame() {
+  // blue theme
+  const theme: Theme = createTheme({
+    palette: {
+      primary: {
+        main: "#1976d2",
+      },
+    },
+  });
+
   return (
-    <div>
-      <h1>Crear partida</h1>
-      <GameForm />
-    </div>
+    <ThemeProvider theme={createTheme(theme)}>
+      <div>
+        <h1>Crear partida</h1>
+        <GameForm />
+      </div>
+    </ThemeProvider>
   );
 };
 
