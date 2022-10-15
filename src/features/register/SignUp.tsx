@@ -20,7 +20,7 @@ import {
 import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { signUpApi } from "./SignUpApi";
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { verifyToken } from "../TokenUtils";
 import { useEffect, useState } from "react";
 import useAuth from "../../app/hooks/useAuth";
@@ -52,7 +52,6 @@ export default function SignUp() {
   const { auth, setAuth }: any = useAuth();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   useEffect(() => {
@@ -72,7 +71,6 @@ export default function SignUp() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     /*
       Los datos del formulario nunca devuelven null por lo tanto no hace falta chequearlo, si devuelven cadena " " pero esto lo revisa el isValid.. de cualquier manera
     */
@@ -82,9 +80,9 @@ export default function SignUp() {
       isValidPassword(data.get("password")?.toString()!) &&
       isValidEmail(data.get("email")?.toString()!)
     ) {
-      signUpApi(data);
+      signUpApi(data);      
     }
-    navigate("/login", {replace: true});
+    
   };
 
   return (
