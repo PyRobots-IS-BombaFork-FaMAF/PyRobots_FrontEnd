@@ -32,7 +32,7 @@ function GameForm() {
 function NewGame() {
   return (
     <div>
-      <h1>Crear juego</h1>
+      <h1>Crear partida</h1>
       <GameForm />
     </div>
   );
