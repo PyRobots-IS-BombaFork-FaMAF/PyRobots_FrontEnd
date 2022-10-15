@@ -1,14 +1,9 @@
-import { render, screen } from "@testing-library/react";
 import {
   isValidEmail,
   isValidUserName,
   isValidPassword,
 } from "../features/register/SignUpUtils";
-import SignUp from "../features/register/SignUp";
-import { store } from "../app/store";
-import { Provider } from "react-redux";
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
+
 
 describe("funciones dentro del componente SignUp", () => {
   describe("isValidUserName", () => {
@@ -100,56 +95,3 @@ describe("funciones dentro del componente SignUp", () => {
   });
 });
 
-describe("Componente SignUp", () => {
-  let user: HTMLElement,
-    email: HTMLElement,
-    pass: HTMLElement,
-    avatar: HTMLElement;
-  test("El textfield username esta en el componente", () => {
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <SignUp />
-        </Provider>
-      </BrowserRouter>
-    );
-    user = screen.getByLabelText(/^User Name/i);
-    expect(user).toBeInTheDocument();
-  });
-
-  test("El textfield password esta en el componente", () => {
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <SignUp />
-        </Provider>
-      </BrowserRouter>
-    );
-    pass = screen.getByLabelText(/^Password/i);
-    expect(pass).toBeInTheDocument();
-  });
-
-  test("El textfield email esta en el componente", () => {
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <SignUp />
-        </Provider>
-      </BrowserRouter>
-    );
-    email = screen.getByLabelText(/^Email Address/i);
-    expect(email).toBeInTheDocument();
-  });
-
-  test("El Input avatar esta en el componente", () => {
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <SignUp />
-        </Provider>
-      </BrowserRouter>
-    );
-    avatar = screen.getByTitle(/^avatar/i);
-    expect(avatar).toBeInTheDocument();
-  });
-});

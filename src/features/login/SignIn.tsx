@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -89,7 +87,7 @@ export default function SignIn() {
     { isLoading ? 
       <div>
         <h2>Cargando..</h2>
-        <LoadingSpin size = "500px" width = "50px"/>
+        <LoadingSpin data-testid="loading-spin" size = "500px" width = "50px"/>
       </div>
           : (isLoggedIn ? (<Navigate to="/" state={{ from: location }} replace />): (<ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -135,10 +133,6 @@ export default function SignIn() {
                     type="password"
                     id="password"
                     autoComplete="off"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
                   />
                   <Button
                     data-testid="submit"
