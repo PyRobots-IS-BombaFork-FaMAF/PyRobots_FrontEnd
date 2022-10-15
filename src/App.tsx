@@ -7,13 +7,13 @@ import SignIn from "./features/login/SignIn";
 import NotFound from "./features/NotFound";
 import RequiereAuth from "./features/RequiereAuth";
 import PersistLogin from "./features/PersistLogin";
+import CreateRobot from "./features/newrobot/CreateRobot"
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-        
             {/* public routes */}
             <Route path="/register" element={<SignUp />} />
             <Route path="/login" element={<SignIn />} />
@@ -22,9 +22,11 @@ function App() {
           <Route element={<PersistLogin />}>
             <Route element={<RequiereAuth />}>
               <Route path="/tableroDePrueba/" element={<Board />} />
+              <Route path="/createRobot" element={<CreateRobot />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
+
         </Routes>
       </BrowserRouter>
     </div>
