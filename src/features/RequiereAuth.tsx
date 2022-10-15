@@ -5,9 +5,10 @@ const RequiereAuth = () => {
   const { auth }: any = useAuth();
   const location = useLocation();
 
-  return  (
-    auth?.username ? <Outlet />
-     : <Navigate to="/login" state={{ from: location }} replace />
+  return auth?.username ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" state={{ from: location }} replace />
   );
 };
 

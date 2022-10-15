@@ -46,7 +46,6 @@ export default function SignIn() {
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
     auth?.access_token === undefined ?  verifyToken(setIsLoading, setAuth) : setIsLoading(false);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -67,10 +66,8 @@ export default function SignIn() {
         localStorage.setItem("password", password?.toString());
       }
 
-
-      
       setAuth({ username, password, access_token });
-      navigate("/tableroDePrueba", { replace: true });
+      navigate("/", { replace: true });
     } catch (err: any) {
       if (!err?.response) {
         alert("No hay respuesta del servidor");
