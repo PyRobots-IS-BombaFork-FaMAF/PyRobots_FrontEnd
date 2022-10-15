@@ -25,7 +25,6 @@
     "axios": "^1.1.2",
     "bootstrap": "^5.2.2",
     "canvas": "^2.10.1",
-    "jest-localstorage-mock": "^2.4.22",
     "json-schema-traverse": "^0.4.1",
     "konva": "^8.3.13",
     "react": "^18.2.0",
@@ -66,13 +65,11 @@
   "jest": {
     "transformIgnorePatterns": [
       "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
-    ],
-    "resetMocks": false
+    ]
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
-    "@types/enzyme": "^3.10.12",
     "@types/react-router-dom": "^5.3.3",
     "eslint-config-react-app": "^7.0.1"
   }
