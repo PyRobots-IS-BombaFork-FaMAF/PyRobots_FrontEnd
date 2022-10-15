@@ -32,7 +32,7 @@ function GameForm() {
 function NewGame() {
   return (
     <div>
-      <div id="bg-image"> </div>
+      <h1>Crear juego</h1>
       <GameForm />
     </div>
   );
