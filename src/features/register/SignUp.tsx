@@ -47,13 +47,13 @@ const theme = createTheme();
 
 export default function SignUp() {
   const validate = useAppSelector(selectSignUp);
-  const { auth, setAuth }: any = useAuth();
+  const { auth, setAuth } = useAuth();
   const dispatch = useAppDispatch();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-    if(auth?.access_token === undefined){
+    if (auth.access_token === undefined) {
       verifyToken(setAuth)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -184,7 +184,7 @@ export default function SignUp() {
                       helperText={
                         !validate.errPass
                           ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres," +
-                            "una mayúscula, una minúscula, y un número. Puede agregar un símbolo. Tamaño máximo 16 caracteres."
+                          "una mayúscula, una minúscula, y un número. Puede agregar un símbolo. Tamaño máximo 16 caracteres."
                           : " "
                       }
                     />

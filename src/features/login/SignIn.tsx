@@ -37,13 +37,13 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const { auth, setAuth }: any = useAuth();
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-    if(auth?.access_token === undefined){
+    if (auth.access_token === undefined) {
       verifyToken(setAuth)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

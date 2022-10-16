@@ -1,8 +1,11 @@
-import { createContext, useState } from "react"
+import { createContext, useState, Context, Dispatch, SetStateAction } from "react"
 
-const AuthContext = createContext({});
+export type auth = { username?: string, password?: string, access_token?: string }
 
-export const AuthProvider = ({ children } : any) => {
+const AuthContext: Context<{ auth: auth, setAuth: Dispatch<SetStateAction<{}>> }>
+    = createContext({ auth: {}, setAuth: (_) => { } });
+
+export function AuthProvider({ children }: { children: JSX.Element }) {
     const [auth, setAuth] = useState({});
 
     return (
