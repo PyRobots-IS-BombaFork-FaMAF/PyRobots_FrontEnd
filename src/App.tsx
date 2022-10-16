@@ -7,27 +7,27 @@ import SignIn from "./features/login/SignIn";
 import NotFound from "./features/NotFound";
 import RequiereAuth from "./features/RequiereAuth";
 import PersistLogin from "./features/PersistLogin";
-import CreateRobot from "./features/newrobot/CreateRobot"
+import CreateRobot from "./features/newrobot/CreateRobot";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-            {/* public routes */}
-            <Route path="/register" element={<SignUp />} />
-            <Route path="/login" element={<SignIn />} />
+          {/* public routes */}
+          <Route path="/register" element={<SignUp />} />
+          <Route path="/login" element={<SignIn />} />
 
-            {/* protected routes */}
+          {/* protected routes */}
 
-            <Route element={<PersistLogin />}> 
-              <Route element={<RequiereAuth />}>
-                <Route path="/tableroDePrueba" element={<Board />} />
-                <Route path="/"/>
-              </Route>
+          <Route element={<PersistLogin />}>
+            <Route element={<RequiereAuth />}>
+              <Route path="/newRobot" element={<CreateRobot />} />
+              <Route path="/tableroDePrueba" element={<Board />} />
+              <Route path="/" />
             </Route>
+          </Route>
           <Route path="*" element={<NotFound />} />
-
         </Routes>
       </BrowserRouter>
     </div>
