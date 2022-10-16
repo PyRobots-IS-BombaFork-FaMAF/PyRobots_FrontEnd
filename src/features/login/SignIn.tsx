@@ -72,7 +72,7 @@ export default function SignIn() {
       if (!err?.response) {
         alert("No hay respuesta del servidor");
       } else if (err.response?.status === 401) {
-        alert("Contraseña Invalida");
+        alert("Usuario o contraseña inválidos");
       } else {
         alert("Inicio de sesión fallido");
       }
