@@ -30,7 +30,7 @@ export default function NavBar() {
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" data-testid="AppBar">
         <Toolbar>
           <IconButton
             size="large"
@@ -49,23 +49,44 @@ export default function NavBar() {
           >
             PyRobots
           </Typography>
-          <Button sx={{ mr: 5 }} color="inherit" onClick={(e) => createRobot()}>
+          <Button
+            sx={{ mr: 5 }}
+            color="inherit"
+            onClick={(e) => createRobot()}
+            data-testid="crearRobot"
+          >
             Crear Robot
           </Button>
           <Button
             sx={{ mr: 5 }}
             color="inherit"
-            onClick={(e) => executeSimulation()}
+            onClick={(e) => executeSimulation() }
+            data-testid="ejecutarSim"
           >
             Ejecutar Simulacion
           </Button>
-          <Button sx={{ mr: 5 }} color="inherit" onClick={(e) => createMatch()}>
+          <Button
+            sx={{ mr: 5 }}
+            color="inherit"
+            onClick={(e) => createMatch()}
+            data-testid="crearPartida"
+          >
             Crear Partida
           </Button>
-          <Button sx={{ mr: 5 }} color="inherit" onClick={(e) => listMatches()}>
+          <Button
+            sx={{ mr: 5 }}
+            color="inherit"
+            onClick={(e) => listMatches()}
+            data-testid="listarPartidas"
+          >
             Listar Partidas
           </Button>
-          <Button sx={{ mr: 5 }} color="inherit" onClick={(e) => logOut()}>
+          <Button
+            sx={{ mr: 5 }}
+            color="inherit"
+            onClick={(e) => logOut()}
+            data-testid="logOut"
+          >
             Logout
           </Button>
         </Toolbar>
