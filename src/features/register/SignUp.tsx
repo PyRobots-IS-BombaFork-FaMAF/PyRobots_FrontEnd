@@ -24,7 +24,6 @@ import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import { verifyToken } from "../TokenUtils";
 import { useEffect, useState } from "react";
 import useAuth from "../../app/hooks/useAuth";
-import LoadingSpin from "react-loading-spin";
 
 function Copyright(props: any) {
   return (
@@ -51,15 +50,12 @@ export default function SignUp() {
   const { auth, setAuth }: any = useAuth();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-    auth?.access_token === undefined
-      ? verifyToken(setIsLoading, setAuth)
-      : setIsLoading(false);
-    setTimeout(() => {}, 3000);
+    if(auth?.access_token === undefined){
+      verifyToken(setAuth)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,17 +80,11 @@ export default function SignUp() {
     ) {
       signUpApi(data);
     }
-    navigate("/login", { replace: true });
   };
 
   return (
     <div>
-      {isLoading ? (
-        <div>
-          <h2>Cargando..</h2>
-          <LoadingSpin size="500px" width="50px" />
-        </div>
-      ) : isLoggedIn ? (
+      {isLoggedIn ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
         <ThemeProvider theme={theme}>
@@ -127,18 +117,23 @@ export default function SignUp() {
                       name="username"
                       required
                       fullWidth
-                      onChange={(event) =>
+                      onChange={(
+                        event: React.ChangeEvent<
+                          HTMLTextAreaElement | HTMLInputElement
+                        >
+                      ) =>
                         dispatch(
                           setErrUser(handleChange(event, isValidUserName))
                         )
                       }
+                      data-testid="user"
                       id="userName"
                       label="User Name"
                       error={!validate.errUser}
                       autoFocus
                       helperText={
                         !validate.errUser
-                          ? "Tamaño invalido minimo 6 y maximo 12 caracteres."
+                          ? "Tamaño válido mínimo 6 y máximo 12 caracteres."
                           : " "
                       }
                     />
@@ -147,13 +142,18 @@ export default function SignUp() {
                     <TextField
                       required
                       fullWidth
-                      onChange={(event) =>
+                      onChange={(
+                        event: React.ChangeEvent<
+                          HTMLTextAreaElement | HTMLInputElement
+                        >
+                      ) =>
                         dispatch(setErrEmail(handleChange(event, isValidEmail)))
                       }
                       id="email"
                       label="Email Address"
                       name="email"
                       autoComplete="email"
+                      data-testid="email"
                       error={!validate.errEmail}
                       helperText={
                         !validate.errEmail
@@ -166,11 +166,16 @@ export default function SignUp() {
                     <TextField
                       required
                       fullWidth
-                      onChange={(event) =>
+                      onChange={(
+                        event: React.ChangeEvent<
+                          HTMLTextAreaElement | HTMLInputElement
+                        >
+                      ) =>
                         dispatch(
                           setErrPass(handleChange(event, isValidPassword))
                         )
                       }
+                      data-testid="pass"
                       name="password"
                       label="Password"
                       type="password"
@@ -178,9 +183,9 @@ export default function SignUp() {
                       autoComplete="nueva-password"
                       error={!validate.errPass}
                       helperText={
-                        !validate.errEmail
+                        !validate.errPass
                           ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres," +
-                            "una mayúscula, una minúscula, y un número. Puede agregar un simbolo. Tamaño maximo 16 caracteres."
+                            "una mayúscula, una minúscula, y un número. Puede agregar un símbolo. Tamaño máximo 16 caracteres."
                           : " "
                       }
                     />
@@ -194,6 +199,7 @@ export default function SignUp() {
                       name="avatar"
                       id="avatar"
                       title="avatar"
+                      data-testid="avatar"
                       autoComplete="insertar Avatar"
                     />
                   </Grid>

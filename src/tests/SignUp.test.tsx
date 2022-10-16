@@ -1,3 +1,8 @@
+import { render, screen } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { store } from "../app/store";
+import SignUp from "../features/register/SignUp";
 import {
   isValidEmail,
   isValidUserName,
@@ -95,3 +100,52 @@ describe("funciones dentro del componente SignUp", () => {
   });
 });
 
+  describe("Componente SignUp", () => {
+    test("El textfield username esta en el componente", () => {
+      render(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignUp />
+          </Provider>
+        </BrowserRouter>  
+      );
+      const user = screen.getByTestId("user");
+      expect(user).toBeInTheDocument();
+    });
+  
+    test("El textfield password esta en el componente", () => {
+      render(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignUp />
+          </Provider>
+        </BrowserRouter>  
+      );
+      const pass = screen.getByTestId("pass");
+      expect(pass).toBeInTheDocument();
+    });
+  
+    test("El textfield email esta en el componente", () => {
+      render(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignUp />
+          </Provider>
+        </BrowserRouter>  
+      );
+      const email = screen.getByTestId("email");
+      expect(email).toBeInTheDocument();
+    });
+  
+    test("El input para subir el avatar estar en el componente", () => {
+      render(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignUp />
+          </Provider>
+        </BrowserRouter>  
+      );
+      const avatar = screen.getByTestId("avatar");
+      expect(avatar).toBeInTheDocument();
+    });
+  });
