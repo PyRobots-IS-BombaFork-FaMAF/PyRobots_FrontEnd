@@ -19,12 +19,13 @@ function App() {
             <Route path="/login" element={<SignIn />} />
 
             {/* protected routes */}
-          <Route element={<PersistLogin />}>
-            <Route element={<RequiereAuth />}>
-              <Route path="/tableroDePrueba/" element={<Board />} />
-              <Route path="/createRobot" element={<CreateRobot />} />
+
+            <Route element={<PersistLogin />}> 
+              <Route element={<RequiereAuth />}>
+                <Route path="/tableroDePrueba" element={<Board />} />
+                <Route path="/"/>
+              </Route>
             </Route>
-          </Route>
           <Route path="*" element={<NotFound />} />
 
         </Routes>
