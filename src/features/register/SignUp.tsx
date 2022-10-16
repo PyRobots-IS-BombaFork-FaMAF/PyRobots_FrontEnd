@@ -18,8 +18,12 @@ import {
   selectSignUp,
 } from "../../reducers/signUpSlice";
 import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
-import { postUser } from "./SignUpApi";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { signUpApi } from "./SignUpApi";
+import { Navigate, useLocation } from "react-router-dom";
+import { verifyToken } from "../TokenUtils";
+import { useEffect, useState } from "react";
+import useAuth from "../../app/hooks/useAuth";
 
 function Copyright(props: any) {
   return (
@@ -43,8 +47,17 @@ const theme = createTheme();
 
 export default function SignUp() {
   const validate = useAppSelector(selectSignUp);
-
+  const { auth, setAuth }: any = useAuth();
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    if(auth?.access_token === undefined){
+      verifyToken(setAuth)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -65,128 +78,154 @@ export default function SignUp() {
       isValidPassword(data.get("password")?.toString()!) &&
       isValidEmail(data.get("email")?.toString()!)
     ) {
-      postUser(data);
+      signUpApi(data);
     }
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  autoComplete="given-userName"
-                  name="username"
-                  required
-                  fullWidth
-                  onChange={(event) =>
-                    dispatch(setErrUser(handleChange(event, isValidUserName)))
-                  }
-                  id="userName"
-                  label="User Name"
-                  error={!validate.errUser}
-                  autoFocus
-                  helperText={
-                    !validate.errUser
-                      ? "Tamaño invalido minimo 6 y maximo 12 caracteres."
-                      : " "
-                  }
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  onChange={(event) =>
-                    dispatch(setErrEmail(handleChange(event, isValidEmail)))
-                  }
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  error={!validate.errEmail}
-                  helperText={
-                    !validate.errEmail
-                      ? "Email Invalido formato something@example.com"
-                      : " "
-                  }
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  onChange={(event) =>
-                    dispatch(setErrPass(handleChange(event, isValidPassword)))
-                  }
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="nueva-password"
-                  error={!validate.errPass}
-                  helperText={
-                    !validate.errEmail
-                      ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres," +
-                      "una mayúscula, una minúscula, y un número. Puede agregar un simbolo. Tamaño maximo 16 caracteres."
-                      : " "
-                  }
-                />
-              </Grid>
-              <Grid item xs={12} textAlign="left">
-                Cargar Avatar(Opcional)
-                <Input
-                  fullWidth
-                  type="file"
-                  role="button"
-                  name="avatar"
-                  id="avatar"
-                  title="avatar"
-                  autoComplete="insertar Avatar"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              role="button"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+    <div>
+      {isLoggedIn ? (
+        <Navigate to="/" state={{ from: location }} replace />
+      ) : (
+        <ThemeProvider theme={theme}>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login" variant="body2" role="link">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Registrarse
+              </Typography>
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 3 }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      autoComplete="given-userName"
+                      name="username"
+                      required
+                      fullWidth
+                      onChange={(
+                        event: React.ChangeEvent<
+                          HTMLTextAreaElement | HTMLInputElement
+                        >
+                      ) =>
+                        dispatch(
+                          setErrUser(handleChange(event, isValidUserName))
+                        )
+                      }
+                      data-testid="user"
+                      id="userName"
+                      label="User Name"
+                      error={!validate.errUser}
+                      autoFocus
+                      helperText={
+                        !validate.errUser
+                          ? "Tamaño válido mínimo 6 y máximo 12 caracteres."
+                          : " "
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      onChange={(
+                        event: React.ChangeEvent<
+                          HTMLTextAreaElement | HTMLInputElement
+                        >
+                      ) =>
+                        dispatch(setErrEmail(handleChange(event, isValidEmail)))
+                      }
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      data-testid="email"
+                      error={!validate.errEmail}
+                      helperText={
+                        !validate.errEmail
+                          ? "Email Invalido formato something@example.com"
+                          : " "
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      onChange={(
+                        event: React.ChangeEvent<
+                          HTMLTextAreaElement | HTMLInputElement
+                        >
+                      ) =>
+                        dispatch(
+                          setErrPass(handleChange(event, isValidPassword))
+                        )
+                      }
+                      data-testid="pass"
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="nueva-password"
+                      error={!validate.errPass}
+                      helperText={
+                        !validate.errPass
+                          ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres," +
+                            "una mayúscula, una minúscula, y un número. Puede agregar un símbolo. Tamaño máximo 16 caracteres."
+                          : " "
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12} textAlign="left">
+                    Cargar Avatar(Opcional)
+                    <Input
+                      fullWidth
+                      type="file"
+                      role="button"
+                      name="avatar"
+                      id="avatar"
+                      title="avatar"
+                      data-testid="avatar"
+                      autoComplete="insertar Avatar"
+                    />
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  role="button"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign Up
+                </Button>
+                <Grid container justifyContent="flex-end">
+                  <Grid item>
+                    <Link href="/login" variant="body2" role="link">
+                      Ya tienes cuenta? Inicie sesión
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+            <Copyright sx={{ mt: 5 }} />
+          </Container>
+        </ThemeProvider>
+      )}
+    </div>
   );
 }
