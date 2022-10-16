@@ -1,12 +1,14 @@
 import { render, screen } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { store } from "../app/store";
+import SignUp from "../features/register/SignUp";
 import {
   isValidEmail,
   isValidUserName,
   isValidPassword,
 } from "../features/register/SignUpUtils";
-import SignUp from "../features/register/SignUp";
-import { store } from "../app/store";
-import { Provider } from "react-redux";
+
 
 describe("funciones dentro del componente SignUp", () => {
   describe("isValidUserName", () => {
@@ -98,48 +100,52 @@ describe("funciones dentro del componente SignUp", () => {
   });
 });
 
-describe("Componente SignUp", () => {
-  let user: HTMLElement,
-    email: HTMLElement,
-    pass: HTMLElement,
-    avatar: HTMLElement;
-  test("El textfield username esta en el componente", () => {
-    render(
-      <Provider store={store}>
-        <SignUp />
-      </Provider>
-    );
-    user = screen.getByLabelText(/^User Name/i);
-    expect(user).toBeInTheDocument();
+  describe("Componente SignUp", () => {
+    test("El textfield username esta en el componente", () => {
+      render(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignUp />
+          </Provider>
+        </BrowserRouter>  
+      );
+      const user = screen.getByTestId("user");
+      expect(user).toBeInTheDocument();
+    });
+  
+    test("El textfield password esta en el componente", () => {
+      render(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignUp />
+          </Provider>
+        </BrowserRouter>  
+      );
+      const pass = screen.getByTestId("pass");
+      expect(pass).toBeInTheDocument();
+    });
+  
+    test("El textfield email esta en el componente", () => {
+      render(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignUp />
+          </Provider>
+        </BrowserRouter>  
+      );
+      const email = screen.getByTestId("email");
+      expect(email).toBeInTheDocument();
+    });
+  
+    test("El input para subir el avatar estar en el componente", () => {
+      render(
+        <BrowserRouter>
+          <Provider store={store}>
+            <SignUp />
+          </Provider>
+        </BrowserRouter>  
+      );
+      const avatar = screen.getByTestId("avatar");
+      expect(avatar).toBeInTheDocument();
+    });
   });
-
-  test("El textfield password esta en el componente", () => {
-    render(
-      <Provider store={store}>
-        <SignUp />
-      </Provider>
-    );
-    pass = screen.getByLabelText(/^Password/i);
-    expect(pass).toBeInTheDocument();
-  });
-
-  test("El textfield email esta en el componente", () => {
-    render(
-      <Provider store={store}>
-        <SignUp />
-      </Provider>
-    );
-    email = screen.getByLabelText(/^Email Address/i);
-    expect(email).toBeInTheDocument();
-  });
-
-  test("El Input avatar esta en el componente", () => {
-    render(
-      <Provider store={store}>
-        <SignUp />
-      </Provider>
-    );
-    avatar = screen.getByTitle(/^avatar/i);
-    expect(avatar).toBeInTheDocument();
-  });
-});
