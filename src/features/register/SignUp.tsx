@@ -20,7 +20,7 @@ import {
 import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { signUpApi } from "./SignUpApi";
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { verifyToken } from "../TokenUtils";
 import { useEffect, useState } from "react";
 import useAuth from "../../app/hooks/useAuth";
