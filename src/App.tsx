@@ -8,6 +8,7 @@ import NotFound from "./features/NotFound";
 import RequiereAuth from "./features/RequiereAuth";
 import PersistLogin from "./features/PersistLogin";
 import Home from "./features/directories/Home";
+import ListMatches from "./features/listMatches/ListMatches";
 function App() {
   return (
     <div className="App">
@@ -22,6 +23,7 @@ function App() {
             <Route element={<RequiereAuth />}>
               <Route path="/tableroDePrueba/" element={<Board />} />
               <Route path="/" element={<Home />} />
+              <Route path="/listMatches" element={<ListMatches/>}/>
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

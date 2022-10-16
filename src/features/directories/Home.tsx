@@ -6,7 +6,7 @@ export default function Home() {
           <div>
             <NavBar data-testid="NavBar" />
           </div>
-          <div id="bg-image"></div>
+          <div className="bg-image"></div>
         </div>
   );
 }

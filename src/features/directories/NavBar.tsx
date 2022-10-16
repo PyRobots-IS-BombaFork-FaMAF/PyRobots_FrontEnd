@@ -17,8 +17,7 @@ export default function NavBar() {
     navigate("/tableroDePrueba", { replace: true });
   };
   const listMatches = () => {
-    //TODO - Implementar listMatches para poder redireccionar
-    //navigate("/listMatches", { replace: true });
+    navigate("/listMatches", { replace: true });
   };
   const createMatch = () => {
     //TODO - Implementar createMatch para poder redireccionar
