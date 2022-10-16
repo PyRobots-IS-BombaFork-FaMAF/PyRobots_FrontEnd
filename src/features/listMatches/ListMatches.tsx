@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import { Container } from "@mui/system";
 import { listMatchesApi } from "./ListMatchesApi";
-import useAuth from "../../app/hooks/useAuth";
 import {
   Button,
   Checkbox,
@@ -19,21 +18,12 @@ import { useState } from "react";
 import { ItemMatch } from "./ItemMatch";
 
 
-export default function ListMatches() {
-  const { auth } = useAuth();
-  
+export default function ListMatches() {  
   const [matches, setMatches] = useState<any>([{}]);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     
-    let json : string = "{";
-    if(data.get("filterByName") !== ""){
-      json = `${json} "game_name":"${data.get("filterByName")?.toString()!}"`
-    }
-    json = `${json} }`;
-    const token = `Bearer ${auth.access_token}`;
-    setMatches(listMatchesApi(token, JSON.stringify(json)));
     console.log(matches);
   };
 
