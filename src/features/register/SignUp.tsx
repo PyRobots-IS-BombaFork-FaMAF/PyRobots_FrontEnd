@@ -21,9 +21,10 @@ import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { signUpApi } from "./SignUpApi";
 import { Navigate, useLocation } from "react-router-dom";
-import { verifyToken } from "../TokenUtils";
-import { useEffect, useState } from "react";
+
 import useAuth from "../../app/hooks/useAuth";
+import { useToken } from "../TokenUtils";
+import { useState } from "react";
 
 function Copyright(props: any) {
   return (
@@ -51,14 +52,8 @@ export default function SignUp() {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-    if (auth.access_token === undefined) {
-      verifyToken(setAuth)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
+  useToken(auth, setIsLoggedIn, setAuth);
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     fun: Function
@@ -127,7 +122,7 @@ export default function SignUp() {
                       }
                       data-testid="user"
                       id="userName"
-                      label="User Name"
+                      label="Usuario"
                       error={!validate.errUser}
                       autoFocus
                       helperText={
@@ -149,7 +144,7 @@ export default function SignUp() {
                         dispatch(setErrEmail(handleChange(event, isValidEmail)))
                       }
                       id="email"
-                      label="Email Address"
+                      label="Direccion De Email"
                       name="email"
                       autoComplete="email"
                       data-testid="email"
@@ -176,7 +171,7 @@ export default function SignUp() {
                       }
                       data-testid="pass"
                       name="password"
-                      label="Password"
+                      label="Contraseña"
                       type="password"
                       id="password"
                       autoComplete="nueva-password"
@@ -184,7 +179,7 @@ export default function SignUp() {
                       helperText={
                         !validate.errPass
                           ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres," +
-                          "una mayúscula, una minúscula, y un número. Puede agregar un símbolo. Tamaño máximo 16 caracteres."
+                            "una mayúscula, una minúscula, y un número. Puede agregar un símbolo. Tamaño máximo 16 caracteres."
                           : " "
                       }
                     />
