@@ -5,17 +5,14 @@ import { store } from "./app/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-import { AuthProvider } from "./features/AuthProvider";
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <AuthProvider>
       <Provider store={store}>
         <App />
       </Provider>
-    </AuthProvider>
   </React.StrictMode>
 );
 
