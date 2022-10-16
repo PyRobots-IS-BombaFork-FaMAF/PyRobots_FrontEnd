@@ -15,7 +15,7 @@ function InputFile({ label }: any) {
 }
 
 const AvatarRobot = (): any => (
-  <img id="avatar" src="https://robohash.org/user1" alt="robotAvatar" />
+  <img id="avatar-view" src="https://robohash.org/user1" alt="robotAvatar" />
 );
 
 const ButtonChangeAvatar = (): any => (
