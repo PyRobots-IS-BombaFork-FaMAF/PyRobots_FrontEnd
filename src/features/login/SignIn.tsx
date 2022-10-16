@@ -13,8 +13,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useAuth from "../../app/hooks/useAuth";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import axios from "../../api/axios";
-import { useEffect, useState } from "react";
-import { verifyToken } from "../TokenUtils";
+import { useState } from "react";
+import { useToken } from "../TokenUtils";
 
 function Copyright(props: any) {
   return (
@@ -37,17 +37,12 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const { auth, setAuth }: any = useAuth();
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-    if(auth?.access_token === undefined){
-      verifyToken(setAuth)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  
+  useToken(auth, setIsLoggedIn, setAuth);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -72,7 +67,7 @@ export default function SignIn() {
       if (!err?.response) {
         alert("No hay respuesta del servidor");
       } else if (err.response?.status === 401) {
-        alert("Contraseña Invalida");
+        alert("Usuario o contraseña inválidos");
       } else {
         alert("Inicio de sesión fallido");
       }
@@ -113,7 +108,7 @@ export default function SignIn() {
                   required
                   fullWidth
                   id="username"
-                  label="User Name"
+                  label="Usuario"
                   name="username"
                   autoComplete="off"
                   autoFocus
@@ -124,7 +119,7 @@ export default function SignIn() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Contraseña"
                   type="password"
                   id="password"
                   autoComplete="off"

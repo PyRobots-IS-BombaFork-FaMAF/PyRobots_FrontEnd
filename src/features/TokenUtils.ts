@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export const verifyToken = async (setAuth : Function) => {
   const username = localStorage.getItem("username")?.toString();
   const password = localStorage.getItem("password")?.toString();
@@ -6,3 +8,15 @@ export const verifyToken = async (setAuth : Function) => {
     setAuth({username, password, access_token})
   }
 }
+
+
+export const useToken = (auth : any, setIsLoggedIn : Function, setAuth : Function ) => {
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    if (auth.access_token === undefined) {
+      verifyToken(setAuth)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+}
+
