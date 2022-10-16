@@ -15,7 +15,6 @@ import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import axios from "../../api/axios";
 import { useEffect, useState } from "react";
 import { verifyToken } from "../TokenUtils";
-import LoadingSpin from "react-loading-spin";
 
 function Copyright(props: any) {
   return (
@@ -41,14 +40,14 @@ export default function SignIn() {
   const { auth, setAuth }: any = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-    auth?.access_token === undefined ?  verifyToken(setIsLoading, setAuth) : setIsLoading(false);
-
+    if(auth?.access_token === undefined){
+      verifyToken(setAuth)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,15 +59,13 @@ export default function SignIn() {
       const access_token = response?.data?.access_token;
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("isLoggedIn", "true");
-      if(username){
+      if (username) {
         localStorage.setItem("username", username?.toString());
       }
-      if(password){
+      if (password) {
         localStorage.setItem("password", password?.toString());
       }
 
-
-      
       setAuth({ username, password, access_token });
       navigate("/tableroDePrueba", { replace: true });
     } catch (err: any) {
@@ -84,84 +81,82 @@ export default function SignIn() {
 
   return (
     <div>
-    { isLoading ? 
-      <div>
-        <h2>Cargando..</h2>
-        <LoadingSpin data-testid="loading-spin" size = "500px" width = "50px"/>
-      </div>
-          : (isLoggedIn ? (<Navigate to="/" state={{ from: location }} replace />): (<ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
-              <CssBaseline />
+      {isLoggedIn ? (
+        <Navigate to="/" state={{ from: location }} replace />
+      ) : (
+        <ThemeProvider theme={theme}>
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Iniciar Sesión
+              </Typography>
               <Box
-                sx={{
-                  marginTop: 8,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate
+                sx={{ mt: 1 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                  Iniciar Sesión
-                </Typography>
-                <Box
-                  component="form"
-                  onSubmit={handleSubmit}
-                  noValidate
-                  sx={{ mt: 1 }}
+                <TextField
+                  margin="normal"
+                  data-testid="user"
+                  required
+                  fullWidth
+                  id="username"
+                  label="User Name"
+                  name="username"
+                  autoComplete="off"
+                  autoFocus
+                />
+                <TextField
+                  margin="normal"
+                  data-testid="pass"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="off"
+                />
+                <Button
+                  data-testid="submit"
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
                 >
-                  <TextField
-                    margin="normal"
-                    data-testid="user"
-                    required
-                    fullWidth
-                    id="username"
-                    label="User Name"
-                    name="username"
-                    autoComplete="off"
-                    autoFocus
-                  />
-                  <TextField
-                    margin="normal"
-                    data-testid="pass"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="off"
-                  />
-                  <Button
-                    data-testid="submit"
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Iniciar Sesión
-                  </Button>
-    
-                  <Grid container>
-                    <Grid item xs>
-                      <Link href="#" variant="body2">
-                        ¿Olvido la contraseña?
-                      </Link>
-                    </Grid>
-                    <Grid item>
-                      <Link href="/register" variant="body2">
-                        {"¿No tienes cuenta? Registrate"}
-                      </Link>
-                    </Grid>
+                  Iniciar Sesión
+                </Button>
+
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2" data-testid="goToChangePassword">
+                      ¿Olvido la contraseña?
+                    </Link>
                   </Grid>
-                </Box>
+                  <Grid item>
+                    <Link href="/register" variant="body2" data-testid="goToRegister">
+                      {"¿No tienes cuenta? Registrate"}
+                    </Link>
+                  </Grid>
+                </Grid>
               </Box>
-              <Copyright sx={{ mt: 8, mb: 4 }} />
-            </Container>
-          </ThemeProvider>))
-    }
-  </div>
-  );  
+            </Box>
+            <Copyright sx={{ mt: 8, mb: 4 }} />
+          </Container>
+        </ThemeProvider>
+      )}
+    </div>
+  );
 }
