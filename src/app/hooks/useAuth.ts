@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import AuthContext from "../../features/AuthProvider";
+import { useContext, Dispatch, SetStateAction } from "react";
+import AuthContext, { auth } from "../../features/AuthProvider";
 
-const useAuth: any = () => {
+function useAuth(): { auth: auth, setAuth: Dispatch<SetStateAction<{}>> } {
   return useContext(AuthContext);
 };
 
