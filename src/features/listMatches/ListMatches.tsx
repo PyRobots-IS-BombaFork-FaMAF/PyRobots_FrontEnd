@@ -26,9 +26,10 @@ export default function ListMatches() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
+    console.log(data.get("create_by_user"));
     const check = JSON.parse(JSON.stringify(Object.fromEntries(data)),
       (key, value) => value === null || value === '' ? undefined : value);
+      console.log(check);
     const promise1 = Promise.resolve(listMatchesApi(check, localStorage.getItem("access_token")?.toString()!));
     promise1.then((value) => {
       setMatches(value);
@@ -71,7 +72,6 @@ export default function ListMatches() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        value="remember"
                         color="primary"
                         sx={{
                           color: "white",
@@ -91,7 +91,6 @@ export default function ListMatches() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        value="remember"
                         color="primary"
                         sx={{
                           color: "white",

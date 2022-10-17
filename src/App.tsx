@@ -3,6 +3,7 @@ import React from "react";
 import "./App.css";
 import Board from "./features/board/board";
 import SignUp from "./features/register/SignUp";
+import NewGame from "./features/newGame/NewGame";
 import SignIn from "./features/login/SignIn";
 import NotFound from "./features/NotFound";
 import RequiereAuth from "./features/RequiereAuth";
@@ -24,9 +25,11 @@ function App() {
               <Route path="/tableroDePrueba/" element={<Board />} />
               <Route path="/" element={<Home />} />
               <Route path="/listMatches" element={<ListMatches/>}/>
+              <Route path="/newGame" element={<NewGame/>}/>
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
+
         </Routes>
       </BrowserRouter>
     </div>
