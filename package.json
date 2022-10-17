@@ -13,6 +13,7 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "axios": "^1.1.2",
+    "canvas": "^2.10.1",
     "depcheck": "^1.4.3",
     "konva": "^8.3.13",
     "react": "^18.2.0",

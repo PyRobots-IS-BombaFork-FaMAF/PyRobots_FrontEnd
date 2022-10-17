@@ -10,8 +10,7 @@ import { useNavigate } from "react-router-dom";
 export default function NavBar() {
   const navigate = useNavigate();
   const createRobot = () => {
-    //TODO - Implementar createRobot para poder redireccionar
-    //navigate("/createRobot", { replace: true });
+    navigate("/createRobot", { replace: true });
   };
   const executeSimulation = () => {
     navigate("/tableroDePrueba", { replace: true });
