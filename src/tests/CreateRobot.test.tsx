@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import CreateRobot from "../features/newrobot/CreateRobot";
+import { isValidRobotName } from '../features/newrobot/CreateRobotUtils';
 
 beforeEach(() => {
   render(
@@ -9,6 +10,27 @@ beforeEach(() => {
     </BrowserRouter>
   );
 });
+
+describe("Funciones dentro del componente", () => {
+  describe("isValidRobotName", () => {
+    test("Debe devolver verdadero con un nombre con formato correcto", () => {
+      const result = isValidRobotName("NombreRobot");
+      expect(typeof result).toBeTruthy();
+    });
+    test("Debe devolver falso, dado un nombre de robot muy largo", () => {
+      const result = isValidRobotName("NombredelRobot12");
+      expect(result).toBeFalsy();
+    });
+    test("Debe devolver falso, dado un nombre de robot muy corto", () => {
+      const result = isValidRobotName("no");
+      expect(result).toBeFalsy();
+    })
+    test("Debe devolver falso, dado un nombre de robot vacío", () => {
+      const result = isValidRobotName("");
+      expect(result).toBeFalsy();
+    })
+  })
+})
 
 describe("Compontente formulario de robot", () => {
   test("El contenedor del avatar está en el componente", () => {
@@ -36,8 +58,7 @@ describe("Compontente formulario de robot", () => {
     expect(imputForCode).toBeInTheDocument();
   });
   test("El botón para enviar el formulario está en la componente", () => {
-    const submitButton = screen.getByRole("button", { name: /Crear/i });
+    const submitButton = screen.getByRole("button", { name: "Crear" });
     expect(submitButton).toBeInTheDocument();
   });
-
-});
+})

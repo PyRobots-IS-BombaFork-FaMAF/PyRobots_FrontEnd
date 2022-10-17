@@ -73,11 +73,10 @@ const CreateRobot = () => {
           name="name"
           label="Nombre del Robot"
           variant="standard"
-          inputProps={{ maxLength: 12, minLength: 3 }}
-          data-testid="robotName"
+          inputProps={{ maxLength: 12, minLength: 3, "data-testid": "robotName" }}
         />
         <InputFile label="Archivo .py para el robot" />
-        <input type="submit" value="Crear robot"></input>
+        <input type="submit" value="Crear"></input>
       </form>
     </div>
   );

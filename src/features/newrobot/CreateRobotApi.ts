@@ -15,7 +15,7 @@ export async function postRobot(data: FormData): Promise<void> {
         return resolve(alert(response.data));
       })
       .catch(function (error) {
-        console.log(error);
+        alert(error.response.data.detail);
       });
   })
 }
