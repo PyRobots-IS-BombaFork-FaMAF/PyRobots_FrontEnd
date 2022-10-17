@@ -1,11 +1,5 @@
 import axios from "../../api/axios"
 
-export type RobotData = {
-  name: string
-  image: string
-}
-
-
 export async function postRobot(data: FormData): Promise<void> {
 
   const access_token = localStorage.getItem("access_token")?.toString();
