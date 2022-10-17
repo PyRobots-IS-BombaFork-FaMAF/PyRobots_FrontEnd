@@ -11,14 +11,25 @@ function InputFile({ label }: { label: string }) {
         {" "}
         {label}{" "}
       </label>
-      <input required data-testid="robotCode" id="robot-code" name="code" type="file" />
+      <input
+        required
+        data-testid="robotCode"
+        id="robot-code"
+        name="code"
+        type="file"
+      />
     </div>
   );
 }
 
 const AvatarRobot = () => (
   <div id="avatar-view" data-testid="avatarView">
-    <img id="robot-image" data-testid="avatarImage" src="https://robohash.org/user1" alt="Avatar del robot" />
+    <img
+      id="robot-image"
+      data-testid="avatarImage"
+      src="https://robohash.org/user1"
+      alt="Avatar del robot"
+    />
   </div>
 );
 
@@ -73,7 +84,11 @@ const CreateRobot = () => {
           name="name"
           label="Nombre del Robot"
           variant="standard"
-          inputProps={{ maxLength: 12, minLength: 3, "data-testid": "robotName" }}
+          inputProps={{
+            maxLength: 12,
+            minLength: 3,
+            "data-testid": "robotName",
+          }}
         />
         <InputFile label="Archivo .py para el robot" />
         <input type="submit" value="Crear"></input>

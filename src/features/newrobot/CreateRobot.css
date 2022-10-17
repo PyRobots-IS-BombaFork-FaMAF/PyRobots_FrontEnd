@@ -1,6 +1,6 @@
-*{
-  margin:0px;
-  padding:0px;
+* {
+  margin: 0px;
+  padding: 0px;
 }
 
 #bkg-image {
@@ -31,7 +31,7 @@
   box-shadow: 1rem 1rem 1rem rgba(34, 34, 34, 0.7);
 }
 
-#avatar-view{
+#avatar-view {
   border-radius: 100%;
   width: 12rem;
   height: 12rem;
@@ -41,19 +41,19 @@
 }
 
 #robot-image {
-  right:auto;
-  height:100%;
+  right: auto;
+  height: 100%;
   width: auto;
 }
 
 .label-file {
-  display:block;
+  display: block;
   margin-top: 7%;
   margin-bottom: 1%;
 }
 
-input[type=submit] {
-  display:block;
+input[type="submit"] {
+  display: block;
   font-size: 100%;
   width: 100%;
   background-color: #43b647;
@@ -66,7 +66,7 @@ input[type=submit] {
   transition: box-shadow 0.3s ease;
 }
 
-input[type=submit]:hover {
+input[type="submit"]:hover {
   box-shadow: 0rem 0.1rem 0.5rem #0d8f11;
 }
 
@@ -75,7 +75,7 @@ input[type=submit]:hover {
   margin: 0 auto;
   margin-bottom: 3%;
   padding: 3%;
-  width:60%;
+  width: 60%;
   background-color: #2499e3;
   border-radius: 2rem;
   transition: box-shadow 0.3s ease;
@@ -85,14 +85,14 @@ input[type=submit]:hover {
   box-shadow: 0px 3px 0px #1a71a9;
 }
 
-.botton-text{
+.botton-text {
   text-align: center;
-  color:white;
+  color: white;
 }
 
 .input-avatar {
   position: absolute;
-  right:0;
+  right: 0;
   left: 0;
   right: 0;
   bottom: 0;

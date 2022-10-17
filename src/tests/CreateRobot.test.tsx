@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import CreateRobot from "../features/newrobot/CreateRobot";
-import { isValidRobotName } from '../features/newrobot/CreateRobotUtils';
+import { isValidRobotName } from "../features/newrobot/CreateRobotUtils";
 
 beforeEach(() => {
   render(
@@ -24,13 +24,13 @@ describe("Funciones dentro del componente", () => {
     test("Debe devolver falso, dado un nombre de robot muy corto", () => {
       const result = isValidRobotName("no");
       expect(result).toBeFalsy();
-    })
+    });
     test("Debe devolver falso, dado un nombre de robot vacío", () => {
       const result = isValidRobotName("");
       expect(result).toBeFalsy();
-    })
-  })
-})
+    });
+  });
+});
 
 describe("Compontente formulario de robot", () => {
   test("El contenedor del avatar está en el componente", () => {
@@ -61,4 +61,4 @@ describe("Compontente formulario de robot", () => {
     const submitButton = screen.getByRole("button", { name: "Crear" });
     expect(submitButton).toBeInTheDocument();
   });
-})
+});
