@@ -12,7 +12,7 @@ export async function listMatchesApi(filters : any, access_token : string) : Pro
       return resolve(response.data);
     })
     .catch(function (error : any) {
-      console.log(error);
+      alert(error.response.data.detail);
     });
  })
  

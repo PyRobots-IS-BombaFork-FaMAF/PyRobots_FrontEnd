@@ -12,7 +12,7 @@ export function createMatchApi(newGame : any, access_token : string) : any{
       alert(response.data.msg);
     })
     .catch(function (error : any) {
-      alert(error.body.msg);
+      alert(error.response.data.detail);
     });
  })
  
