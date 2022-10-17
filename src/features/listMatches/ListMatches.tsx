@@ -29,7 +29,7 @@ export default function ListMatches() {
   const [matches, setMatches] = useState<any>([{ }]);
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
-    if(!isReady){
+    if(isReady){
       callApiList({}, setMatches, setIsReady);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

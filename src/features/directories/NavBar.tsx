@@ -28,7 +28,7 @@ export default function NavBar() {
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" data-testid="AppBar">
+      <AppBar position="fixed" data-testid="AppBar">
         <Toolbar>
           <IconButton
             size="large"

@@ -10,7 +10,8 @@ type newGameInfo = {
   games?: number,
   name: string,
   max_players?: number,
-  min_players?: number
+  min_players?: number,
+  password?: string
 }
 
 function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
@@ -42,6 +43,9 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
   if (typeof(min_players) === 'string') {
     newGameInfo.min_players = parseInt(min_players)
   }
+
+  newGameInfo.password = data.get('password') as string
+  
   createMatchApi(newGameInfo, localStorage.getItem("access_token")?.toString()!);
 
 }

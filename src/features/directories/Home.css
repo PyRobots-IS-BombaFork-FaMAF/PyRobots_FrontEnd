@@ -1,20 +1,19 @@
 
 .bg-image {
     background-image: url("/public/Background.jpg");
+    background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
     height: 100vh;
 }
 
 .bg-image-list {
     background-image: url("/public/Background.jpg");
-    position: fixed;
+    background-attachment: fixed;
     background-size: cover; 
     background-repeat: no-repeat;
     /* Preserve aspet ratio */
-    min-width: 100%;
-    min-height: 100%;
+    min-height: 100vh;
 }
 
 .MuiTextField-root{
