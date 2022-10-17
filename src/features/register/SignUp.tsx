@@ -22,9 +22,6 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { signUpApi } from "./SignUpApi";
 import { Navigate, useLocation } from "react-router-dom";
 
-import useAuth from "../../app/hooks/useAuth";
-import { useToken } from "../TokenUtils";
-import { useState } from "react";
 
 function Copyright(props: any) {
   return (
@@ -48,12 +45,9 @@ const theme = createTheme();
 
 export default function SignUp() {
   const validate = useAppSelector(selectSignUp);
-  const { auth, setAuth } = useAuth();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useToken(auth, setIsLoggedIn, setAuth);
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     fun: Function
@@ -63,6 +57,7 @@ export default function SignUp() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     /*
       Los datos del formulario nunca devuelven null por lo tanto no hace falta chequearlo, si devuelven cadena " " pero esto lo revisa el isValid.. de cualquier manera
     */
@@ -78,7 +73,7 @@ export default function SignUp() {
 
   return (
     <div>
-      {isLoggedIn ? (
+      {localStorage.getItem("isLoggedIn") ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
         <ThemeProvider theme={theme}>

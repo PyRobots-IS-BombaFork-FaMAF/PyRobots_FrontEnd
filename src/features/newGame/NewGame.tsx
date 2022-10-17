@@ -49,6 +49,7 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
 
 function GameForm() {
   return (
+  <Container>
     <Box component="form" onSubmit={onSubmit_newGame} >
       <Grid>
         <TextField required
@@ -95,6 +96,7 @@ function GameForm() {
         Crear Partida
       </Button>
     </Box>
+  </Container>
   );
 };
 

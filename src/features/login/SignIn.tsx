@@ -10,11 +10,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import useAuth from "../../app/hooks/useAuth";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import axios from "../../api/axios";
-import { useState } from "react";
-import { useToken } from "../TokenUtils";
+
+
 
 function Copyright(props: any) {
   return (
@@ -37,13 +36,10 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const { auth, setAuth } = useAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
-  useToken(auth, setIsLoggedIn, setAuth);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -61,8 +57,7 @@ export default function SignIn() {
         localStorage.setItem("password", password?.toString());
       }
 
-      setAuth({ username, password, access_token });
-      navigate("/tableroDePrueba", { replace: true });
+      navigate("/", { replace: true });
     } catch (err: any) {
       if (!err?.response) {
         alert("No hay respuesta del servidor");
@@ -76,7 +71,7 @@ export default function SignIn() {
 
   return (
     <div>
-      {isLoggedIn ? (
+      {(localStorage.getItem("isLoggedIn")) ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
         <ThemeProvider theme={theme}>
