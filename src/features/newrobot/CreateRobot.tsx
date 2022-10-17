@@ -10,14 +10,14 @@ function InputFile({ label }: any) {
         {" "}
         {label}{" "}
       </label>
-      <input id="robot-code" name="code" type="file" required />
+      <input required data-testid="robotCode" id="robot-code" name="code" type="file"  />
     </div>
   );
 }
 
 const AvatarRobot = (): any => (
-  <div id="avatar-view">
-    <img id="robot-image" src="https://robohash.org/user1" alt="robotAvatar" />
+  <div id="avatar-view" data-testid="avatarView">
+    <img id="robot-image" data-testid="avatarImage" src="https://robohash.org/user1" alt="Avatar del robot" />
   </div>
 );
 
@@ -35,6 +35,7 @@ const ButtonChangeAvatar = (): any => {
       <p className="botton-text">Subir una foto </p>
       <input
         name="avatar"
+        data-testid="robotAvatar"
         onChange={handleChange}
         className="input-avatar"
         type="file"
@@ -64,6 +65,7 @@ const CreateRobot = () => {
           label="Nombre del Robot"
           variant="standard"
           inputProps={{ maxLength: 12, minLength: 3 }}
+          data-testid="robotName"
         />
         <InputFile label="Archivo .py para el robot" />
         <input type="submit" value="Crear robot"></input>

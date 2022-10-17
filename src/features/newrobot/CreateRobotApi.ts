@@ -11,7 +11,7 @@ export async function postRobot(data : any) : Promise<any>{
       }
     })
     .then(response  => {
-      return resolve(response.data);
+      return resolve(alert(response.data));
     })
     .catch(function (error : any) {
       console.log(error);
