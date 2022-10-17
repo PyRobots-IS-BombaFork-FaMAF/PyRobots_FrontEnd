@@ -4,14 +4,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import NavBar from "../directories/NavBar";
-import { createMatchApi } from "./NewGameApi"
-type newGameInfo = {
-  rounds?: number,
-  games?: number,
-  name: string,
-  max_players?: number,
-  min_players?: number
-}
+import { createMatchApi, newGameInfo } from "./NewGameApi"
 
 function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
   event.preventDefault()
@@ -42,7 +35,9 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
   if (typeof(min_players) === 'string') {
     newGameInfo.min_players = parseInt(min_players)
   }
-  createMatchApi(newGameInfo, localStorage.getItem("access_token")?.toString()!);
+
+  const access_token: string | null = localStorage.getItem('access_token')
+  createMatchApi(newGameInfo, access_token)
 
 }
 

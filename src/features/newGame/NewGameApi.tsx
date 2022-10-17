@@ -1,19 +1,29 @@
 import axios from "../../api/axios"
 
-export function createMatchApi(newGame : any, access_token : string) : any{
+export type newGameInfo = {
+  rounds?: number,
+  games?: number,
+  name: string,
+  max_players?: number,
+  min_players?: number
+}
 
- return new Promise((resolve, reject) => {
-    axios.post("game/create",  newGame, {headers: { 
-      'Authorization': `Bearer ${access_token}`, 
-      'Content-Type': 'application/json'
+
+export function createMatchApi(newGame: newGameInfo, access_token: string | null): any {
+
+  return new Promise((resolve, reject) => {
+    axios.post("game/create", newGame, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`,
+        'Content-Type': 'application/json'
       }
     })
-    .then(response  => {
-      alert(response.data.msg);
-    })
-    .catch(function (error : any) {
-      alert(error.details.msg);
-    });
- })
- 
+      .then(response => {
+        alert(response.data.msg);
+      })
+      .catch(function (error: any) {
+        alert(error.details.msg);
+      });
+  })
+
 }
