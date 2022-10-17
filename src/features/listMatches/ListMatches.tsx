@@ -42,7 +42,7 @@ export default function ListMatches() {
   return (
     <div>
       <NavBar />
-      <div className="bg-image">
+      <div className="bg-image-list">
         <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />

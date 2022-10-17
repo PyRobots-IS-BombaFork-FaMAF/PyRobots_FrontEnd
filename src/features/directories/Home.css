@@ -7,6 +7,15 @@
     height: 100vh;
 }
 
+.bg-image-list {
+    background-image: url("/public/Background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: auto;
+}
+
 .MuiTextField-root{
     background-color: white;
 }
