@@ -21,8 +21,7 @@ export default function NavBar() {
     //navigate("/listMatches", { replace: true });
   };
   const createMatch = () => {
-    //TODO - Implementar createMatch para poder redireccionar
-    //navigate("/createMatch", { replace: true });
+    navigate("/newGame", { replace: true });
   };
   const logOut = () => {
     localStorage.clear();

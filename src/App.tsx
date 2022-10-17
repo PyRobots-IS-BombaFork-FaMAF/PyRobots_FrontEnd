@@ -23,6 +23,7 @@ function App() {
             <Route element={<RequiereAuth />}>
               <Route path="/tableroDePrueba/" element={<Board />} />
               <Route path="/" element={<Home />} />
+              <Route path="/newGame" element={<NewGame/>} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
