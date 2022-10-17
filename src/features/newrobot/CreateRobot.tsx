@@ -29,7 +29,9 @@ const ButtonChangeAvatar = () => {
       const avatarImage = document.getElementById(
         "robot-image"
       ) as HTMLImageElement | null;
-      avatarImage!.src = imageUpload;
+      if (avatarImage !== null) {
+        avatarImage.src = imageUpload;
+      }
     }
   };
 
