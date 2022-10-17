@@ -2,6 +2,7 @@ import TextField from "@mui/material/TextField";
 import postRobot, { RobotData } from "./CreateRobotApi";
 import "./CreateRobot.css";
 import { isValidRobotName } from "./CreateRobotUtils";
+import NavBar from "../directories/NavBar";
 
 function InputFile({ label }: { label: string }) {
   return (
@@ -61,6 +62,9 @@ const CreateRobot = () => {
   return (
     <div>
       <div id="bkg-image"> </div>
+      <div className="navBar">
+        <NavBar />
+      </div>
       <form name="robotForm" className="robot-form" onSubmit={handleSubmit}>
         <AvatarRobot />
         <ButtonChangeAvatar />
