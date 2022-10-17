@@ -55,7 +55,7 @@ const CreateRobot = () => {
 
   return (
     <div>
-      <div id="bg-image"> </div>
+      <div id="bkg-image"> </div>
       <form name="robotForm" className="robot-form" onSubmit={handleSubmit}>
         <AvatarRobot />
         <ButtonChangeAvatar />

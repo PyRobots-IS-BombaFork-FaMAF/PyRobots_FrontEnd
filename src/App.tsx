@@ -7,8 +7,8 @@ import SignIn from "./features/login/SignIn";
 import NotFound from "./features/NotFound";
 import RequiereAuth from "./features/RequiereAuth";
 import PersistLogin from "./features/PersistLogin";
-import CreateRobot from "./features/newrobot/CreateRobot";
-
+import Home from "./features/directories/Home";
+import CreateRobot from './features/newrobot/CreateRobot';
 function App() {
   return (
     <div className="App">
@@ -19,12 +19,11 @@ function App() {
           <Route path="/login" element={<SignIn />} />
 
           {/* protected routes */}
-
           <Route element={<PersistLogin />}>
             <Route element={<RequiereAuth />}>
-              <Route path="/newRobot" element={<CreateRobot />} />
-              <Route path="/tableroDePrueba" element={<Board />} />
-              <Route path="/" />
+              <Route path="/tableroDePrueba/" element={<Board />} />
+              <Route path="/createRobot" element= {<CreateRobot />} />
+              <Route path="/" element={<Home />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
