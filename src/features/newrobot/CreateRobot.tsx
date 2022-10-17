@@ -3,31 +3,34 @@ import postRobot from "./CreateRobotApi";
 import "./CreateRobot.css";
 import { isValidRobotName } from "./CreateRobotUtils";
 
-function InputFile({ label }: any) {
+function InputFile({ label }: { label: string }) {
   return (
     <div>
       <label className="label-file" htmlFor="robot-code">
         {" "}
         {label}{" "}
       </label>
-      <input required data-testid="robotCode" id="robot-code" name="code" type="file"  />
+      <input required data-testid="robotCode" id="robot-code" name="code" type="file" />
     </div>
   );
 }
 
-const AvatarRobot = (): any => (
+const AvatarRobot = () => (
   <div id="avatar-view" data-testid="avatarView">
     <img id="robot-image" data-testid="avatarImage" src="https://robohash.org/user1" alt="Avatar del robot" />
   </div>
 );
 
-const ButtonChangeAvatar = (): any => {
-  const handleChange = (e: any) => {
-    const imageUpload: string = URL.createObjectURL(e.target.files[0]);
-    const avatarImage = document.getElementById(
-      "robot-image"
-    ) as HTMLImageElement | null;
-    avatarImage!.src = imageUpload;
+const ButtonChangeAvatar = () => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file: File | null | undefined = e.target.files?.item(0);
+    if (file !== null && file !== undefined) {
+      const imageUpload: string = URL.createObjectURL(file);
+      const avatarImage = document.getElementById(
+        "robot-image"
+      ) as HTMLImageElement | null;
+      avatarImage!.src = imageUpload;
+    }
   };
 
   return (
