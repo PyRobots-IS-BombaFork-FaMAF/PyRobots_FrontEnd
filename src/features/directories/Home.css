@@ -9,11 +9,12 @@
 
 .bg-image-list {
     background-image: url("/public/Background.jpg");
+    position: fixed;
+    background-size: cover; 
     background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    height: auto;
+    /* Preserve aspet ratio */
+    min-width: 100%;
+    min-height: 100%;
 }
 
 .MuiTextField-root{
