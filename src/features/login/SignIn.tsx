@@ -13,8 +13,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import axios, { setToken } from "../../api/axios";
 
-
-
 function Copyright(props: any) {
   return (
     <Typography
@@ -36,10 +34,9 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn() {
-
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -72,7 +69,7 @@ export default function SignIn() {
 
   return (
     <div>
-      {(localStorage.getItem("isLoggedIn")) ? (
+      {localStorage.getItem("isLoggedIn") ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
         <ThemeProvider theme={theme}>
@@ -132,12 +129,20 @@ export default function SignIn() {
 
                 <Grid container>
                   <Grid item xs>
-                    <Link href="#" variant="body2" data-testid="goToChangePassword">
+                    <Link
+                      href="#"
+                      variant="body2"
+                      data-testid="goToChangePassword"
+                    >
                       ¿Olvido la contraseña?
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="/register" variant="body2" data-testid="goToRegister">
+                    <Link
+                      href="/register"
+                      variant="body2"
+                      data-testid="goToRegister"
+                    >
                       {"¿No tienes cuenta? Registrate"}
                     </Link>
                   </Grid>

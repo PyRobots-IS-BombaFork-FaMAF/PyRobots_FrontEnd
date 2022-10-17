@@ -18,35 +18,41 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { ItemMatch } from "./ItemMatch";
 
-function callApiList(filters : any, setMatches : Function, setIsReady : Function) {
-  const promise1 = Promise.resolve(listMatchesApi(filters, localStorage.getItem("access_token")?.toString()!));
-    promise1.then((value) => {
-      setMatches(value);
-      setIsReady(true);
-    })
+function callApiList(filters: any, setMatches: Function, setIsReady: Function) {
+  const promise1 = Promise.resolve(
+    listMatchesApi(filters, localStorage.getItem("access_token")?.toString()!)
+  );
+  promise1.then((value) => {
+    setMatches(value);
+    setIsReady(true);
+  });
 }
-export default function ListMatches() {  
-  const [matches, setMatches] = useState<any>([{ }]);
+export default function ListMatches() {
+  const [matches, setMatches] = useState<any>([{}]);
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
-    if(isReady){
+    if (isReady) {
       callApiList({}, setMatches, setIsReady);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log(data.get("create_by_user"));
-    const check = JSON.parse(JSON.stringify(Object.fromEntries(data)),
-      (key, value) => value === null || value === '' ? undefined : value);
-      console.log(check);
+    const check = JSON.parse(
+      JSON.stringify(Object.fromEntries(data)),
+      (key, value) => (value === null || value === "" ? undefined : value)
+    );
+    console.log(check);
     callApiList(check, setMatches, setIsReady);
-    const promise1 = Promise.resolve(listMatchesApi(check, localStorage.getItem("access_token")?.toString()!));
+    const promise1 = Promise.resolve(
+      listMatchesApi(check, localStorage.getItem("access_token")?.toString()!)
+    );
     promise1.then((value) => {
       setMatches(value);
       setIsReady(true);
-    })
+    });
   };
 
   const theme = createTheme();
@@ -81,44 +87,44 @@ export default function ListMatches() {
                   id="filterByName"
                   label="Filtrar por nombre"
                 />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        sx={{
-                          color: "white",
-                          "&.Mui-checked": { color: "white" },
-                        }}
-                        name="create_by_user"
-                        data-testid="createrByUser"
-                      />
-                    }
-                    label={
-                      <Typography color="white" fontSize="12">
-                        Mis partidas
-                      </Typography>
-                    }
-                    sx={{ mr: 40 }}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        color="primary"
-                        sx={{
-                          color: "white",
-                          "&.Mui-checked": { color: "white" },
-                        }}
-                        name="only_private"
-                        data-testid="onlyPrivate"
-                      />
-                    }
-                    label={
-                      <Typography color="white" fontSize="12">
-                        Privado
-                      </Typography>
-                    }
-                    sx={{ mr: 40 }}
-                  />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      sx={{
+                        color: "white",
+                        "&.Mui-checked": { color: "white" },
+                      }}
+                      name="create_by_user"
+                      data-testid="createrByUser"
+                    />
+                  }
+                  label={
+                    <Typography color="white" fontSize="12">
+                      Mis partidas
+                    </Typography>
+                  }
+                  sx={{ mr: 40 }}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="primary"
+                      sx={{
+                        color: "white",
+                        "&.Mui-checked": { color: "white" },
+                      }}
+                      name="only_private"
+                      data-testid="onlyPrivate"
+                    />
+                  }
+                  label={
+                    <Typography color="white" fontSize="12">
+                      Privado
+                    </Typography>
+                  }
+                  sx={{ mr: 40 }}
+                />
                 <Button
                   type="submit"
                   fullWidth
@@ -131,41 +137,39 @@ export default function ListMatches() {
               </Box>
             </Box>
           </Container>
-          <Container maxWidth="xs" sx={{mr: 120, mt: -20}}>
+          <Container maxWidth="xs" sx={{ mr: 65, mt: -20 }}>
             <Box
               sx={{
-                width: "300%",
-                maxWidth: 1500,
+                width: "200%",
+                maxWidth: 1100,
                 bgcolor: "background.paper",
                 marginTop: 30,
-                marginRight: 90,
+                marginRight: 80,
               }}
             >
-              {
-              
-              isReady ?
-              ( <List>
-                {
-                  matches.map((elem : any, key : number) => {
+              {isReady ? (
+                <List>
+                  {matches.map((elem: any, key: number) => {
                     return (
-                    <div key={key}>
-                      <ItemMatch
-                        myKey = {key}
-                        _name = {elem._name}
-                        _rounds = {elem._rounds}
-                        _games = {elem._games}
-                        _max_players = {elem._max_players}
-                        _is_private = {elem._password !== ""}
-                        
-                      />
-                      <Divider/>
-                      <Divider/>
-                      <Divider/>
-                    </div>
-                  )})
-                }
-                </List>) : <div></div>
-              }
+                      <div key={key}>
+                        <ItemMatch
+                          myKey={key}
+                          _name={elem._name}
+                          _rounds={elem._rounds}
+                          _games={elem._games}
+                          _max_players={elem._max_players}
+                          _is_private={elem._password !== ""}
+                        />
+                        <Divider />
+                        <Divider />
+                        <Divider />
+                      </div>
+                    );
+                  })}
+                </List>
+              ) : (
+                <div></div>
+              )}
             </Box>
           </Container>
         </ThemeProvider>

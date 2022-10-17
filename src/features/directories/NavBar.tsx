@@ -27,7 +27,7 @@ export default function NavBar() {
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" data-testid="AppBar">
+      <AppBar position="relative" data-testid="AppBar">
         <Toolbar>
           <IconButton
             size="large"
@@ -57,7 +57,7 @@ export default function NavBar() {
           <Button
             sx={{ mr: 5 }}
             color="inherit"
-            onClick={(e) => executeSimulation() }
+            onClick={(e) => executeSimulation()}
             data-testid="ejecutarSim"
           >
             Ejecutar Simulacion
