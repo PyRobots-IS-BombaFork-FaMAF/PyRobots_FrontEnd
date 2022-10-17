@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
 import { Board, RobotInfo } from "../features/board/board";
 import { gameToBoard_coordinates, boardConfig, gameCoords, boardCoords } from "../features/board/boardHelper";
 
@@ -7,7 +8,9 @@ describe("Componente Board", () => {
 
   test("El textfield 'Simulación' esta en el componente `Board`", () => {
     render(
-      <Board />
+      <BrowserRouter>
+        <Board />
+      </BrowserRouter>
     );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();

@@ -1,28 +1,76 @@
-import {
-  game_name_regex, 
-  games_amount_regex, 
-  rounds_amount_regex, 
-  max_players_regex, 
-  min_players_regex, 
-  password_regex
-} from "../features/newGame/NewGame";
+import { BrowserRouter } from "react-router-dom";
+import NewGame from "../features/newGame/NewGame";
+import { render, screen } from "@testing-library/react";
 
-describe("Funcionalidades en `NewGame`", () => {
-  describe("Regex de nombre del juego", () => {
+describe("Componente NewGame", () => {
+  test("El textfield Nombre esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <NewGame />
+      </BrowserRouter>  
+    );
+    const nombre = screen.getByTestId("game-name");
+    expect(nombre).toBeInTheDocument();
+  });
 
-    const regex = new RegExp(game_name_regex);
-    
-    const valid_names = [
-      "aaa",
-      "aaaa",
-      "aaaaa",
-      "aaaaaa",
-      "αβγ",
-      // to do
-    ]
+  test("El textfield Cantidad de juegos esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <NewGame />
+      </BrowserRouter>
+    );
+    const juegos = screen.getByTestId("games-amount");
+    expect(juegos).toBeInTheDocument();
+  });
 
+  test("El textfield Cantidad de rondas esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <NewGame />
+      </BrowserRouter>
+    );
+    const rounds = screen.getByTestId("rounds-amount");
+    expect(rounds).toBeInTheDocument();
+  });
 
+  test("El textfield Máximo de jugadores esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <NewGame />
+      </BrowserRouter>
+    );
+    const max_players = screen.getByTestId("max-players");
+    expect(max_players).toBeInTheDocument();
+  });
 
-  })
-})
+  test("El textfield Mínimo de jugadores esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <NewGame />
+      </BrowserRouter>
+    );
+    const min_players = screen.getByTestId("min-players");
+    expect(min_players).toBeInTheDocument();
+  });
 
+  test("El textfield Password esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <NewGame />
+      </BrowserRouter>
+    );
+    const password = screen.getByTestId("password");
+    expect(password).toBeInTheDocument();
+  });
+
+  test("El textfield Submit esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <NewGame />
+      </BrowserRouter>
+    );
+    const submit = screen.getByTestId("submit");
+    expect(submit).toBeInTheDocument();
+  });
+  
+});
