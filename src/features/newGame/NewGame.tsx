@@ -55,7 +55,7 @@ function GameForm() {
     <Container>
       <Box component="form" onSubmit={onSubmit_newGame} >
         <Grid>
-          <TextField required
+          <TextField required multiline
             name="game-name" label="Nombre" variant="standard" helperText="Entre 3 y 12 caracteres"
             type="text" inputProps={{ maxLength: 12, pattern: game_name_regex }}
           />
