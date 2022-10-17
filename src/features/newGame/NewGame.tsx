@@ -39,8 +39,12 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
   if (newGameInfo.name.length > newGameInfo.name.trim().length) {
     alert("No se puede incluir espacios en blanco");
   } else {
-    const access_token: string | null = localStorage.getItem("access_token");
-    createMatchApi(newGameInfo, access_token);
+    if(newGameInfo.min_players! > newGameInfo.max_players!){
+      alert("El mínimo de jugadores no puede ser mayor a la máxima");
+    }else{
+      const access_token: string | null = localStorage.getItem("access_token");
+      createMatchApi(newGameInfo, access_token);
+    }
   }
   
 }
