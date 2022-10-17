@@ -15,14 +15,25 @@ import {
 import NavBar from "../directories/NavBar";
 import "../directories/Home.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ItemMatch } from "./ItemMatch";
 
-
+function callApiList(filters : any, setMatches : Function, setIsReady : Function) {
+  const promise1 = Promise.resolve(listMatchesApi(filters, localStorage.getItem("access_token")?.toString()!));
+    promise1.then((value) => {
+      setMatches(value);
+      setIsReady(true);
+    })
+}
 export default function ListMatches() {  
   const [matches, setMatches] = useState<any>([{ }]);
   const [isReady, setIsReady] = useState(false);
-
+  useEffect(() => {
+    if(!isReady){
+      callApiList({}, setMatches, setIsReady);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -30,6 +41,7 @@ export default function ListMatches() {
     const check = JSON.parse(JSON.stringify(Object.fromEntries(data)),
       (key, value) => value === null || value === '' ? undefined : value);
       console.log(check);
+    callApiList(check, setMatches, setIsReady);
     const promise1 = Promise.resolve(listMatchesApi(check, localStorage.getItem("access_token")?.toString()!));
     promise1.then((value) => {
       setMatches(value);
@@ -58,7 +70,7 @@ export default function ListMatches() {
                 component="form"
                 onSubmit={handleSubmit}
                 noValidate
-                sx={{ mt: 40, mpl: 2 }}
+                sx={{ mt: 20, mpl: 2 }}
               >
                 <TextField
                   sx={{ maxWidth: 800 }}
@@ -119,7 +131,7 @@ export default function ListMatches() {
               </Box>
             </Box>
           </Container>
-          <Container maxWidth="xs" sx={{mr: 150, mt: -20}}>
+          <Container maxWidth="xs" sx={{mr: 120, mt: -20}}>
             <Box
               sx={{
                 width: "300%",
