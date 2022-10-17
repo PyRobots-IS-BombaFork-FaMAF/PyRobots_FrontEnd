@@ -7,6 +7,7 @@ import {
   Button,
   Checkbox,
   CssBaseline,
+  Divider,
   FormControlLabel,
   TextField,
   Typography,
@@ -19,12 +20,20 @@ import { ItemMatch } from "./ItemMatch";
 
 
 export default function ListMatches() {  
-  const [matches, setMatches] = useState<any>([{}]);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [matches, setMatches] = useState<any>([{ }]);
+  const [isReady, setIsReady] = useState(false);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     
-    console.log(matches);
+    const check = JSON.parse(JSON.stringify(Object.fromEntries(data)),
+      (key, value) => value === null || value === '' ? undefined : value);
+    const promise1 = Promise.resolve(listMatchesApi(check, localStorage.getItem("access_token")?.toString()!));
+    promise1.then((value) => {
+      setMatches(value);
+      setIsReady(true);
+    })
   };
 
   const theme = createTheme();
@@ -53,44 +62,57 @@ export default function ListMatches() {
                 <TextField
                   sx={{ maxWidth: 800 }}
                   autoComplete="Filtrar por nombre"
-                  name="filterByName"
+                  name="game_name"
                   fullWidth
                   data-testid="filterByName"
                   id="filterByName"
                   label="Filtrar por nombre"
                 />
-                <TextField
-                  sx={{ maxWidth: 800 }}
-                  autoComplete="Filtrar por fecha"
-                  name="filterByDate"
-                  fullWidth
-                  data-testid="filterByDate"
-                  id="filterByDate"
-                  label="Filtrar por fecha"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value="remember"
-                      color="primary"
-                      sx={{
-                        color: "white",
-                        "&.Mui-checked": { color: "white" },
-                      }}
-                      name="onlyPrivate"
-                    />
-                  }
-                  label={
-                    <Typography color="white" fontSize="12">
-                      Private
-                    </Typography>
-                  }
-                  sx={{ mr: 40 }}
-                />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value="remember"
+                        color="primary"
+                        sx={{
+                          color: "white",
+                          "&.Mui-checked": { color: "white" },
+                        }}
+                        name="create_by_user"
+                        data-testid="createrByUser"
+                      />
+                    }
+                    label={
+                      <Typography color="white" fontSize="12">
+                        Mis partidas
+                      </Typography>
+                    }
+                    sx={{ mr: 40 }}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value="remember"
+                        color="primary"
+                        sx={{
+                          color: "white",
+                          "&.Mui-checked": { color: "white" },
+                        }}
+                        name="only_private"
+                        data-testid="onlyPrivate"
+                      />
+                    }
+                    label={
+                      <Typography color="white" fontSize="12">
+                        Privado
+                      </Typography>
+                    }
+                    sx={{ mr: 40 }}
+                  />
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
+                  data-testid="submit"
                   sx={{ maxWidth: 800, mt: 3, mb: 2 }}
                 >
                   Buscar
@@ -98,29 +120,37 @@ export default function ListMatches() {
               </Box>
             </Box>
           </Container>
-          <Container maxWidth="xs">
+          <Container maxWidth="xs" sx={{mr: 150, mt: -20}}>
             <Box
               sx={{
-                width: "180%",
-                maxWidth: 1000,
+                width: "300%",
+                maxWidth: 1500,
                 bgcolor: "background.paper",
                 marginTop: 30,
-                marginRight: 70,
+                marginRight: 90,
               }}
             >
               {
-              matches?.name !== undefined ? 
+              
+              isReady ?
               ( <List>
                 {
                   matches.map((elem : any, key : number) => {
-                    return (<ItemMatch
-                      myKey = {key}
-                      name = {elem.name}
-                      rounds = {elem.rounds}
-                      games = {elem.games}
-                      max_players = {elem.max_players}
-                      is_private = {elem.password !== ""}
-                    />
+                    return (
+                    <div key={key}>
+                      <ItemMatch
+                        myKey = {key}
+                        _name = {elem._name}
+                        _rounds = {elem._rounds}
+                        _games = {elem._games}
+                        _max_players = {elem._max_players}
+                        _is_private = {elem._password !== ""}
+                        
+                      />
+                      <Divider/>
+                      <Divider/>
+                      <Divider/>
+                    </div>
                   )})
                 }
                 </List>) : <div></div>

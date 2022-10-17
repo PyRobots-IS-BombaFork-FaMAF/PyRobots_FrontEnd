@@ -9,27 +9,26 @@ import "../directories/Home.css"
 
 type Props = {
     myKey : number,
-    name: string,
-    rounds: number,
-    games: number,
-    max_players: number,
-    is_private: boolean
+    _name: string,
+    _rounds: number,
+    _games: number,
+    _max_players: number,
+    _is_private: boolean
   };
 
-export function ItemMatch({myKey, name, rounds, games, max_players, is_private} : Props) {
+export function ItemMatch({myKey, _name, _rounds, _games, _max_players, _is_private} : Props) {
     return (
-        <div className="">
+        
             <ListItem disablePadding>
                 <ListItemButton>
                 <ListItemIcon>
-                    <PersonIcon/> 0/{`${max_players}`}
+                    <PersonIcon/> 0/{`${_max_players}`}
                 </ListItemIcon>
-                <ListItemText sx={{marginLeft: 4}} primary={`Nombre: ${name}`}/>
-                <ListItemText  sx={{marginLeft: 4}} primary={`Rondas: ${rounds}` }/>
-                <ListItemText  sx={{marginLeft: 4}} primary={`Juegos: ${games}`}/>
-                <ListItemText  sx={{marginLeft: 4}} primary={`Privado: ${is_private}`}/>
+                <ListItemText   primaryTypographyProps={{fontSize: '18px'}}  sx={{marginLeft: 4}} primary={`Nombre: ${_name}`}/>
+                <ListItemText  primaryTypographyProps={{fontSize: '18px'}} sx={{marginLeft: 4}} primary={`Rondas: ${_rounds}` }/>
+                <ListItemText  primaryTypographyProps={{fontSize: '18px'}} sx={{marginLeft: 4}} primary={`Juegos: ${_games}`}/>
+                <ListItemText  primaryTypographyProps={{fontSize: '18px'}} sx={{marginLeft: 4}} primary={`Privado: ${_is_private}`}/>
                 </ListItemButton>
             </ListItem>
-        </div>
     )
 } 

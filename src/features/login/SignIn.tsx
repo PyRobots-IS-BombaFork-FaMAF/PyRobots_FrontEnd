@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
-import axios from "../../api/axios";
+import axios, { setToken } from "../../api/axios";
 
 
 
@@ -48,6 +48,7 @@ export default function SignIn() {
       const username = data.get("username");
       const password = data.get("password");
       const access_token = response?.data?.access_token;
+      setToken(access_token);
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("isLoggedIn", "true");
       if (username) {

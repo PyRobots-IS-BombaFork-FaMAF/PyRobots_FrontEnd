@@ -5,8 +5,7 @@ export default axios.create({
     baseURL: BASE_URL
 })
 
-export const axiosPrivate = axios.create({
-    baseURL : BASE_URL,
-    headers: {'Content-Type' : 'application/json' },
-    withCredentials : true
-})
+export const setToken = (token : string) => {
+    const auth = `Bearer ${token}`;
+    axios.defaults.headers.common['Authorization'] = auth;
+  };
