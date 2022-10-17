@@ -6,6 +6,7 @@ export type newGameInfo = {
   name: string;
   max_players?: number;
   min_players?: number;
+  password?: string;
 };
 
 export function createMatchApi(

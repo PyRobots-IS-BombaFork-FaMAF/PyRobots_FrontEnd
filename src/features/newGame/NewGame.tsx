@@ -14,6 +14,7 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
 
   const newGameInfo: newGameInfo = {
     name: data.get("game-name") as string,
+    password : data.get("password") as string,
   };
 
   const rounds = data.get("rounds-amount");
@@ -54,7 +55,7 @@ export const games_amount_regex: string = "^([1-9][0-9]?|1[0-9]{2}|200)$";
 export const rounds_amount_regex: string = "^([1-9][0-9]{0,3}|10000)$";
 export const max_players_regex: string = "^[2-4]$";
 export const min_players_regex: string = "^[2-4]$";
-export const password_regex: string = "^(.{8,16}|)$";
+export const password_regex: string = "^.{8,16}$";
 
 function GameForm() {
   return (
