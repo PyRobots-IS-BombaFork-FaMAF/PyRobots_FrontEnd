@@ -14,6 +14,7 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
 
   const newGameInfo: newGameInfo = {
     name: data.get("game-name") as string,
+    password : data.get("password") as string,
   };
 
   const rounds = data.get("rounds-amount");
@@ -39,14 +40,13 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
   if (newGameInfo.name.length > newGameInfo.name.trim().length) {
     alert("No se puede incluir espacios en blanco");
   } else {
-    if(newGameInfo.min_players! > newGameInfo.max_players!){
+    if (newGameInfo.min_players! > newGameInfo.max_players!) {
       alert("El mínimo de jugadores no puede ser mayor a la máxima");
-    }else{
+    } else {
       const access_token: string | null = localStorage.getItem("access_token");
       createMatchApi(newGameInfo, access_token);
     }
   }
-  
 }
 
 // Regex of input validation (in string because `pattern` requires a string)
@@ -55,7 +55,7 @@ export const games_amount_regex: string = "^([1-9][0-9]?|1[0-9]{2}|200)$";
 export const rounds_amount_regex: string = "^([1-9][0-9]{0,3}|10000)$";
 export const max_players_regex: string = "^[2-4]$";
 export const min_players_regex: string = "^[2-4]$";
-export const password_regex: string = "^(.{8,16}|)$";
+export const password_regex: string = "^.{8,16}$";
 
 function GameForm() {
   return (
@@ -71,7 +71,11 @@ function GameForm() {
             helperText="Entre 3 y 12 caracteres"
             data-testid="game-name"
             type="text"
-            inputProps={{ minLength: 3, maxLength: 12, pattern: game_name_regex }}
+            inputProps={{
+              minLength: 3,
+              maxLength: 12,
+              pattern: game_name_regex,
+            }}
           />
         </Grid>
         <Grid>
@@ -134,7 +138,11 @@ function GameForm() {
             helperText="Entre 8 y 16 caracteres"
             type="text"
             data-testid="password"
-            inputProps={{ minLength: 8, maxLength: 16, pattern: password_regex }}
+            inputProps={{
+              minLength: 8,
+              maxLength: 16,
+              pattern: password_regex,
+            }}
           />
         </Grid>
         <Button

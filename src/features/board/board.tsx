@@ -1,10 +1,14 @@
-import { Stage, Layer, Rect, Circle, Group } from 'react-konva';
+import { Stage, Layer, Rect, Circle, Group } from "react-konva";
 
-import { boardConfig, gameCoords, robotConfig, gameToBoard_coordinates } from './boardHelper';
+import {
+  boardConfig,
+  gameCoords,
+  robotConfig,
+  gameToBoard_coordinates,
+} from "./boardHelper";
 
-import './board.css';
-import NavBar from '../directories/NavBar';
-
+import "./board.css";
+import NavBar from "../directories/NavBar";
 
 function BackGround(board: boardConfig) {
   return (
@@ -19,16 +23,16 @@ function BackGround(board: boardConfig) {
   );
 }
 
-function Robot(config: {
-  board: boardConfig,
-  robotConfig: robotConfig
-}) {
-
-  const { board, robotConfig } = config
-  const robot_board: gameCoords = gameToBoard_coordinates(board, robotConfig.coords)
+function Robot(config: { board: boardConfig; robotConfig: robotConfig }) {
+  const { board, robotConfig } = config;
+  const robot_board: gameCoords = gameToBoard_coordinates(
+    board,
+    robotConfig.coords
+  );
 
   return (
-    <Circle key={"Robot in board" + robotConfig.name}
+    <Circle
+      key={"Robot in board" + robotConfig.name}
       x={robot_board.x}
       y={robot_board.y}
       radius={board.robotsSize / 2}
@@ -36,14 +40,14 @@ function Robot(config: {
       stroke="black"
       strokeWidth={1}
     />
-  )
+  );
 }
 
 function MainBoardWithRobots(config: {
-  board: boardConfig,
-  robots: robotConfig[]
+  board: boardConfig;
+  robots: robotConfig[];
 }) {
-  const { board, robots } = config
+  const { board, robots } = config;
 
   return (
     <Group>
@@ -53,21 +57,23 @@ function MainBoardWithRobots(config: {
         size={board.size}
         robotsSize={board.robotsSize}
       />
-      {
-        robots.map((robot: robotConfig) => Robot({ board: board, robotConfig: robot }))
-      }
+      {robots.map((robot: robotConfig) =>
+        Robot({ board: board, robotConfig: robot })
+      )}
     </Group>
-  )
+  );
 }
 
-
 function MainBoard(config: { robots: robotConfig[] }) {
-  const { robots } = config
+  const { robots } = config;
 
-  const robot_size_relative: number = 0.02
-  const window_min_size: number = Math.min(window.innerWidth, window.innerHeight)
-  const margin_percentage: number = 0.025
-  const margin: number = window_min_size * margin_percentage
+  const robot_size_relative: number = 0.02;
+  const window_min_size: number = Math.min(
+    window.innerWidth,
+    window.innerHeight
+  );
+  const margin_percentage: number = 0.025;
+  const margin: number = window_min_size * margin_percentage;
 
   return (
     <Stage width={window_min_size} height={window_min_size}>
@@ -77,44 +83,37 @@ function MainBoard(config: { robots: robotConfig[] }) {
             x0: window_min_size * margin_percentage,
             y0: window_min_size * margin_percentage,
             size: window_min_size - 2 * margin,
-            robotsSize: robot_size_relative * window_min_size
+            robotsSize: robot_size_relative * window_min_size,
           }}
           robots={robots}
         />
       </Layer>
     </Stage>
-  )
+  );
 }
-
 
 export function RobotInfo(robot: robotConfig) {
   return (
-    <div data-testid={"RobotInfo " + robot.name} key={"Robot in board" + robot.name} >
+    <div
+      data-testid={"RobotInfo " + robot.name}
+      key={"Robot in board" + robot.name}
+    >
       <h3>
-        <span style={{ color: robot.color }}>
-          {"• "}
-        </span>
+        <span style={{ color: robot.color }}>{"• "}</span>
         {robot.name}
       </h3>
-      <p>
-        {"Vida: 100%"}
-      </p>
+      <p>{"Vida: 100%"}</p>
     </div>
-  )
+  );
 }
 
-
 function SideText(config: { robots: robotConfig[] }) {
-  const { robots } = config
+  const { robots } = config;
 
   return (
     <div>
-      <h1>
-        Simulación
-      </h1>
-      {
-        robots.map(RobotInfo)
-      }
+      <h1>Simulación</h1>
+      {robots.map(RobotInfo)}
     </div>
   );
 }
@@ -124,11 +123,13 @@ export function Board() {
     { name: "robot1", color: "red", coords: { x: 500, y: 500 } },
     { name: "robot2", color: "blue", coords: { x: 200, y: 200 } },
     { name: "robot3", color: "green", coords: { x: 800, y: 200 } },
-  ]
+  ];
 
   return (
     <div>
-      <div><NavBar></NavBar></div>
+      <div>
+        <NavBar></NavBar>
+      </div>
       <div className="Board" data-testid="Board">
         <div className="MainBoard">
           <MainBoard robots={robots} />

@@ -10,6 +10,8 @@ import RequiereAuth from "./features/RequiereAuth";
 import PersistLogin from "./features/PersistLogin";
 import Home from "./features/directories/Home";
 import CreateRobot from './features/newrobot/CreateRobot';
+import ListMatches from "./features/listMatches/ListMatches";
+
 function App() {
   return (
     <div className="App">
@@ -25,7 +27,8 @@ function App() {
               <Route path="/tableroDePrueba/" element={<Board />} />
               <Route path="/createRobot" element= {<CreateRobot />} />
               <Route path="/" element={<Home />} />
-              <Route path="/newGame" element={<NewGame/>} />
+              <Route path="/listMatches" element={<ListMatches/>}/>
+              <Route path="/newGame" element={<NewGame/>}/>
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

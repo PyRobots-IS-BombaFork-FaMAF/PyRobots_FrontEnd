@@ -16,8 +16,7 @@ export default function NavBar() {
     navigate("/tableroDePrueba", { replace: true });
   };
   const listMatches = () => {
-    //TODO - Implementar listMatches para poder redireccionar
-    //navigate("/listMatches", { replace: true });
+    navigate("/listMatches", { replace: true });
   };
   const createMatch = () => {
     navigate("/newGame", { replace: true });
@@ -28,7 +27,7 @@ export default function NavBar() {
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" data-testid="AppBar">
+      <AppBar position="relative" data-testid="AppBar">
         <Toolbar>
           <IconButton
             size="large"
@@ -58,7 +57,7 @@ export default function NavBar() {
           <Button
             sx={{ mr: 5 }}
             color="inherit"
-            onClick={(e) => executeSimulation() }
+            onClick={(e) => executeSimulation()}
             data-testid="ejecutarSim"
           >
             Ejecutar Simulacion
