@@ -9,10 +9,11 @@ export type newGameInfo = {
 }
 
 
-export function createMatchApi(newGame: newGameInfo, access_token: string | null): any {
+export function createMatchApi(newGame: newGameInfo, access_token: string | null): Promise<void> {
 
   return new Promise((resolve, reject) => {
-    axios.post("game/create", newGame, {
+    axios.post(
+      "game/create", newGame, {
       headers: {
         'Authorization': `Bearer ${access_token}`,
         'Content-Type': 'application/json'
@@ -21,7 +22,7 @@ export function createMatchApi(newGame: newGameInfo, access_token: string | null
       .then(response => {
         alert(response.data.msg);
       })
-      .catch(function (error: any) {
+      .catch(function (error) {
         alert(error.details.msg);
       });
   })
