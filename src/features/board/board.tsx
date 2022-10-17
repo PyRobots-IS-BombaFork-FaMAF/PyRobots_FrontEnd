@@ -3,6 +3,7 @@ import { Stage, Layer, Rect, Circle, Group } from 'react-konva';
 import { boardConfig, gameCoords, robotConfig, gameToBoard_coordinates } from './boardHelper';
 
 import './board.css';
+import NavBar from '../directories/NavBar';
 
 
 function BackGround(board: boardConfig) {
@@ -126,12 +127,15 @@ export function Board() {
   ]
 
   return (
-    <div className="Board" data-testid="Board">
-      <div className="MainBoard">
-        <MainBoard robots={robots} />
-      </div>
-      <div className="SideText">
-        <SideText robots={robots} />
+    <div>
+      <div><NavBar></NavBar></div>
+      <div className="Board" data-testid="Board">
+        <div className="MainBoard">
+          <MainBoard robots={robots} />
+        </div>
+        <div className="SideText">
+          <SideText robots={robots} />
+        </div>
       </div>
     </div>
   );
