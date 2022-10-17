@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import postRobot from "./CreateRobotApi";
-import { ChangeEventHandler } from "react";
 import "./CreateRobot.css";
+import { isValidRobotName } from "./CreateRobotUtils";
 
 function InputFile({ label }: any) {
   return (
@@ -10,7 +10,7 @@ function InputFile({ label }: any) {
         {" "}
         {label}{" "}
       </label>
-      <input id="robot-code" name="robotCode" type="file" required />
+      <input id="robot-code" name="code" type="file" required />
     </div>
   );
 }
@@ -34,7 +34,7 @@ const ButtonChangeAvatar = (): any => {
     <div className="div-image">
       <p className="botton-text">Subir una foto </p>
       <input
-        name="avatarRobot"
+        name="avatar"
         onChange={handleChange}
         className="input-avatar"
         type="file"
@@ -47,7 +47,9 @@ const CreateRobot = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    postRobot(data);
+    if (isValidRobotName(data.get("name")?.toString()!)) {
+      postRobot(data);
+    }
   };
 
   return (
@@ -58,7 +60,7 @@ const CreateRobot = () => {
         <ButtonChangeAvatar />
         <TextField
           required
-          name="robotName"
+          name="name"
           label="Nombre del Robot"
           variant="standard"
           inputProps={{ maxLength: 12, minLength: 3 }}
