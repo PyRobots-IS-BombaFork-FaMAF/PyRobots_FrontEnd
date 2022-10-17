@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import postRobot from "./CreateRobotApi";
+import postRobot, { RobotData } from "./CreateRobotApi";
 import "./CreateRobot.css";
 import { isValidRobotName } from "./CreateRobotUtils";
 
@@ -52,7 +52,7 @@ const ButtonChangeAvatar = () => {
 const CreateRobot = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    const data: FormData = new FormData(e.currentTarget);
     if (isValidRobotName(data.get("name")?.toString()!)) {
       postRobot(data);
     }
