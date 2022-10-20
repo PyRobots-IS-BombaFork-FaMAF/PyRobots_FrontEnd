@@ -33,7 +33,7 @@ export function ItemMatch({ myKey, match }: { myKey: number; match: Match }) {
         <ListItemText
           primaryTypographyProps={{ fontSize: "18px" }}
           sx={{ marginLeft: 4 }}
-          primary={`Privado: ${match.private}`}
+          primary={`Privado: ${match._private}`}
         />
       </ListItemButton>
     </ListItem>

@@ -16,7 +16,7 @@ export type Match = {
   _creator: string;
   _creation_date: string; // Formato "año-mes-día hora:minuto:segundo"
   _password: string; // No es la contraseña real, si no un hash irreversible
-  private: boolean;
+  _private: boolean;
 };
 
 export type ListMatch = Array<Match>;
