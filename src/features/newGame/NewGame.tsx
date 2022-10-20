@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import NavBar from "../directories/NavBar";
 import { createMatchApi, newGameInfo } from "./NewGameApi";
 
-function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
+function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>): void {
   event.preventDefault();
   const data: FormData = new FormData(event.currentTarget);
 
@@ -57,7 +57,7 @@ export const max_players_regex: string = "^[2-4]$";
 export const min_players_regex: string = "^[2-4]$";
 export const password_regex: string = "^.{8,16}$";
 
-function GameForm() {
+function GameForm(): JSX.Element {
   return (
     <Container>
       <Box component="form" onSubmit={onSubmit_newGame}>
@@ -159,7 +159,7 @@ function GameForm() {
   );
 }
 
-function NewGame() {
+function NewGame(): JSX.Element {
   return (
     <div>
       <div>

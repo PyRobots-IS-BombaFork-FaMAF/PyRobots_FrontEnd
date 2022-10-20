@@ -8,7 +8,13 @@ import { Match } from "./ListMatchesApi";
 
 import "../directories/Home.css";
 
-export function ItemMatch({ myKey, match }: { myKey: number; match: Match }) {
+export function ItemMatch({
+  myKey,
+  match,
+}: {
+  myKey: number;
+  match: Match;
+}): JSX.Element {
   return (
     <ListItem disablePadding>
       <ListItemButton>

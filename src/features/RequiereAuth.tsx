@@ -1,6 +1,6 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 
-const RequiereAuth = () => {
+function RequiereAuth(): JSX.Element {
   const location = useLocation();
   return localStorage.getItem("isLoggedIn") !== null ? (
     <Outlet />

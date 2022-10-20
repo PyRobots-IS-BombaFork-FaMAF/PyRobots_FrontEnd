@@ -1,6 +1,6 @@
 import axios from "../../api/axios";
 
-export function signUpApi(formData: FormData) {
+export function signUpApi(formData: FormData): void {
   axios
     .post("users/register", formData)
     .then((res) => {

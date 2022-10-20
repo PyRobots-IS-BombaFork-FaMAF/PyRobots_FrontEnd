@@ -3,14 +3,15 @@ import { Stage, Layer, Rect, Circle, Group } from "react-konva";
 import {
   boardConfig,
   gameCoords,
-  robotConfig, robotInGameConfig,
+  robotConfig,
+  robotInGameConfig,
   gameToBoard_coordinates,
 } from "./boardHelper";
 
 import "./board.css";
 import NavBar from "../directories/NavBar";
 
-function BackGround(board: boardConfig) {
+function BackGround(board: boardConfig): JSX.Element {
   return (
     <Rect
       x={board.x0}
@@ -29,7 +30,7 @@ function Robot({
 }: {
   board: boardConfig;
   robotConfig: robotInGameConfig;
-}) {
+}): JSX.Element {
   const robot_board: gameCoords = gameToBoard_coordinates(
     board,
     robotConfig.coords
@@ -54,7 +55,7 @@ function MainBoardWithRobots({
 }: {
   board: boardConfig;
   robots: robotInGameConfig[];
-}) {
+}): JSX.Element {
   return (
     <Group>
       <BackGround
@@ -70,7 +71,7 @@ function MainBoardWithRobots({
   );
 }
 
-function MainBoard({ robots }: { robots: robotInGameConfig[] }) {
+function MainBoard({ robots }: { robots: robotInGameConfig[] }): JSX.Element {
   const robot_size_relative: number = 0.02;
   const window_min_size: number = Math.min(
     window.innerWidth,
@@ -96,7 +97,7 @@ function MainBoard({ robots }: { robots: robotInGameConfig[] }) {
   );
 }
 
-export function RobotInfo(robot: robotConfig) {
+export function RobotInfo(robot: robotConfig): JSX.Element {
   return (
     <div
       data-testid={"RobotInfo " + robot.name}
@@ -111,7 +112,7 @@ export function RobotInfo(robot: robotConfig) {
   );
 }
 
-function SideText({ robots }: { robots: robotConfig[] }) {
+function SideText({ robots }: { robots: robotConfig[] }): JSX.Element {
   return (
     <div>
       <h1>Simulación</h1>
@@ -120,7 +121,7 @@ function SideText({ robots }: { robots: robotConfig[] }) {
   );
 }
 
-export function Board() {
+export function Board(): JSX.Element {
   const robots: robotInGameConfig[] = [
     { name: "robot1", color: "red", coords: { x: 500, y: 500 } },
     { name: "robot2", color: "blue", coords: { x: 200, y: 200 } },
