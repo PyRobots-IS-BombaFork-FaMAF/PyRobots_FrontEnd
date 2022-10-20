@@ -27,7 +27,7 @@ function callApiList(
   filters: ListMatchesFilter,
   setMatches: Function,
   setIsReady: Function
-) {
+): void {
   const promise1 = Promise.resolve(
     listMatchesApi(filters, localStorage.getItem("access_token")?.toString()!)
   );

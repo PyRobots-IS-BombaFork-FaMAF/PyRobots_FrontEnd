@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import NavBar from "../directories/NavBar";
 import { createMatchApi, newGameInfo } from "./NewGameApi";
 
-function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
+function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>): void {
   event.preventDefault();
   const data: FormData = new FormData(event.currentTarget);
 
