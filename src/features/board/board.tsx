@@ -23,8 +23,13 @@ function BackGround(board: boardConfig) {
   );
 }
 
-function Robot(config: { board: boardConfig; robotConfig: robotConfig }) {
-  const { board, robotConfig } = config;
+function Robot({
+  board,
+  robotConfig,
+}: {
+  board: boardConfig;
+  robotConfig: robotConfig;
+}) {
   const robot_board: gameCoords = gameToBoard_coordinates(
     board,
     robotConfig.coords
@@ -43,12 +48,13 @@ function Robot(config: { board: boardConfig; robotConfig: robotConfig }) {
   );
 }
 
-function MainBoardWithRobots(config: {
+function MainBoardWithRobots({
+  board,
+  robots,
+}: {
   board: boardConfig;
   robots: robotConfig[];
 }) {
-  const { board, robots } = config;
-
   return (
     <Group>
       <BackGround
@@ -64,9 +70,7 @@ function MainBoardWithRobots(config: {
   );
 }
 
-function MainBoard(config: { robots: robotConfig[] }) {
-  const { robots } = config;
-
+function MainBoard({ robots }: { robots: robotConfig[] }) {
   const robot_size_relative: number = 0.02;
   const window_min_size: number = Math.min(
     window.innerWidth,
@@ -107,9 +111,7 @@ export function RobotInfo(robot: robotConfig) {
   );
 }
 
-function SideText(config: { robots: robotConfig[] }) {
-  const { robots } = config;
-
+function SideText({ robots }: { robots: robotConfig[] }) {
   return (
     <div>
       <h1>Simulación</h1>
