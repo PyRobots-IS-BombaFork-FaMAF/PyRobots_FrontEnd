@@ -3,7 +3,7 @@ import { Stage, Layer, Rect, Circle, Group } from "react-konva";
 import {
   boardConfig,
   gameCoords,
-  robotConfig,
+  robotConfig, robotInGameConfig,
   gameToBoard_coordinates,
 } from "./boardHelper";
 
@@ -23,7 +23,7 @@ function BackGround(board: boardConfig) {
   );
 }
 
-function Robot(config: { board: boardConfig; robotConfig: robotConfig }) {
+function Robot(config: { board: boardConfig; robotConfig: robotInGameConfig }) {
   const { board, robotConfig } = config;
   const robot_board: gameCoords = gameToBoard_coordinates(
     board,
@@ -45,7 +45,7 @@ function Robot(config: { board: boardConfig; robotConfig: robotConfig }) {
 
 function MainBoardWithRobots(config: {
   board: boardConfig;
-  robots: robotConfig[];
+  robots: robotInGameConfig[];
 }) {
   const { board, robots } = config;
 
@@ -57,14 +57,14 @@ function MainBoardWithRobots(config: {
         size={board.size}
         robotsSize={board.robotsSize}
       />
-      {robots.map((robot: robotConfig) =>
+      {robots.map((robot: robotInGameConfig) =>
         Robot({ board: board, robotConfig: robot })
       )}
     </Group>
   );
 }
 
-function MainBoard(config: { robots: robotConfig[] }) {
+function MainBoard(config: { robots: robotInGameConfig[] }) {
   const { robots } = config;
 
   const robot_size_relative: number = 0.02;
@@ -119,7 +119,7 @@ function SideText(config: { robots: robotConfig[] }) {
 }
 
 export function Board() {
-  const robots: robotConfig[] = [
+  const robots: robotInGameConfig[] = [
     { name: "robot1", color: "red", coords: { x: 500, y: 500 } },
     { name: "robot2", color: "blue", coords: { x: 200, y: 200 } },
     { name: "robot3", color: "green", coords: { x: 800, y: 200 } },

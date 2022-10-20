@@ -8,7 +8,8 @@ export type boardConfig = {
 export type gameCoords = { x: number; y: number };
 export type boardCoords = { x: number; y: number };
 
-export type robotConfig = { name: string; color: string; coords: gameCoords };
+export type robotConfig = { name: string; color: string };
+export type robotInGameConfig = robotConfig & { coords: gameCoords };
 
 export function gameToBoard_coordinates(
   board: boardConfig,
