@@ -1,4 +1,4 @@
-import { robotInSimulationResult } from "./SimulationAPI";
+import { robotInSimulationResult, simulationResult } from "./SimulationAPI";
 
 // types
 export type boardConfig = {
@@ -24,4 +24,15 @@ export function gameToBoard_coordinates(
     x: board.x0 + (gameCoords.x * board.size) / 1000,
     y: board.y0 + (gameCoords.y * board.size) / 1000,
   };
+}
+
+export function simulationResult_to_animationInfo(
+  simulationResult: simulationResult
+): animationInfo {
+  return simulationResult.map((robot: robotInSimulationResult, key: number) => {
+    return {
+      ...robot,
+      color: ["red", "blue", "green", "yellow"][key], // There are no more than four robots in a game, so key < 4
+    };
+  });
 }
