@@ -1,3 +1,5 @@
+import { robotInSimulationResult } from "./SimulationAPI";
+
 // types
 export type boardConfig = {
   x0: number;
@@ -9,8 +11,11 @@ export type gameCoords = { x: number; y: number };
 export type boardCoords = { x: number; y: number };
 
 export type robotConfig = { name: string; color: string };
-export type robotInGameConfig = robotConfig & { coords: gameCoords };
+export type robotInFrameConfig = robotConfig & { coords: gameCoords };
+export type robotInAnimationInfo = robotInSimulationResult & { color: string };
+export type animationInfo = Array<robotInAnimationInfo>;
 
+// functions
 export function gameToBoard_coordinates(
   board: boardConfig,
   gameCoords: gameCoords
