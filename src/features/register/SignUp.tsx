@@ -23,7 +23,7 @@ import { signUpApi } from "./SignUpApi";
 import { Navigate, useLocation } from "react-router-dom";
 
 
-function Copyright(props: any) {
+function Copyright(props: any): JSX.Element {
   return (
     <Typography
       variant="body2"
@@ -43,7 +43,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function SignUp(): JSX.Element {
   const validate = useAppSelector(selectSignUp);
   const dispatch = useAppDispatch();
   const location = useLocation();

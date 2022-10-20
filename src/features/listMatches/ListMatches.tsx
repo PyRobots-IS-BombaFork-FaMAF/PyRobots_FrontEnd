@@ -36,7 +36,7 @@ function callApiList(
     setIsReady(true);
   });
 }
-export default function ListMatches() {
+export default function ListMatches(): JSX.Element {
   const [matches, setMatches] = useState<ListMatch>([]);
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {

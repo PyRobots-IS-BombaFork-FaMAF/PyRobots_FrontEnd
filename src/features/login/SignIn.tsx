@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import axios, { setToken } from "../../api/axios";
 
-function Copyright(props: any) {
+function Copyright(props: any): JSX.Element {
   return (
     <Typography
       variant="body2"
@@ -33,7 +33,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function SignIn(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
 
