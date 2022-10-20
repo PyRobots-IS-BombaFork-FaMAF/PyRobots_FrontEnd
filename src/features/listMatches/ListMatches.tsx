@@ -2,7 +2,12 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import { Container } from "@mui/system";
-import { listMatchesApi } from "./ListMatchesApi";
+import {
+  ListMatchesFilter,
+  ListMatch,
+  Match,
+  listMatchesApi,
+} from "./ListMatchesApi";
 import {
   Button,
   Checkbox,
@@ -18,7 +23,11 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { ItemMatch } from "./ItemMatch";
 
-function callApiList(filters: any, setMatches: Function, setIsReady: Function) {
+function callApiList(
+  filters: ListMatchesFilter,
+  setMatches: Function,
+  setIsReady: Function
+) {
   const promise1 = Promise.resolve(
     listMatchesApi(filters, localStorage.getItem("access_token")?.toString()!)
   );
@@ -28,7 +37,7 @@ function callApiList(filters: any, setMatches: Function, setIsReady: Function) {
   });
 }
 export default function ListMatches() {
-  const [matches, setMatches] = useState<any>([{}]);
+  const [matches, setMatches] = useState<ListMatch>([]);
   const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     if (isReady) {
@@ -44,7 +53,10 @@ export default function ListMatches() {
       (key, value) => (value === null || value === "" ? undefined : value)
     );
 
-    if(data.get("game_name")?.toString().length! >= 3 || data.get("game_name")?.toString()! === ""){
+    if (
+      data.get("game_name")?.toString().length! >= 3 ||
+      data.get("game_name")?.toString()! === ""
+    ) {
       callApiList(check, setMatches, setIsReady);
       const promise1 = Promise.resolve(
         listMatchesApi(check, localStorage.getItem("access_token")?.toString()!)
@@ -150,17 +162,10 @@ export default function ListMatches() {
             >
               {isReady ? (
                 <List>
-                  {matches.map((elem: any, key: number) => {
+                  {matches.map((elem: Match, key: number) => {
                     return (
                       <div key={key}>
-                        <ItemMatch
-                          myKey={key}
-                          _name={elem._name}
-                          _rounds={elem._rounds}
-                          _games={elem._games}
-                          _max_players={elem._max_players}
-                          _is_private={elem._password !== ""}
-                        />
+                        <ItemMatch myKey={key} match={elem} />
                         <Divider />
                         <Divider />
                         <Divider />

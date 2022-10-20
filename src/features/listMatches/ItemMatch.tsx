@@ -4,51 +4,36 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PersonIcon from "@mui/icons-material/Person";
+import { Match } from "./ListMatchesApi";
 
 import "../directories/Home.css";
 
-type Props = {
-  myKey: number;
-  _name: string;
-  _rounds: number;
-  _games: number;
-  _max_players: number;
-  _is_private: boolean;
-};
-
-export function ItemMatch({
-  myKey,
-  _name,
-  _rounds,
-  _games,
-  _max_players,
-  _is_private,
-}: Props) {
+export function ItemMatch({ myKey, match }: { myKey: number; match: Match }) {
   return (
     <ListItem disablePadding>
       <ListItemButton>
         <ListItemIcon>
-          <PersonIcon /> 0/{`${_max_players}`}
+          <PersonIcon /> 0/{`${match._max_players}`}
         </ListItemIcon>
         <ListItemText
           primaryTypographyProps={{ fontSize: "18px" }}
           sx={{ marginLeft: 4 }}
-          primary={`Nombre: ${_name}`}
+          primary={`Nombre: ${match._name}`}
         />
         <ListItemText
           primaryTypographyProps={{ fontSize: "18px" }}
           sx={{ marginLeft: 4 }}
-          primary={`Rondas: ${_rounds}`}
+          primary={`Rondas: ${match._rounds}`}
         />
         <ListItemText
           primaryTypographyProps={{ fontSize: "18px" }}
           sx={{ marginLeft: 4 }}
-          primary={`Juegos: ${_games}`}
+          primary={`Juegos: ${match._games}`}
         />
         <ListItemText
           primaryTypographyProps={{ fontSize: "18px" }}
           sx={{ marginLeft: 4 }}
-          primary={`Privado: ${_is_private}`}
+          primary={`Privado: ${match.private}`}
         />
       </ListItemButton>
     </ListItem>
