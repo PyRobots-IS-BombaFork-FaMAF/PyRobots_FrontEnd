@@ -160,7 +160,7 @@ export default function ListMatches(): JSX.Element {
                 marginRight: 80,
               }}
             >
-              {isReady ? (
+              {isReady ? ( matches.length > 0 ? ( 
                 <List>
                   {matches.map((elem: Match, key: number) => {
                     return (
@@ -172,10 +172,11 @@ export default function ListMatches(): JSX.Element {
                       </div>
                     );
                   })}
-                </List>
-              ) : (
+                </List>) : (
                 <div></div>
-              )}
+              )) : 
+                <div></div>
+              }
             </Box>
           </Container>
         </ThemeProvider>
