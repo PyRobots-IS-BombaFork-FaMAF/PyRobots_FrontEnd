@@ -1,7 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { store } from "../app/store";
 import SignUp from "../features/register/SignUp";
 import {
   isValidEmail,
@@ -104,9 +102,7 @@ describe("funciones dentro del componente SignUp", () => {
     test("El textfield username esta en el componente", () => {
       render(
         <BrowserRouter>
-          <Provider store={store}>
             <SignUp />
-          </Provider>
         </BrowserRouter>  
       );
       const user = screen.getByTestId("user");
@@ -116,9 +112,7 @@ describe("funciones dentro del componente SignUp", () => {
     test("El textfield password esta en el componente", () => {
       render(
         <BrowserRouter>
-          <Provider store={store}>
             <SignUp />
-          </Provider>
         </BrowserRouter>  
       );
       const pass = screen.getByTestId("pass");
@@ -128,9 +122,7 @@ describe("funciones dentro del componente SignUp", () => {
     test("El textfield email esta en el componente", () => {
       render(
         <BrowserRouter>
-          <Provider store={store}>
-            <SignUp />
-          </Provider>
+          <SignUp />
         </BrowserRouter>  
       );
       const email = screen.getByTestId("email");
@@ -140,9 +132,7 @@ describe("funciones dentro del componente SignUp", () => {
     test("El input para subir el avatar estar en el componente", () => {
       render(
         <BrowserRouter>
-          <Provider store={store}>
             <SignUp />
-          </Provider>
         </BrowserRouter>  
       );
       const avatar = screen.getByTestId("avatar");

@@ -11,16 +11,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Input } from "@mui/material";
-import {
-  setErrUser,
-  setErrEmail,
-  setErrPass,
-  selectSignUp,
-} from "../../reducers/signUpSlice";
 import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { signUpApi } from "./SignUpApi";
 import { Navigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 
 function Copyright(props: any): JSX.Element {
@@ -44,8 +38,10 @@ function Copyright(props: any): JSX.Element {
 const theme = createTheme();
 
 export default function SignUp(): JSX.Element {
-  const validate = useAppSelector(selectSignUp);
-  const dispatch = useAppDispatch();
+  const [errEmail, setErrEmail] = useState(true);
+  const [errUser, setErrUser] = useState(true);
+  const [errPass, setErrPass] = useState(true);
+
   const location = useLocation();
 
   const handleChange = (
@@ -111,17 +107,15 @@ export default function SignUp(): JSX.Element {
                           HTMLTextAreaElement | HTMLInputElement
                         >
                       ) =>
-                        dispatch(
-                          setErrUser(handleChange(event, isValidUserName))
-                        )
+                        setErrUser(handleChange(event, isValidUserName))
                       }
                       data-testid="user"
                       id="userName"
                       label="Usuario"
-                      error={!validate.errUser}
+                      error={!errUser}
                       autoFocus
                       helperText={
-                        !validate.errUser
+                        !errUser
                           ? "Tamaño válido mínimo 6 y máximo 12 caracteres."
                           : " "
                       }
@@ -135,17 +129,16 @@ export default function SignUp(): JSX.Element {
                         event: React.ChangeEvent<
                           HTMLTextAreaElement | HTMLInputElement
                         >
-                      ) =>
-                        dispatch(setErrEmail(handleChange(event, isValidEmail)))
+                      ) => setErrEmail(handleChange(event, isValidEmail))
                       }
                       id="email"
                       label="Direccion De Email"
                       name="email"
                       autoComplete="email"
                       data-testid="email"
-                      error={!validate.errEmail}
+                      error={!errEmail}
                       helperText={
-                        !validate.errEmail
+                        !errEmail
                           ? "Email Invalido formato something@example.com"
                           : " "
                       }
@@ -159,10 +152,7 @@ export default function SignUp(): JSX.Element {
                         event: React.ChangeEvent<
                           HTMLTextAreaElement | HTMLInputElement
                         >
-                      ) =>
-                        dispatch(
-                          setErrPass(handleChange(event, isValidPassword))
-                        )
+                      ) => setErrPass(handleChange(event, isValidPassword))
                       }
                       data-testid="pass"
                       name="password"
@@ -170,9 +160,9 @@ export default function SignUp(): JSX.Element {
                       type="password"
                       id="password"
                       autoComplete="nueva-password"
-                      error={!validate.errPass}
+                      error={!errPass}
                       helperText={
-                        !validate.errPass
+                        !errPass
                           ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres," +
                             "una mayúscula, una minúscula, y un número. Puede agregar un símbolo. Tamaño máximo 16 caracteres."
                           : " "
