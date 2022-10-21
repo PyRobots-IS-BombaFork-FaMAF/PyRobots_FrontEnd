@@ -189,8 +189,7 @@ export function Board(): JSX.Element {
       </div>
       <div className="Board" data-testid="Board">
         {Animate(
-          (frame: number) => renderFrame(animation, frame),
-          animation.rounds_amount
+          (frame: number) => renderFrame(animation, frame)
         )}
       </div>
     </div>
