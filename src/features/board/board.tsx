@@ -127,7 +127,7 @@ function SideText({ robots }: { robots: robotConfig[] }): JSX.Element {
   );
 }
 
-function renderFrame(animation: animationInfo, frame: number): JSX.Element {
+export function renderFrame(animation: animationInfo, frame: number): JSX.Element {
   const robots: robotInFrameConfig[] = animation.robots.flatMap(
     (robot: robotInAnimationInfo) => {
       return robot.rounds.length <= frame
