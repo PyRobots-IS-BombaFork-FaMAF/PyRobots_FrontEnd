@@ -2,29 +2,33 @@ import { useState, useEffect } from 'react';
 
 export function Animate(renderFrame: (frame: number) => JSX.Element, amount_frames: number): JSX.Element {
     const [frame, setFrame] = useState(0);
-    const [playing, setPlaying] = useState(false);
-    
+
+    const intervalRef: { current?: NodeJS.Timer} = {}
+
+    useEffect(() => {
+      intervalRef.current = getInterval()
+      return () => clearInterval(intervalRef.current)
+    }, [])
+  
+    const getInterval = () => {
+      const progressInterval = setInterval(() => {
+        setFrame((frame) => frame + 1)
+      }, 500)
+      return progressInterval
+    }
+  
     const animation = () => {
-        if (playing) {
-        setFrame(frame + 1);
-        }
+      setFrame(frame + 1);
     };
     
     useEffect(() => {
-        const interval = setInterval(animation, amount_frames);
+        const interval = setInterval(animation, 1000);
         return () => clearInterval(interval);
-    }, [frame]);
+    }, []);
     
     return (
         <div>
-        <div>
-            <button onClick={() => setPlaying(!playing)}>
-            {playing ? "Pause" : "Play"}
-            </button>
-        </div>
-        <div>
             {renderFrame(frame)}
-        </div>
         </div>
     );
 }
