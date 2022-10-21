@@ -8,7 +8,11 @@ import {
   gameToBoard_coordinates,
   animationInfo,
   robotInAnimationInfo,
+  simulationResult_to_animationInfo,
 } from "./boardHelper";
+
+import { simulationResult } from "./SimulationAPI";
+import { Animate } from "./Animation";
 
 import "./board.css";
 import NavBar from "../directories/NavBar";
@@ -151,11 +155,31 @@ function renderFrame(animation: animationInfo, frame: number): JSX.Element {
 }
 
 export function Board(): JSX.Element {
-  const robots: robotInFrameConfig[] = [
-    { name: "robot1", color: "red", coords: { x: 500, y: 500 } },
-    { name: "robot2", color: "blue", coords: { x: 200, y: 200 } },
-    { name: "robot3", color: "green", coords: { x: 800, y: 200 } },
-  ];
+  const simulation: simulationResult = [
+    {
+      name: "Robot 1",
+      rounds: [
+        { coords: { x: 0, y: 0 }, direction: 20, speed: 10 },
+        { coords: { x: 10, y: 0 }, direction: 20, speed: 10 },
+        { coords: { x: 10, y: 10 }, direction: 20, speed: 10 },
+        { coords: { x: 20, y: 10 }, direction: 20, speed: 10 },
+        { coords: { x: 20, y: 20 }, direction: 20, speed: 10 },
+        { coords: { x: 30, y: 20 }, direction: 20, speed: 10 },
+        { coords: { x: 30, y: 30 }, direction: 20, speed: 10 },
+        { coords: { x: 40, y: 30 }, direction: 20, speed: 10 },
+        { coords: { x: 40, y: 40 }, direction: 20, speed: 10 },
+        { coords: { x: 50, y: 40 }, direction: 20, speed: 10 },
+        { coords: { x: 50, y: 50 }, direction: 20, speed: 10 },
+        { coords: { x: 60, y: 50 }, direction: 20, speed: 10 },
+        { coords: { x: 60, y: 60 }, direction: 20, speed: 10 },
+        { coords: { x: 70, y: 60 }, direction: 20, speed: 10 },
+        { coords: { x: 70, y: 70 }, direction: 20, speed: 10 },
+        { coords: { x: 80, y: 70 }, direction: 20, speed: 10 },
+      ],
+    }
+  ]
+
+  const animation: animationInfo = simulationResult_to_animationInfo(simulation);
 
   return (
     <div>
@@ -163,12 +187,7 @@ export function Board(): JSX.Element {
         <NavBar></NavBar>
       </div>
       <div className="Board" data-testid="Board">
-        <div className="MainBoard">
-          <MainBoard robots={robots} />
-        </div>
-        <div className="SideText">
-          <SideText robots={robots} />
-        </div>
+        {Animate((frame: number) => renderFrame(animation, frame), animation.rounds_amount)}
       </div>
     </div>
   );
