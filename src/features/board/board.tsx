@@ -130,7 +130,7 @@ function SideText({ robots }: { robots: robotConfig[] }): JSX.Element {
 function renderFrame(animation: animationInfo, frame: number): JSX.Element {
   const robots: robotInFrameConfig[] = animation.robots.flatMap(
     (robot: robotInAnimationInfo) => {
-      return robot.rounds.length < frame
+      return robot.rounds.length <= frame
         ? []
         : [
             {
@@ -176,10 +176,11 @@ export function Board(): JSX.Element {
         { coords: { x: 70, y: 70 }, direction: 20, speed: 10 },
         { coords: { x: 80, y: 70 }, direction: 20, speed: 10 },
       ],
-    }
-  ]
+    },
+  ];
 
-  const animation: animationInfo = simulationResult_to_animationInfo(simulation);
+  const animation: animationInfo =
+    simulationResult_to_animationInfo(simulation);
 
   return (
     <div>
@@ -187,7 +188,10 @@ export function Board(): JSX.Element {
         <NavBar></NavBar>
       </div>
       <div className="Board" data-testid="Board">
-        {Animate((frame: number) => renderFrame(animation, frame), animation.rounds_amount)}
+        {Animate(
+          (frame: number) => renderFrame(animation, frame),
+          animation.rounds_amount
+        )}
       </div>
     </div>
   );
