@@ -1,5 +1,5 @@
 import axios from "../../api/axios";
-
+import swal from 'sweetalert';
 export async function postRobot(data: FormData): Promise<void> {
   const access_token = localStorage.getItem("access_token")?.toString();
 
@@ -12,10 +12,10 @@ export async function postRobot(data: FormData): Promise<void> {
         },
       })
       .then((response) => {
-        return resolve(alert(response.data));
+        return resolve(swal(response.data[0], "", "success"));
       })
       .catch(function (error) {
-        alert(error.response.data.detail);
+        swal("Error", error.response.data.detail, "error");
       });
   });
 }

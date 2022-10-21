@@ -1,4 +1,5 @@
 import axios from "../../api/axios";
+import swal from 'sweetalert';
 
 export type ListMatchesFilter = {
   game_name?: string;
@@ -37,7 +38,7 @@ export async function listMatchesApi(
         return resolve(response.data);
       })
       .catch(function (error: any) {
-        alert(error.response.data.detail);
+        swal("Error", error.response.data.detail, "error");
       });
   });
 }

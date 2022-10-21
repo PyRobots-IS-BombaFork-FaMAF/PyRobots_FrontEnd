@@ -1,5 +1,5 @@
 import axios from "../../api/axios";
-
+import swal from 'sweetalert';
 export type newGameInfo = {
   rounds?: number;
   games?: number;
@@ -22,10 +22,10 @@ export function createMatchApi(
         },
       })
       .then((response) => {
-        alert(response.data.msg);
+        swal(response.data.msg, "", "success");
       })
       .catch(function (error) {
-        alert(error.details.msg);
+        swal("Error", error.details.msg, "error");
       });
   });
 }

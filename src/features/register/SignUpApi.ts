@@ -1,15 +1,15 @@
 import axios from "../../api/axios";
+import swal from 'sweetalert';
 
 export function signUpApi(formData: FormData): void {
   axios
     .post("users/register", formData)
     .then((res) => {
       if (res.status === 201) {
-        alert(res.data[0]);
-        console.log(res.data[0]);
+        swal(res.data[0], "", "success");
       }
     })
     .catch((err) => {
-      alert(err.response.data.detail);
+      swal("Error",err.response.data.detail, "error");
     });
 }
