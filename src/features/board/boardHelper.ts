@@ -13,7 +13,10 @@ export type boardCoords = { x: number; y: number };
 export type robotConfig = { name: string; color: string };
 export type robotInFrameConfig = robotConfig & { coords: gameCoords };
 export type robotInAnimationInfo = robotInSimulationResult & { color: string };
-export type animationInfo = Array<robotInAnimationInfo>;
+export type animationInfo = {
+  rounds_amount: number;
+  robots: Array<robotInAnimationInfo>;
+};
 
 // functions
 export function gameToBoard_coordinates(
@@ -29,10 +32,19 @@ export function gameToBoard_coordinates(
 export function simulationResult_to_animationInfo(
   simulationResult: simulationResult
 ): animationInfo {
-  return simulationResult.map((robot: robotInSimulationResult, key: number) => {
-    return {
-      ...robot,
-      color: ["red", "blue", "green", "yellow"][key], // There are no more than four robots in a game, so key < 4
-    };
-  });
+  return {
+    rounds_amount: Math.max(
+      ...simulationResult.map(
+        (robot: robotInSimulationResult) => robot.rounds.length
+      )
+    ),
+    robots: simulationResult.map(
+      (robot: robotInSimulationResult, key: number) => {
+        return {
+          ...robot,
+          color: ["red", "blue", "green", "yellow"][key], // There are no more than four robots in a game, so key < 4
+        };
+      }
+    ),
+  };
 }
