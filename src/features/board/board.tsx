@@ -4,8 +4,10 @@ import {
   boardConfig,
   gameCoords,
   robotConfig,
-  robotInGameConfig,
+  robotInFrameConfig,
   gameToBoard_coordinates,
+  animationInfo,
+  robotInAnimationInfo,
 } from "./boardHelper";
 
 import "./board.css";
@@ -29,7 +31,7 @@ function Robot({
   robotConfig,
 }: {
   board: boardConfig;
-  robotConfig: robotInGameConfig;
+  robotConfig: robotInFrameConfig;
 }): JSX.Element {
   const robot_board: gameCoords = gameToBoard_coordinates(
     board,
@@ -54,7 +56,7 @@ function MainBoardWithRobots({
   robots,
 }: {
   board: boardConfig;
-  robots: robotInGameConfig[];
+  robots: robotInFrameConfig[];
 }): JSX.Element {
   return (
     <Group>
@@ -64,14 +66,14 @@ function MainBoardWithRobots({
         size={board.size}
         robotsSize={board.robotsSize}
       />
-      {robots.map((robot: robotInGameConfig) =>
+      {robots.map((robot: robotInFrameConfig) =>
         Robot({ board: board, robotConfig: robot })
       )}
     </Group>
   );
 }
 
-function MainBoard({ robots }: { robots: robotInGameConfig[] }): JSX.Element {
+function MainBoard({ robots }: { robots: robotInFrameConfig[] }): JSX.Element {
   const robot_size_relative: number = 0.02;
   const window_min_size: number = Math.min(
     window.innerWidth,
@@ -121,8 +123,35 @@ function SideText({ robots }: { robots: robotConfig[] }): JSX.Element {
   );
 }
 
+function renderFrame(animation: animationInfo, frame: number): JSX.Element {
+  const robots: robotInFrameConfig[] = animation.robots.flatMap(
+    (robot: robotInAnimationInfo) => {
+      return robot.rounds.length < frame
+        ? []
+        : [
+            {
+              name: robot.name,
+              color: robot.color,
+              coords: robot.rounds[frame].coords,
+            },
+          ];
+    }
+  );
+
+  return (
+    <div className="Board" data-testid="Board">
+      <div className="MainBoard">
+        <MainBoard robots={robots} />
+      </div>
+      <div className="SideText">
+        <SideText robots={robots} />
+      </div>
+    </div>
+  );
+}
+
 export function Board(): JSX.Element {
-  const robots: robotInGameConfig[] = [
+  const robots: robotInFrameConfig[] = [
     { name: "robot1", color: "red", coords: { x: 500, y: 500 } },
     { name: "robot2", color: "blue", coords: { x: 200, y: 200 } },
     { name: "robot3", color: "green", coords: { x: 800, y: 200 } },
