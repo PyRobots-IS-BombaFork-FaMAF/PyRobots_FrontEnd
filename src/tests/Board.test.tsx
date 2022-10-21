@@ -19,7 +19,7 @@ describe("Componente Board", () => {
 
   test("Componente `RobotInfo`", () => {
     render(
-      <RobotInfo name="Robot de prueba" color="Red" coords={{ x: 500, y: 500 }} />
+      <RobotInfo name="Robot de prueba" color="Red" />
     );
     const board: HTMLElement = screen.getByTestId("RobotInfo Robot de prueba");
     expect(board).toHaveTextContent("Robot de prueba");
