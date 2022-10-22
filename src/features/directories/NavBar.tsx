@@ -29,7 +29,7 @@ export default function NavBar(): JSX.Element {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="relative" data-testid="AppBar">
+      <AppBar position="relative" data-testid="AppBar" sx={{backgroundColor:"#43B647"}}>
         <Toolbar>
           <IconButton
             size="large"

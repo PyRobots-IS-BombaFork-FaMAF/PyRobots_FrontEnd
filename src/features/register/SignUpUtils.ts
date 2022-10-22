@@ -10,3 +10,7 @@ export const isValidPassword = (password: string) => {
 export const isValidUserName = (username: string) => {
   return /^[0-9a-zA-Z!@#$%^_+&*.-;:",?]{6,12}$/.test(username);
 };
+
+export const isMatchingPassword = (passwords : {password : string, confirmPassword : string}) => {
+  return passwords.password === passwords.confirmPassword;
+}

@@ -79,6 +79,7 @@ function CreateRobot(): JSX.Element {
         <NavBar />
       </div>
       <form name="robotForm" className="robot-form" onSubmit={handleSubmit}>
+        <h1> Crear robot </h1>
         <AvatarRobot />
         <ButtonChangeAvatar />
         <TextField

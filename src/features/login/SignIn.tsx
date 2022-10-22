@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import axios, { setToken } from "../../api/axios";
+import swal from 'sweetalert';
 
 function Copyright(props: any): JSX.Element {
   return (
@@ -58,11 +59,11 @@ export default function SignIn(): JSX.Element {
       navigate("/", { replace: true });
     } catch (err: any) {
       if (!err?.response) {
-        alert("No hay respuesta del servidor");
+        swal("Error", "No hay respuesta del servidor", "error");
       } else if (err.response?.status === 401) {
-        alert("Usuario o contraseña inválidos");
+        swal("Error", "Usuario o contraseña inválidos", "error");
       } else {
-        alert("Inicio de sesión fallido");
+        swal("Error", "Inicio de sesión fallido", "error");
       }
     }
   };
@@ -122,7 +123,12 @@ export default function SignIn(): JSX.Element {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  sx={
+                    { mt: 3, 
+                      mb: 2 , 
+                      backgroundColor: "#43B647",
+                      "&:hover": { backgroundColor: "#43B647", boxShadow: "0rem 0.1rem 0.5rem #0d8f11" }
+                    }}
                 >
                   Iniciar Sesión
                 </Button>
