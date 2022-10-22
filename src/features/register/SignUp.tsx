@@ -10,12 +10,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Input } from "@mui/material";
 import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 import { signUpApi } from "./SignUpApi";
 import { Navigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-
+import swal from 'sweetalert';
 
 function Copyright(props: any): JSX.Element {
   return (
@@ -41,7 +40,7 @@ export default function SignUp(): JSX.Element {
   const [errEmail, setErrEmail] = useState(true);
   const [errUser, setErrUser] = useState(true);
   const [errPass, setErrPass] = useState(true);
-
+  const [errPassConfirm, setErrPassConfirm] = useState(true);
   const location = useLocation();
 
   const handleChange = (
@@ -63,7 +62,11 @@ export default function SignUp(): JSX.Element {
       isValidPassword(data.get("password")?.toString()!) &&
       isValidEmail(data.get("email")?.toString()!)
     ) {
-      signUpApi(data);
+      if(data.get("confirmPassword") === data.get("password")){
+        signUpApi(data);
+      }else{
+        swal("Error", "Las contraseñas deben coincidir", "error");
+      }
     }
   };
 
@@ -152,7 +155,7 @@ export default function SignUp(): JSX.Element {
                         event: React.ChangeEvent<
                           HTMLTextAreaElement | HTMLInputElement
                         >
-                      ) => setErrPass(handleChange(event, isValidPassword))
+                      ) => setErrPassConfirm(handleChange(event, isValidPassword))
                       }
                       data-testid="pass"
                       name="password"
@@ -168,18 +171,28 @@ export default function SignUp(): JSX.Element {
                           : " "
                       }
                     />
-                  </Grid>
-                  <Grid item xs={12} textAlign="left">
-                    Cargar Avatar(Opcional)
-                    <Input
+                    <TextField
+                      required
                       fullWidth
-                      type="file"
-                      role="button"
-                      name="avatar"
-                      id="avatar"
-                      title="avatar"
-                      data-testid="avatar"
-                      autoComplete="insertar Avatar"
+                      onChange={(
+                        event: React.ChangeEvent<
+                          HTMLTextAreaElement | HTMLInputElement
+                        >
+                      ) => setErrPass(handleChange(event, isValidPassword))
+                      }
+                      data-testid="passConfirm"
+                      name="confirmPassword"
+                      label="Confirmar Contraseña"
+                      type="password"
+                      id="confirmPassword"
+                      autoComplete="nueva-confirm-password"
+                      error={!errPassConfirm}
+                      helperText={
+                        !errPassConfirm
+                          ? "Contraseña Invalida, Verifique si la password tiene al menos 8 caracteres," +
+                            "una mayúscula, una minúscula, y un número. Puede agregar un símbolo. Tamaño máximo 16 caracteres."
+                          : " "
+                      }
                     />
                   </Grid>
                 </Grid>
@@ -188,7 +201,14 @@ export default function SignUp(): JSX.Element {
                   role="button"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  sx={
+                    { 
+                      mt: 3,
+                      mb: 2, 
+                      backgroundColor: "#43B647",
+                      "&:hover": { backgroundColor: "#43B647", boxShadow: "0rem 0.1rem 0.5rem #0d8f11" }
+                    }
+                  }
                 >
                   Sign Up
                 </Button>

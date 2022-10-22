@@ -118,6 +118,16 @@ describe("funciones dentro del componente SignUp", () => {
       const pass = screen.getByTestId("pass");
       expect(pass).toBeInTheDocument();
     });
+
+    test("El textfield confirm password esta en el componente", () => {
+      render(
+        <BrowserRouter>
+            <SignUp />
+        </BrowserRouter>  
+      );
+      const passConfirm = screen.getByTestId("passConfirm");
+      expect(passConfirm).toBeInTheDocument();
+    });
   
     test("El textfield email esta en el componente", () => {
       render(
@@ -127,15 +137,5 @@ describe("funciones dentro del componente SignUp", () => {
       );
       const email = screen.getByTestId("email");
       expect(email).toBeInTheDocument();
-    });
-  
-    test("El input para subir el avatar estar en el componente", () => {
-      render(
-        <BrowserRouter>
-            <SignUp />
-        </BrowserRouter>  
-      );
-      const avatar = screen.getByTestId("avatar");
-      expect(avatar).toBeInTheDocument();
     });
   });
