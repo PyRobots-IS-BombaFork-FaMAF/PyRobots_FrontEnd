@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
+/** Show `renderFrame(i)` in the `i`th frame. */
 export function Animate(
   renderFrame: (frame: number) => JSX.Element
 ): JSX.Element {
