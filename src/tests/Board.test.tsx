@@ -179,4 +179,135 @@ describe("Funciones dentro del componente `Board`", () => {
       });
     });
   });
+
+  describe("Función `simulationResult_to_animationInfo`", () => {
+    const input_expectedOutputs: Array<{
+      input: simulationResult;
+      expectedOutput: animationInfo;
+    }> = [
+      { // Test 1
+        input: [{
+          name: "robot1",
+          rounds: [{
+            coords: { x: 0, y: 0 },
+            direction: 30,
+            speed: 2,
+          }]
+        }],
+        expectedOutput: {
+          rounds_amount: 1,
+          robots: [{
+            name: "robot1",
+            rounds: [{
+              coords: { x: 0, y: 0 },
+              direction: 30,
+              speed: 2,
+            }],
+            color: "red",
+          }]
+        }
+      },
+      { // Test 2
+        input: [
+          {
+            name: "ρομπότ",
+            rounds: [{
+              coords: { x: 563.48, y: 915.153 },
+              direction: 265.564,
+              speed: 26.156,
+            }]
+          },
+          {
+            name: "хай живе україна",
+            rounds: [
+              {
+                coords: { x: 0, y: 0 },
+                direction: 315,
+                speed: 1.41421356237,
+              },
+              {
+                coords: { x: 10, y: 10 },
+                direction: 315,
+                speed: 14.1421356237,
+              },
+              {
+                coords: { x: 20, y: 20 },
+                direction: 315,
+                speed: 14.1421356237,
+              },
+              {
+                coords: { x: 40, y: 40 },
+                direction: 315,
+                speed: 14.1421356237,
+              },
+              {
+                coords: { x: 50, y: 50 },
+                direction: 315,
+                speed: 14.1421356237,
+              },
+            ]
+          }
+        ],
+        expectedOutput: {
+          rounds_amount: 5,
+          robots: [
+            {
+              name: "ρομπότ",
+              rounds: [{
+                coords: { x: 563.48, y: 915.153 },
+                direction: 265.564,
+                speed: 26.156,
+              }],
+              color: "red",
+            },
+            {
+              name: "хай живе україна",
+              rounds: [
+                {
+                  coords: { x: 0, y: 0 },
+                  direction: 315,
+                  speed: 1.41421356237,
+                },
+                {
+                  coords: { x: 10, y: 10 },
+                  direction: 315,
+                  speed: 14.1421356237,
+                },
+                {
+                  coords: { x: 20, y: 20 },
+                  direction: 315,
+                  speed: 14.1421356237,
+                },
+                {
+                  coords: { x: 40, y: 40 },
+                  direction: 315,
+                  speed: 14.1421356237,
+                },
+                {
+                  coords: { x: 50, y: 50 },
+                  direction: 315,
+                  speed: 14.1421356237,
+                },
+              ],
+              color: "blue",
+            }
+          ]
+        }
+      }
+    ];
+
+    test("Valores de retorno", () => {
+      const result: { expected: animationInfo; got: animationInfo }[] =
+        input_expectedOutputs.map(({ input, expectedOutput }) => {
+          return {
+            expected: expectedOutput,
+            got: simulationResult_to_animationInfo(input),
+          };
+        })
+
+      result.forEach(({ expected, got }) => {
+        expect(got).toEqual(expected);
+      });
+    });
+  });
 });
