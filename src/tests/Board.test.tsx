@@ -53,8 +53,8 @@ describe("Componente Board", () => {
   });
 });
 
-describe("funciones dentro del componente `Board`", () => {
-  describe("Función `game_board_coords`", () => {
+describe("Funciones dentro del componente `Board`", () => {
+  describe("Función `gameToBoard_coordinates`", () => {
     const game_board_coords: {
       board: boardConfig;
       gameCoords: gameCoords;
