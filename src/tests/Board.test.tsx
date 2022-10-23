@@ -13,7 +13,7 @@ import { simulationResult } from "../features/board/SimulationAPI";
 describe("Componente Board", () => {
   const simulation: simulationResult = [
     {
-      name: "Robot 1",
+      name: "fork bomb",
       rounds: [
         { coords: { x: 0, y: 0 }, direction: 20, speed: 10 },
         { coords: { x: 10, y: 0 }, direction: 20, speed: 10 },
@@ -33,23 +33,54 @@ describe("Componente Board", () => {
         { coords: { x: 80, y: 70 }, direction: 20, speed: 10 },
       ],
     },
+    {
+      name: "teipysgrif",
+      rounds: [
+        { coords: { x: 465.465, y: 63.156 }, direction: 20.654, speed: 3.1416 },
+        { coords: { x: 2.156, y: 589.6 }, direction: 256.32, speed: 96.235 },
+      ],
+    },
   ];
 
   const animation: animationInfo =
     simulationResult_to_animationInfo(simulation);
 
-  test("El textfield 'Simulación' esta en el componente `renderFrame`", () => {
+  test("Campos de texto de `renderFrame`", () => {
     render(renderFrame(animation, 0));
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
+    expect(board).toHaveTextContent("fork bomb");
+    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("Vida: 100%");
+  });
+
+  test("Campos de texto de `renderFrame`", () => {
+    render(renderFrame(animation, 10));
+    const board: HTMLElement = screen.getByTestId("Board");
+    expect(board).toBeInTheDocument();
+    expect(board).toHaveTextContent("Simulación");
+    expect(board).toHaveTextContent("fork bomb");
+    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("Vida: 100%");
+    expect(board).toHaveTextContent("Vida: 0%");
+  });
+
+  test("Campos de texto de `renderFrame`", () => {
+    render(renderFrame(animation, 100000000));
+    const board: HTMLElement = screen.getByTestId("Board");
+    expect(board).toBeInTheDocument();
+    expect(board).toHaveTextContent("Simulación");
+    expect(board).toHaveTextContent("fork bomb");
+    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("Vida: 0%");
   });
 
   test("Componente `RobotInfo`", () => {
-    render(<RobotInfo name="Robot de prueba" color="Red" />);
+    render(<RobotInfo name="Robot de prueba" color="Red" life={1} />);
     const board: HTMLElement = screen.getByTestId("RobotInfo Robot de prueba");
     expect(board).toHaveTextContent("Robot de prueba");
-    expect(board).toHaveTextContent("Vida: ");
+    expect(board).toHaveTextContent("Vida: 100%");
   });
 });
 
@@ -185,37 +216,49 @@ describe("Funciones dentro del componente `Board`", () => {
       input: simulationResult;
       expectedOutput: animationInfo;
     }> = [
-      { // Test 1
-        input: [{
-          name: "robot1",
-          rounds: [{
-            coords: { x: 0, y: 0 },
-            direction: 30,
-            speed: 2,
-          }]
-        }],
+      {
+        // Test 1
+        input: [
+          {
+            name: "robot1",
+            rounds: [
+              {
+                coords: { x: 0, y: 0 },
+                direction: 30,
+                speed: 2,
+              },
+            ],
+          },
+        ],
         expectedOutput: {
           rounds_amount: 1,
-          robots: [{
-            name: "robot1",
-            rounds: [{
-              coords: { x: 0, y: 0 },
-              direction: 30,
-              speed: 2,
-            }],
-            color: "red",
-          }]
-        }
+          robots: [
+            {
+              name: "robot1",
+              rounds: [
+                {
+                  coords: { x: 0, y: 0 },
+                  direction: 30,
+                  speed: 2,
+                },
+              ],
+              color: "red",
+            },
+          ],
+        },
       },
-      { // Test 2
+      {
+        // Test 2
         input: [
           {
             name: "ρομπότ",
-            rounds: [{
-              coords: { x: 563.48, y: 915.153 },
-              direction: 265.564,
-              speed: 26.156,
-            }]
+            rounds: [
+              {
+                coords: { x: 563.48, y: 915.153 },
+                direction: 265.564,
+                speed: 26.156,
+              },
+            ],
           },
           {
             name: "хай живе україна",
@@ -245,19 +288,21 @@ describe("Funciones dentro del componente `Board`", () => {
                 direction: 315,
                 speed: 14.1421356237,
               },
-            ]
-          }
+            ],
+          },
         ],
         expectedOutput: {
           rounds_amount: 5,
           robots: [
             {
               name: "ρομπότ",
-              rounds: [{
-                coords: { x: 563.48, y: 915.153 },
-                direction: 265.564,
-                speed: 26.156,
-              }],
+              rounds: [
+                {
+                  coords: { x: 563.48, y: 915.153 },
+                  direction: 265.564,
+                  speed: 26.156,
+                },
+              ],
               color: "red",
             },
             {
@@ -290,10 +335,10 @@ describe("Funciones dentro del componente `Board`", () => {
                 },
               ],
               color: "blue",
-            }
-          ]
-        }
-      }
+            },
+          ],
+        },
+      },
     ];
 
     test("Valores de retorno", () => {
@@ -303,7 +348,7 @@ describe("Funciones dentro del componente `Board`", () => {
             expected: expectedOutput,
             got: simulationResult_to_animationInfo(input),
           };
-        })
+        });
 
       result.forEach(({ expected, got }) => {
         expect(got).toEqual(expected);

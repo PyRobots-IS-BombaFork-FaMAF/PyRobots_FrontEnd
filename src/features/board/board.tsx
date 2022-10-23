@@ -8,6 +8,7 @@ import {
   gameToBoard_coordinates,
   animationInfo,
   robotInAnimationInfo,
+  robotInSideTextConfig,
   simulationResult_to_animationInfo,
 } from "./boardHelper";
 
@@ -103,7 +104,7 @@ function MainBoard({ robots }: { robots: robotInFrameConfig[] }): JSX.Element {
   );
 }
 
-export function RobotInfo(robot: robotConfig): JSX.Element {
+export function RobotInfo(robot: robotInSideTextConfig): JSX.Element {
   return (
     <div
       data-testid={"RobotInfo " + robot.name}
@@ -113,12 +114,16 @@ export function RobotInfo(robot: robotConfig): JSX.Element {
         <span style={{ color: robot.color }}>{"• "}</span>
         {robot.name}
       </h3>
-      <p>{"Vida: 100%"}</p>
+      <p>{`Vida: ${robot.life * 100}%`}</p>
     </div>
   );
 }
 
-function SideText({ robots }: { robots: robotConfig[] }): JSX.Element {
+function SideText({
+  robots,
+}: {
+  robots: robotInSideTextConfig[];
+}): JSX.Element {
   return (
     <div>
       <h1>Simulación</h1>
@@ -127,8 +132,11 @@ function SideText({ robots }: { robots: robotConfig[] }): JSX.Element {
   );
 }
 
-export function renderFrame(animation: animationInfo, frame: number): JSX.Element {
-  const robots: robotInFrameConfig[] = animation.robots.flatMap(
+export function renderFrame(
+  animation: animationInfo,
+  frame: number
+): JSX.Element {
+  const robotsInGame: robotInFrameConfig[] = animation.robots.flatMap(
     (robot: robotInAnimationInfo) => {
       return robot.rounds.length <= frame
         ? []
@@ -142,13 +150,23 @@ export function renderFrame(animation: animationInfo, frame: number): JSX.Elemen
     }
   );
 
+  const robotsInSideText: robotInSideTextConfig[] = animation.robots.map(
+    (robot: robotInAnimationInfo) => {
+      return {
+        name: robot.name,
+        color: robot.color,
+        life: robot.rounds.length <= frame ? 0 : 1,
+      };
+    }
+  );
+
   return (
     <div className="Board" data-testid="Board">
       <div className="MainBoard">
-        <MainBoard robots={robots} />
+        <MainBoard robots={robotsInGame} />
       </div>
       <div className="SideText">
-        <SideText robots={robots} />
+        <SideText robots={robotsInSideText} />
       </div>
     </div>
   );
@@ -188,9 +206,7 @@ export function Board(): JSX.Element {
         <NavBar></NavBar>
       </div>
       <div className="Board" data-testid="Board">
-        {Animate(
-          (frame: number) => renderFrame(animation, frame)
-        )}
+        {Animate((frame: number) => renderFrame(animation, frame))}
       </div>
     </div>
   );

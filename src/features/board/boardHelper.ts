@@ -11,6 +11,7 @@ export type gameCoords = { x: number; y: number };
 export type boardCoords = { x: number; y: number };
 
 export type robotConfig = { name: string; color: string };
+export type robotInSideTextConfig = robotConfig & { life: number };
 export type robotInFrameConfig = robotConfig & { coords: gameCoords };
 export type robotInAnimationInfo = robotInSimulationResult & { color: string };
 export type animationInfo = {
