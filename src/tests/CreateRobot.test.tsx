@@ -57,8 +57,8 @@ describe("Compontente formulario de robot", () => {
     const imputForCode = screen.getByTestId("robotCode");
     expect(imputForCode).toBeInTheDocument();
   });
-  test("El botón para enviar el formulario está en la componente", () => {
-    const submitButton = screen.getByRole("button", { name: "Crear" });
-    expect(submitButton).toBeInTheDocument();
+  test("El boton subir el robot está en el componente", () => {
+    const submit = screen.getByTestId("submit-robot");
+    expect(submit).toBeInTheDocument();
   });
 });

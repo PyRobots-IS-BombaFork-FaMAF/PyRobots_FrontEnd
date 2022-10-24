@@ -102,7 +102,7 @@ function CreateRobot(): JSX.Element {
           type="submit"
           role="button"
           variant="contained"
-          data-testid="submit"
+          data-testid="submit-robot"
           sx={
             {
               mt: 1,
