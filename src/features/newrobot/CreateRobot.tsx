@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import postRobot from "./CreateRobotApi";
+import { postRobot } from "./CreateRobotApi";
 import "./CreateRobot.css";
 import { isValidRobotName } from "./CreateRobotUtils";
 import NavBar from "../directories/NavBar";

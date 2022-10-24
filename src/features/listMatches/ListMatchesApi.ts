@@ -38,7 +38,15 @@ export async function listMatchesApi(
         return resolve(response.data);
       })
       .catch(function (error: any) {
-        swal("Error", error.response.data.detail, "error");
+        if(error.response.status === 401){
+          localStorage.clear();
+          swal("Error", error.response.data.detail, "error");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }else{
+          swal("Error", error.response.data.detail, "error");
+        }
       });
   });
 }

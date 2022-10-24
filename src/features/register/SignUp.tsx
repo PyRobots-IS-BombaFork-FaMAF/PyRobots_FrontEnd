@@ -72,7 +72,7 @@ export default function SignUp(): JSX.Element {
 
   return (
     <div>
-      {localStorage.getItem("isLoggedIn") ? (
+      {localStorage.getItem("isLoggedIn") && localStorage.getItem("access_token") ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
         <ThemeProvider theme={theme}>

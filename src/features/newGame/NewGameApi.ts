@@ -25,7 +25,15 @@ export function createMatchApi(
         swal(response.data.msg, "", "success");
       })
       .catch(function (error) {
-        swal("Error", error.details.msg, "error");
+        if(error.response.status === 401){
+          localStorage.clear();
+          swal("Error", error.response.data.detail, "error");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }else{
+          swal("Error", error.response.data.detail, "error");
+        }
       });
   });
 }
