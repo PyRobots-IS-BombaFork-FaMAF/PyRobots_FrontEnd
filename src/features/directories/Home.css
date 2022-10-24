@@ -5,13 +5,6 @@
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
-}
-
-.bg-image-list {
-    background-image: url("/public/Background.jpg");
-    background-attachment: fixed;
-    background-size: cover; 
-    background-repeat: no-repeat;
     /* Preserve aspet ratio */
     min-height: 100vh;
 }

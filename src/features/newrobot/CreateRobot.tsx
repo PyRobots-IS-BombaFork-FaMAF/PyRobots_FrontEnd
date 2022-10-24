@@ -3,6 +3,7 @@ import postRobot from "./CreateRobotApi";
 import "./CreateRobot.css";
 import { isValidRobotName } from "./CreateRobotUtils";
 import NavBar from "../directories/NavBar";
+import { Button } from "@mui/material";
 
 function InputFile({ label }: { label: string }): JSX.Element {
   return (
@@ -78,7 +79,7 @@ function CreateRobot(): JSX.Element {
       <div className="navBar">
         <NavBar />
       </div>
-      <form name="robotForm" className="robot-form" onSubmit={handleSubmit}>
+      <form name="robotForm" className="form" onSubmit={handleSubmit}>
         <h1> Crear robot </h1>
         <AvatarRobot />
         <ButtonChangeAvatar />
@@ -92,9 +93,28 @@ function CreateRobot(): JSX.Element {
             minLength: 3,
             "data-testid": "robotName",
           }}
+          sx={{
+            backgroundColor: "#f2f2f2",
+          }}
         />
         <InputFile label="Archivo .py para el robot" />
-        <input type="submit" value="Crear"></input>
+        <Button
+          type="submit"
+          role="button"
+          variant="contained"
+          data-testid="submit"
+          sx={
+            {
+              mt: 1,
+              mb: 1,
+              width: "100%",
+              backgroundColor: "#43B647",
+              "&:hover": { backgroundColor: "#43B647", boxShadow: "0rem 0.1rem 0.5rem #0d8f11" }
+            }
+          }
+        >
+          Crear Robot
+        </Button>
       </form>
     </div>
   );
