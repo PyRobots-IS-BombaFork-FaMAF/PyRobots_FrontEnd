@@ -1,5 +1,5 @@
 import axios from "../../api/axios";
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 
 export type ListMatchesFilter = {
   game_name?: string;
@@ -38,14 +38,17 @@ export async function listMatchesApi(
         return resolve(response.data);
       })
       .catch(function (error: any) {
+        swal.fire({
+          title: "Error", 
+          text: error.response.data.detail, 
+          icon: "error",
+          confirmButtonColor: '#43B647'
+        });
         if(error.response.status === 401){
           localStorage.clear();
-          swal("Error", error.response.data.detail, "error");
           setTimeout(() => {
             window.location.reload();
           }, 2000);
-        }else{
-          swal("Error", error.response.data.detail, "error");
         }
       });
   });

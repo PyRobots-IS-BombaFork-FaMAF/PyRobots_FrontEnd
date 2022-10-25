@@ -14,7 +14,7 @@ import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 import { signUpApi } from "./SignUpApi";
 import { Navigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 
 function Copyright(props: any): JSX.Element {
   return (
@@ -65,7 +65,12 @@ export default function SignUp(): JSX.Element {
       if(data.get("confirmPassword") === data.get("password")){
         signUpApi(data);
       }else{
-        swal("Error", "Las contraseñas deben coincidir", "error");
+        swal.fire({
+          title: "Error", 
+          text: "Las contraseñas deben coincidir", 
+          icon: "error",
+          confirmButtonColor: '#43B647'
+        });
       }
     }
   };
@@ -155,7 +160,7 @@ export default function SignUp(): JSX.Element {
                         event: React.ChangeEvent<
                           HTMLTextAreaElement | HTMLInputElement
                         >
-                      ) => setErrPassConfirm(handleChange(event, isValidPassword))
+                      ) => setErrPass(handleChange(event, isValidPassword))
                       }
                       data-testid="pass"
                       name="password"
@@ -178,7 +183,7 @@ export default function SignUp(): JSX.Element {
                         event: React.ChangeEvent<
                           HTMLTextAreaElement | HTMLInputElement
                         >
-                      ) => setErrPass(handleChange(event, isValidPassword))
+                      ) => setErrPassConfirm(handleChange(event, isValidPassword))
                       }
                       data-testid="passConfirm"
                       name="confirmPassword"

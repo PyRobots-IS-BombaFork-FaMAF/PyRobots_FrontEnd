@@ -12,7 +12,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import axios, { setToken } from "../../api/axios";
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
+import {useState} from "react"
 
 function Copyright(props: any): JSX.Element {
   return (
@@ -37,7 +38,7 @@ const theme = createTheme();
 export default function SignIn(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [error, setError] = useState("");
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -59,12 +60,18 @@ export default function SignIn(): JSX.Element {
       navigate("/", { replace: true });
     } catch (err: any) {
       if (!err?.response) {
-        swal("Error", "No hay respuesta del servidor", "error");
+        setError("No hay respuesta del servidor");
       } else if (err.response?.status === 401) {
-        swal("Error", "Usuario o contraseña inválidos", "error");
+        setError("Usuario o contraseña inválidos");
       } else {
-        swal("Error", "Inicio de sesión fallido", "error");
+        setError("Inicio de sesión fallido");
       }
+      swal.fire({
+        title: "Error", 
+        text: error, 
+        icon: "error",
+        confirmButtonColor: '#43B647'
+      });
     }
   };
 
