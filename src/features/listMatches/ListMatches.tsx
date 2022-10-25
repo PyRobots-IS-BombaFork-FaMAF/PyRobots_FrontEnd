@@ -113,7 +113,7 @@ export default function ListMatches(): JSX.Element {
   return (
     <div>
       <NavBar />
-      <div className="bg-image-list">
+      <div className="bg-image">
         <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
             <CssBaseline />

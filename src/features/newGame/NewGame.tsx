@@ -179,7 +179,7 @@ function NewGame(): JSX.Element {
       <div>
         <NavBar />
       </div>
-      <div className="bg-image-list"></div>
+      <div className="bg-image"></div>
       <div className="form">
         <h1>Crear partida</h1>
         <GameForm />
