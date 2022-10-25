@@ -12,7 +12,7 @@ import Home from "./features/directories/Home";
 import CreateRobot from './features/newrobot/CreateRobot';
 import ListMatches from "./features/listMatches/ListMatches";
 
-function App() {
+function App(): JSX.Element {
   return (
     <div className="App">
       <BrowserRouter>

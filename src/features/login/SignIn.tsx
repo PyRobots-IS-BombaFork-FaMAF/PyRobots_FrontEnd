@@ -12,8 +12,10 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import axios, { setToken } from "../../api/axios";
+import swal from 'sweetalert2';
+import {useState} from "react"
 
-function Copyright(props: any) {
+function Copyright(props: any): JSX.Element {
   return (
     <Typography
       variant="body2"
@@ -33,10 +35,10 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function SignIn(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [error, setError] = useState("");
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -58,18 +60,24 @@ export default function SignIn() {
       navigate("/", { replace: true });
     } catch (err: any) {
       if (!err?.response) {
-        alert("No hay respuesta del servidor");
+        setError("No hay respuesta del servidor");
       } else if (err.response?.status === 401) {
-        alert("Usuario o contraseña inválidos");
+        setError("Usuario o contraseña inválidos");
       } else {
-        alert("Inicio de sesión fallido");
+        setError("Inicio de sesión fallido");
       }
+      swal.fire({
+        title: "Error", 
+        text: error, 
+        icon: "error",
+        confirmButtonColor: '#43B647'
+      });
     }
   };
 
   return (
     <div>
-      {localStorage.getItem("isLoggedIn") ? (
+      {localStorage.getItem("isLoggedIn") && localStorage.getItem("access_token") ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
         <ThemeProvider theme={theme}>
@@ -122,7 +130,12 @@ export default function SignIn() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  sx={
+                    { mt: 3, 
+                      mb: 2 , 
+                      backgroundColor: "#43B647",
+                      "&:hover": { backgroundColor: "#43B647", boxShadow: "0rem 0.1rem 0.5rem #0d8f11" }
+                    }}
                 >
                   Iniciar Sesión
                 </Button>

@@ -5,8 +5,9 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import NavBar from "../directories/NavBar";
 import { createMatchApi, newGameInfo } from "./NewGameApi";
+import "../directories/Home.css";
 
-function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
+function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>): void {
   event.preventDefault();
   const data: FormData = new FormData(event.currentTarget);
 
@@ -14,7 +15,7 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>) {
 
   const newGameInfo: newGameInfo = {
     name: data.get("game-name") as string,
-    password : data.get("password") as string,
+    password: data.get("password") as string,
   };
 
   const rounds = data.get("rounds-amount");
@@ -57,7 +58,7 @@ export const max_players_regex: string = "^[2-4]$";
 export const min_players_regex: string = "^[2-4]$";
 export const password_regex: string = "^.{8,16}$";
 
-function GameForm() {
+function GameForm(): JSX.Element {
   return (
     <Container>
       <Box component="form" onSubmit={onSubmit_newGame}>
@@ -76,6 +77,7 @@ function GameForm() {
               maxLength: 12,
               pattern: game_name_regex,
             }}
+            sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
         <Grid>
@@ -89,6 +91,7 @@ function GameForm() {
             type="text"
             data-testid="games-amount"
             inputProps={{ maxLength: 3, pattern: games_amount_regex }}
+            sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
         <Grid>
@@ -102,6 +105,7 @@ function GameForm() {
             data-testid="rounds-amount"
             type="text"
             inputProps={{ maxLength: 5, pattern: rounds_amount_regex }}
+            sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
         <Grid>
@@ -115,6 +119,7 @@ function GameForm() {
             data-testid="max-players"
             type="text"
             inputProps={{ maxLength: 1, pattern: max_players_regex }}
+            sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
         <Grid>
@@ -128,6 +133,7 @@ function GameForm() {
             data-testid="min-players"
             type="text"
             inputProps={{ maxLength: 1, pattern: min_players_regex }}
+            sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
         <Grid>
@@ -143,6 +149,7 @@ function GameForm() {
               maxLength: 16,
               pattern: password_regex,
             }}
+            sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
         <Button
@@ -150,7 +157,14 @@ function GameForm() {
           role="button"
           variant="contained"
           data-testid="submit"
-          sx={{ mt: 3, mb: 2 }}
+          sx={
+            {
+              mt: 3,
+              mb: 2,
+              backgroundColor: "#43B647",
+              "&:hover": { backgroundColor: "#43B647", boxShadow: "0rem 0.1rem 0.5rem #0d8f11" }
+            }
+          }
         >
           Crear Partida
         </Button>
@@ -159,13 +173,14 @@ function GameForm() {
   );
 }
 
-function NewGame() {
+function NewGame(): JSX.Element {
   return (
     <div>
       <div>
         <NavBar />
       </div>
-      <div>
+      <div className="bg-image"></div>
+      <div className="form">
         <h1>Crear partida</h1>
         <GameForm />
       </div>
@@ -174,3 +189,4 @@ function NewGame() {
 }
 
 export default NewGame;
+

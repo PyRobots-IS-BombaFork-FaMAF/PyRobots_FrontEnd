@@ -10,7 +10,7 @@ import {
 import "./board.css";
 import NavBar from "../directories/NavBar";
 
-function BackGround(board: boardConfig) {
+function BackGround(board: boardConfig): JSX.Element {
   return (
     <Rect
       x={board.x0}
@@ -23,8 +23,13 @@ function BackGround(board: boardConfig) {
   );
 }
 
-function Robot(config: { board: boardConfig; robotConfig: robotConfig }) {
-  const { board, robotConfig } = config;
+function Robot({
+  board,
+  robotConfig,
+}: {
+  board: boardConfig;
+  robotConfig: robotConfig;
+}): JSX.Element {
   const robot_board: gameCoords = gameToBoard_coordinates(
     board,
     robotConfig.coords
@@ -43,12 +48,13 @@ function Robot(config: { board: boardConfig; robotConfig: robotConfig }) {
   );
 }
 
-function MainBoardWithRobots(config: {
+function MainBoardWithRobots({
+  board,
+  robots,
+}: {
   board: boardConfig;
   robots: robotConfig[];
-}) {
-  const { board, robots } = config;
-
+}): JSX.Element {
   return (
     <Group>
       <BackGround
@@ -64,9 +70,7 @@ function MainBoardWithRobots(config: {
   );
 }
 
-function MainBoard(config: { robots: robotConfig[] }) {
-  const { robots } = config;
-
+function MainBoard({ robots }: { robots: robotConfig[] }): JSX.Element {
   const robot_size_relative: number = 0.02;
   const window_min_size: number = Math.min(
     window.innerWidth,
@@ -92,7 +96,7 @@ function MainBoard(config: { robots: robotConfig[] }) {
   );
 }
 
-export function RobotInfo(robot: robotConfig) {
+export function RobotInfo(robot: robotConfig): JSX.Element {
   return (
     <div
       data-testid={"RobotInfo " + robot.name}
@@ -107,9 +111,7 @@ export function RobotInfo(robot: robotConfig) {
   );
 }
 
-function SideText(config: { robots: robotConfig[] }) {
-  const { robots } = config;
-
+function SideText({ robots }: { robots: robotConfig[] }): JSX.Element {
   return (
     <div>
       <h1>Simulación</h1>
@@ -118,7 +120,7 @@ function SideText(config: { robots: robotConfig[] }) {
   );
 }
 
-export function Board() {
+export function Board(): JSX.Element {
   const robots: robotConfig[] = [
     { name: "robot1", color: "red", coords: { x: 500, y: 500 } },
     { name: "robot2", color: "blue", coords: { x: 200, y: 200 } },

@@ -1,5 +1,5 @@
 import axios from "../../api/axios";
-
+import swal from 'sweetalert2';
 export type newGameInfo = {
   rounds?: number;
   games?: number;
@@ -22,10 +22,25 @@ export function createMatchApi(
         },
       })
       .then((response) => {
-        alert(response.data.msg);
+        swal.fire({
+          title: response.data.msg,
+          icon: "success",
+          confirmButtonColor: '#43B647'
+        });
       })
       .catch(function (error) {
-        alert(error.details.msg);
+        swal.fire({
+          title: "Error", 
+          text: error.response.data.detail, 
+          icon: "error",
+          confirmButtonColor: '#43B647'
+        });
+        if(error.response.status === 401){
+          localStorage.clear();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }
       });
   });
 }

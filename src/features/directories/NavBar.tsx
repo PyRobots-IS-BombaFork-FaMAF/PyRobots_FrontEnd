@@ -7,7 +7,8 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
-export default function NavBar() {
+
+export default function NavBar(): JSX.Element {
   const navigate = useNavigate();
   const createRobot = () => {
     navigate("/createRobot", { replace: true });
@@ -25,9 +26,10 @@ export default function NavBar() {
     localStorage.clear();
     navigate("/login", { replace: true });
   };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="relative" data-testid="AppBar">
+      <AppBar position="relative" data-testid="AppBar" sx={{backgroundColor:"#43B647"}}>
         <Toolbar>
           <IconButton
             size="large"

@@ -19,18 +19,6 @@
   width: 100%;
 }
 
-.robot-form {
-  position: absolute;
-  left: 50%;
-  top: 55%;
-  transform: translate(-50%, -50%);
-  border: 1px solid black;
-  background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 5%;
-  box-shadow: 1rem 1rem 1rem rgba(34, 34, 34, 0.7);
-}
-
 #avatar-view {
   border-radius: 100%;
   width: 12rem;
@@ -52,27 +40,10 @@
   margin-bottom: 1%;
 }
 
-input[type="submit"] {
-  display: block;
-  font-size: 100%;
-  width: 100%;
-  background-color: #43b647;
-  color: white;
-  padding: 14px 20px;
-  margin-top: 6%;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: box-shadow 0.3s ease;
-}
-
-input[type="submit"]:hover {
-  box-shadow: 0rem 0.1rem 0.5rem #0d8f11;
-}
-
 .div-image {
   position: relative;
   margin: 0 auto;
+  margin-top: 1%;
   margin-bottom: 3%;
   padding: 3%;
   width: 60%;
