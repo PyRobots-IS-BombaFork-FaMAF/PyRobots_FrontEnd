@@ -3,7 +3,6 @@ import { Stage, Layer, Rect, Circle, Group } from "react-konva";
 import {
   boardConfig,
   gameCoords,
-  robotConfig,
   robotInFrameConfig,
   gameToBoard_coordinates,
   animationInfo,
