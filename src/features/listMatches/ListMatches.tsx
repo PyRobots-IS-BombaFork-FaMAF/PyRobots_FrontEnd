@@ -47,6 +47,8 @@ const columns: GridColDef[] = [
     width: 200,
     editable: false,
     hide: true,
+    filterable: false,
+
   },
   {
     field: '_name',
@@ -54,6 +56,7 @@ const columns: GridColDef[] = [
     headerClassName: "columnClass",
     width: 200,
     editable: false,
+    hideable: false,
   },
   {
     field: '_rounds',
@@ -62,6 +65,7 @@ const columns: GridColDef[] = [
     type: 'number',
     width: 100,
     editable: false,
+    hideable: false,
   },
   {
     field: '_games',
@@ -70,6 +74,7 @@ const columns: GridColDef[] = [
     type: 'number',
     width: 100,
     editable: false,
+    hideable: false,
   },
   {
     field: '_max_players',
@@ -77,6 +82,7 @@ const columns: GridColDef[] = [
     headerClassName: "columnClass",
     width: 200,
     editable: false,
+    hideable: false,
   },
   {
     field: '_min_players',
@@ -84,6 +90,7 @@ const columns: GridColDef[] = [
     headerClassName: "columnClass",
     width: 200,
     editable: false,
+    hideable: false,
   },
   {
     field:'_creator',
@@ -91,6 +98,7 @@ const columns: GridColDef[] = [
     headerClassName: "columnClass",
     width: 150,
     editable: false,
+    hideable: false,
   },
   {
     field: '_private',
@@ -98,6 +106,7 @@ const columns: GridColDef[] = [
     headerClassName: "columnClass",
     width: 100,
     editable: false,
+    hideable: false,
   },
 ];
 
@@ -135,7 +144,7 @@ export default function ListMatches(): JSX.Element {
       <div className="bg-image">  
         <ThemeProvider theme={theme}>
            
-          <Container component="main">
+          <Container component="main" >
               <CssBaseline />
                 <Box
                   component="form"
@@ -148,11 +157,10 @@ export default function ListMatches(): JSX.Element {
               sx = {{
                 display: 'flex', 
                 justifyContent: 'center', 
-                pt: 20,
-                borderStyle:"none",
+                pt: 20,                
               }} >
             { matches.length > 0 ? ( 
-                  <Box sx={{height: "60vh", width: 1050, maxWidth: "80vw", bgcolor: "background.paper", borderRadius: "5%", '& .columnClass': {
+                  <Box sx={{height: "60vh", width: 1050, maxWidth: "80vw", bgcolor: "background.paper", borderRadius: "5%", border: "solid 1px black", '& .columnClass': {
                     backgroundColor: "#43B647",
                   },}}>
                   <DataGrid
@@ -170,6 +178,7 @@ export default function ListMatches(): JSX.Element {
                     pageSize={5}
                     rowsPerPageOptions={[5]}
                     disableSelectionOnClick
+                    disableColumnSelector
                     experimentalFeatures={{ newEditingApi: true }}
                     components = {{Toolbar:CustomToolBar,}}
                   />
