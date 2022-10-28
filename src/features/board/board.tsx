@@ -70,9 +70,9 @@ function MainBoardWithRobots({
         size={board.size}
         robotsSize={board.robotsSize}
       />
-      {robots.map((robot: robotInFrameConfig) =>
-        Robot({ board: board, robotConfig: robot })
-      )}
+      {robots.map((robot: robotInFrameConfig) => (
+        <Robot board={board} robotConfig={robot} />
+      ))}
     </Group>
   );
 }
