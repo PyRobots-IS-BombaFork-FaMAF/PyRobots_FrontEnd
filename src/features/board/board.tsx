@@ -3,9 +3,16 @@ import { Stage, Layer, Rect, Circle, Group } from "react-konva";
 import {
   boardConfig,
   gameCoords,
-  robotConfig,
+  robotInFrameConfig,
   gameToBoard_coordinates,
+  animationInfo,
+  robotInAnimationInfo,
+  robotInSideTextConfig,
+  simulationResult_to_animationInfo,
 } from "./boardHelper";
+
+import { simulationResult } from "./SimulationAPI";
+import { Animate } from "./Animation";
 
 import "./board.css";
 import NavBar from "../directories/NavBar";
@@ -28,7 +35,7 @@ function Robot({
   robotConfig,
 }: {
   board: boardConfig;
-  robotConfig: robotConfig;
+  robotConfig: robotInFrameConfig;
 }): JSX.Element {
   const robot_board: gameCoords = gameToBoard_coordinates(
     board,
@@ -53,7 +60,7 @@ function MainBoardWithRobots({
   robots,
 }: {
   board: boardConfig;
-  robots: robotConfig[];
+  robots: robotInFrameConfig[];
 }): JSX.Element {
   return (
     <Group>
@@ -63,14 +70,17 @@ function MainBoardWithRobots({
         size={board.size}
         robotsSize={board.robotsSize}
       />
-      {robots.map((robot: robotConfig) =>
-        Robot({ board: board, robotConfig: robot })
-      )}
+      {robots.map((robot: robotInFrameConfig, key : number) =>   
+      (
+        <Group key={key}>
+        <Robot board={board} robotConfig={robot} />
+        </Group>
+      ))}
     </Group>
   );
 }
 
-function MainBoard({ robots }: { robots: robotConfig[] }): JSX.Element {
+function MainBoard({ robots }: { robots: robotInFrameConfig[] }): JSX.Element {
   const robot_size_relative: number = 0.02;
   const window_min_size: number = Math.min(
     window.innerWidth,
@@ -96,7 +106,7 @@ function MainBoard({ robots }: { robots: robotConfig[] }): JSX.Element {
   );
 }
 
-export function RobotInfo(robot: robotConfig): JSX.Element {
+export function RobotInfo(robot: robotInSideTextConfig): JSX.Element {
   return (
     <div
       data-testid={"RobotInfo " + robot.name}
@@ -106,12 +116,16 @@ export function RobotInfo(robot: robotConfig): JSX.Element {
         <span style={{ color: robot.color }}>{"• "}</span>
         {robot.name}
       </h3>
-      <p>{"Vida: 100%"}</p>
+      <p>{`Vida: ${robot.life * 100}%`}</p>
     </div>
   );
 }
 
-function SideText({ robots }: { robots: robotConfig[] }): JSX.Element {
+function SideText({
+  robots,
+}: {
+  robots: robotInSideTextConfig[];
+}): JSX.Element {
   return (
     <div>
       <h1>Simulación</h1>
@@ -120,12 +134,73 @@ function SideText({ robots }: { robots: robotConfig[] }): JSX.Element {
   );
 }
 
+export function renderFrame(
+  animation: animationInfo,
+  frame: number
+): JSX.Element {
+  const robotsInGame: robotInFrameConfig[] = animation.robots.flatMap(
+    (robot: robotInAnimationInfo) => {
+      return robot.rounds.length <= frame
+        ? []
+        : [
+            {
+              name: robot.name,
+              color: robot.color,
+              coords: robot.rounds[frame].coords,
+            },
+          ];
+    }
+  );
+
+  const robotsInSideText: robotInSideTextConfig[] = animation.robots.map(
+    (robot: robotInAnimationInfo) => {
+      return {
+        name: robot.name,
+        color: robot.color,
+        life: robot.rounds.length <= frame ? 0 : 1,
+      };
+    }
+  );
+
+  return (
+    <div className="Board" data-testid="Board">
+      <div className="MainBoard">
+        <MainBoard robots={robotsInGame} />
+      </div>
+      <div className="SideText">
+        <SideText robots={robotsInSideText} />
+      </div>
+    </div>
+  );
+}
+
 export function Board(): JSX.Element {
-  const robots: robotConfig[] = [
-    { name: "robot1", color: "red", coords: { x: 500, y: 500 } },
-    { name: "robot2", color: "blue", coords: { x: 200, y: 200 } },
-    { name: "robot3", color: "green", coords: { x: 800, y: 200 } },
+  const simulation: simulationResult = [
+    {
+      name: "Robot 1",
+      rounds: [
+        { coords: { x: 0, y: 0 }, direction: 20, speed: 10 },
+        { coords: { x: 10, y: 0 }, direction: 20, speed: 10 },
+        { coords: { x: 10, y: 10 }, direction: 20, speed: 10 },
+        { coords: { x: 20, y: 10 }, direction: 20, speed: 10 },
+        { coords: { x: 20, y: 20 }, direction: 20, speed: 10 },
+        { coords: { x: 30, y: 20 }, direction: 20, speed: 10 },
+        { coords: { x: 30, y: 30 }, direction: 20, speed: 10 },
+        { coords: { x: 40, y: 30 }, direction: 20, speed: 10 },
+        { coords: { x: 40, y: 40 }, direction: 20, speed: 10 },
+        { coords: { x: 50, y: 40 }, direction: 20, speed: 10 },
+        { coords: { x: 50, y: 50 }, direction: 20, speed: 10 },
+        { coords: { x: 60, y: 50 }, direction: 20, speed: 10 },
+        { coords: { x: 60, y: 60 }, direction: 20, speed: 10 },
+        { coords: { x: 70, y: 60 }, direction: 20, speed: 10 },
+        { coords: { x: 70, y: 70 }, direction: 20, speed: 10 },
+        { coords: { x: 80, y: 70 }, direction: 20, speed: 10 },
+      ],
+    },
   ];
+
+  const animation: animationInfo =
+    simulationResult_to_animationInfo(simulation);
 
   return (
     <div>
@@ -133,12 +208,7 @@ export function Board(): JSX.Element {
         <NavBar></NavBar>
       </div>
       <div className="Board" data-testid="Board">
-        <div className="MainBoard">
-          <MainBoard robots={robots} />
-        </div>
-        <div className="SideText">
-          <SideText robots={robots} />
-        </div>
+        {Animate((frame: number) => renderFrame(animation, frame))}
       </div>
     </div>
   );
