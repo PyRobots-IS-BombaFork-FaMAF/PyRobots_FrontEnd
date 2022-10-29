@@ -13,6 +13,7 @@ import { simulationResult } from "../features/board/SimulationAPI";
 describe("Componente Board", () => {
   const simulation: simulationResult = {
     board_size: 1000,
+    missil_velocity: 10,
     robots: [
       {
         name: "fork bomb",
@@ -347,6 +348,7 @@ describe("Funciones dentro del componente `Board`", () => {
         // Test 1
         input: {
           board_size: 1000,
+          missil_velocity: 10,
           robots: [
             {
               name: "robot1",
@@ -382,6 +384,7 @@ describe("Funciones dentro del componente `Board`", () => {
         // Test 2
         input: {
           board_size: 1000,
+          missil_velocity: 7.63598,
           robots: [
             {
               name: "ρομπότ",

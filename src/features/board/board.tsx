@@ -178,6 +178,7 @@ export function renderFrame(
 export function Board(): JSX.Element {
   const simulation: simulationResult = {
     board_size: 1000,
+    missil_velocity: 10,
     robots: [
       {
         name: "Robot 1",
