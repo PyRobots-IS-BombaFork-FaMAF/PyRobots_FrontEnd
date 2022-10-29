@@ -2,9 +2,10 @@ import { robotInSimulationResult, simulationResult } from "./SimulationAPI";
 
 // types
 export type boardConfig = {
+  board_size: number;
   x0: number;
   y0: number;
-  size: number;
+  size_in_screen: number;
   robotsSize: number;
 };
 export type gameCoords = { x: number; y: number };
@@ -15,6 +16,7 @@ export type robotInSideTextConfig = robotConfig & { life: number };
 export type robotInFrameConfig = robotConfig & { coords: gameCoords };
 export type robotInAnimationInfo = robotInSimulationResult & { color: string };
 export type animationInfo = {
+  board_size: number;
   rounds_amount: number;
   robots: Array<robotInAnimationInfo>;
 };
@@ -25,8 +27,8 @@ export function gameToBoard_coordinates(
   gameCoords: gameCoords
 ): boardCoords {
   return {
-    x: board.x0 + (gameCoords.x * board.size) / 1000,
-    y: board.y0 + (gameCoords.y * board.size) / 1000,
+    x: board.x0 + (gameCoords.x * board.size_in_screen) / board.board_size,
+    y: board.y0 + (gameCoords.y * board.size_in_screen) / board.board_size,
   };
 }
 
@@ -34,12 +36,13 @@ export function simulationResult_to_animationInfo(
   simulationResult: simulationResult
 ): animationInfo {
   return {
+    board_size: simulationResult.board_size,
     rounds_amount: Math.max(
-      ...simulationResult.map(
+      ...simulationResult.robots.map(
         (robot: robotInSimulationResult) => robot.rounds.length
       )
     ),
-    robots: simulationResult.map(
+    robots: simulationResult.robots.map(
       (robot: robotInSimulationResult, key: number) => {
         return {
           ...robot,

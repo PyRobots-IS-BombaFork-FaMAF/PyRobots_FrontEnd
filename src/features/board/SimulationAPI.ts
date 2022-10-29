@@ -8,4 +8,7 @@ export type robotInSimulationResult = {
   cause_of_death?: "robot execution error";
 };
 
-export type simulationResult = Array<robotInSimulationResult>;
+export type simulationResult = {
+  board_size: number;
+  robots: Array<robotInSimulationResult>;
+};

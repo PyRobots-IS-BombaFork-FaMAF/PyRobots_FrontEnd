@@ -22,8 +22,8 @@ function BackGround(board: boardConfig): JSX.Element {
     <Rect
       x={board.x0}
       y={board.y0}
-      width={board.size}
-      height={board.size}
+      width={board.size_in_screen}
+      height={board.size_in_screen}
       fill="#FDFD96"
       shadowBlur={10}
     />
@@ -64,23 +64,23 @@ function MainBoardWithRobots({
 }): JSX.Element {
   return (
     <Group>
-      <BackGround
-        x0={board.x0}
-        y0={board.y0}
-        size={board.size}
-        robotsSize={board.robotsSize}
-      />
-      {robots.map((robot: robotInFrameConfig, key : number) =>   
-      (
+      {BackGround(board)}
+      {robots.map((robot: robotInFrameConfig, key: number) => (
         <Group key={key}>
-        <Robot board={board} robotConfig={robot} />
+          <Robot board={board} robotConfig={robot} />
         </Group>
       ))}
     </Group>
   );
 }
 
-function MainBoard({ robots }: { robots: robotInFrameConfig[] }): JSX.Element {
+function MainBoard({
+  board_size,
+  robots,
+}: {
+  board_size: number;
+  robots: robotInFrameConfig[];
+}): JSX.Element {
   const robot_size_relative: number = 0.02;
   const window_min_size: number = Math.min(
     window.innerWidth,
@@ -94,9 +94,10 @@ function MainBoard({ robots }: { robots: robotInFrameConfig[] }): JSX.Element {
       <Layer>
         <MainBoardWithRobots
           board={{
+            board_size: board_size,
             x0: window_min_size * margin_percentage,
             y0: window_min_size * margin_percentage,
-            size: window_min_size - 2 * margin,
+            size_in_screen: window_min_size - 2 * margin,
             robotsSize: robot_size_relative * window_min_size,
           }}
           robots={robots}
@@ -165,7 +166,7 @@ export function renderFrame(
   return (
     <div className="Board" data-testid="Board">
       <div className="MainBoard">
-        <MainBoard robots={robotsInGame} />
+        <MainBoard board_size={animation.board_size} robots={robotsInGame} />
       </div>
       <div className="SideText">
         <SideText robots={robotsInSideText} />
@@ -175,29 +176,32 @@ export function renderFrame(
 }
 
 export function Board(): JSX.Element {
-  const simulation: simulationResult = [
-    {
-      name: "Robot 1",
-      rounds: [
-        { coords: { x: 0, y: 0 }, direction: 20, speed: 10 },
-        { coords: { x: 10, y: 0 }, direction: 20, speed: 10 },
-        { coords: { x: 10, y: 10 }, direction: 20, speed: 10 },
-        { coords: { x: 20, y: 10 }, direction: 20, speed: 10 },
-        { coords: { x: 20, y: 20 }, direction: 20, speed: 10 },
-        { coords: { x: 30, y: 20 }, direction: 20, speed: 10 },
-        { coords: { x: 30, y: 30 }, direction: 20, speed: 10 },
-        { coords: { x: 40, y: 30 }, direction: 20, speed: 10 },
-        { coords: { x: 40, y: 40 }, direction: 20, speed: 10 },
-        { coords: { x: 50, y: 40 }, direction: 20, speed: 10 },
-        { coords: { x: 50, y: 50 }, direction: 20, speed: 10 },
-        { coords: { x: 60, y: 50 }, direction: 20, speed: 10 },
-        { coords: { x: 60, y: 60 }, direction: 20, speed: 10 },
-        { coords: { x: 70, y: 60 }, direction: 20, speed: 10 },
-        { coords: { x: 70, y: 70 }, direction: 20, speed: 10 },
-        { coords: { x: 80, y: 70 }, direction: 20, speed: 10 },
-      ],
-    },
-  ];
+  const simulation: simulationResult = {
+    board_size: 1000,
+    robots: [
+      {
+        name: "Robot 1",
+        rounds: [
+          { coords: { x: 0, y: 0 }, direction: 20, speed: 10 },
+          { coords: { x: 10, y: 0 }, direction: 20, speed: 10 },
+          { coords: { x: 10, y: 10 }, direction: 20, speed: 10 },
+          { coords: { x: 20, y: 10 }, direction: 20, speed: 10 },
+          { coords: { x: 20, y: 20 }, direction: 20, speed: 10 },
+          { coords: { x: 30, y: 20 }, direction: 20, speed: 10 },
+          { coords: { x: 30, y: 30 }, direction: 20, speed: 10 },
+          { coords: { x: 40, y: 30 }, direction: 20, speed: 10 },
+          { coords: { x: 40, y: 40 }, direction: 20, speed: 10 },
+          { coords: { x: 50, y: 40 }, direction: 20, speed: 10 },
+          { coords: { x: 50, y: 50 }, direction: 20, speed: 10 },
+          { coords: { x: 60, y: 50 }, direction: 20, speed: 10 },
+          { coords: { x: 60, y: 60 }, direction: 20, speed: 10 },
+          { coords: { x: 70, y: 60 }, direction: 20, speed: 10 },
+          { coords: { x: 70, y: 70 }, direction: 20, speed: 10 },
+          { coords: { x: 80, y: 70 }, direction: 20, speed: 10 },
+        ],
+      },
+    ],
+  };
 
   const animation: animationInfo =
     simulationResult_to_animationInfo(simulation);
