@@ -1,5 +1,5 @@
 import axios from "../../api/axios";
-import swal from 'sweetalert2';
+import swal from "sweetalert2";
 
 export type ListMatchesFilter = {
   game_name?: string;
@@ -9,12 +9,14 @@ export type ListMatchesFilter = {
 };
 
 export type Match = {
+  _id: number;
   _name: string;
   _rounds: number;
   _games: number;
   _max_players: number;
   _min_players: number;
   _creator: string;
+  _players : {robot: string};
   _creation_date: string; // Formato "año-mes-día hora:minuto:segundo"
   _password: string; // No es la contraseña real, si no un hash irreversible
   _private: boolean;
@@ -39,12 +41,12 @@ export async function listMatchesApi(
       })
       .catch(function (error: any) {
         swal.fire({
-          title: "Error", 
-          text: error.response.data.detail, 
+          title: "Error",
+          text: error.response.data.detail,
           icon: "error",
-          confirmButtonColor: '#43B647'
+          confirmButtonColor: "#43B647",
         });
-        if(error.response.status === 401){
+        if (error.response.status === 401) {
           localStorage.clear();
           setTimeout(() => {
             window.location.reload();
