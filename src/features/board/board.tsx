@@ -111,12 +111,32 @@ function Missil({
   );
 }
 
+function Missils({
+  board,
+  missils,
+}: {
+  board: boardConfig;
+  missils: missilInFrameConfig[];
+}): JSX.Element {
+  return (
+    <Group>
+      {missils.map((missil: missilInFrameConfig, key: number) => (
+        <Group key={key}>
+          <Missil board={board} missilConfig={missil} />
+        </Group>
+      ))}
+    </Group>
+  );
+}
+
 function MainBoard({
   board_size,
   robots,
+  missils,
 }: {
   board_size: number;
   robots: robotInFrameConfig[];
+  missils: missilInFrameConfig[];
 }): JSX.Element {
   const robot_size_relative: number = 0.02;
   const window_min_size: number = Math.min(
@@ -139,6 +159,7 @@ function MainBoard({
       <Layer>
         <BackGround {...board} />
         <Robots board={board} robots={robots} />
+        <Missils board={board} missils={missils} />
       </Layer>
     </Stage>
   );
@@ -203,7 +224,11 @@ export function renderFrame(
   return (
     <div className="Board" data-testid="Board">
       <div className="MainBoard">
-        <MainBoard board_size={animation.board_size} robots={robotsInGame} />
+        <MainBoard
+          board_size={animation.board_size}
+          robots={robotsInGame}
+          missils={[]}
+        />
       </div>
       <div className="SideText">
         <SideText robots={robotsInSideText} />
