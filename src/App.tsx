@@ -11,6 +11,7 @@ import PersistLogin from "./features/PersistLogin";
 import Home from "./features/directories/Home";
 import CreateRobot from './features/newrobot/CreateRobot';
 import ListMatches from "./features/listMatches/ListMatches";
+import HistoricalResults from './features/results/results';
 
 function App(): JSX.Element {
   return (
@@ -29,6 +30,7 @@ function App(): JSX.Element {
               <Route path="/" element={<Home />} />
               <Route path="/listMatches" element={<ListMatches/>}/>
               <Route path="/newGame" element={<NewGame/>}/>
+              <Route path="/results" element={<HistoricalResults/>} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
