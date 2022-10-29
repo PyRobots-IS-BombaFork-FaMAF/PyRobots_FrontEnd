@@ -56,6 +56,24 @@ function Robot({
   );
 }
 
+function Robots({
+  board,
+  robots,
+}: {
+  board: boardConfig;
+  robots: robotInFrameConfig[];
+}): JSX.Element {
+  return (
+    <Group>
+      {robots.map((robot: robotInFrameConfig, key: number) => (
+        <Group key={key}>
+          <Robot board={board} robotConfig={robot} />
+        </Group>
+      ))}
+    </Group>
+  );
+}
+
 /* Draws a missil as a strait line */
 function Missil({
   board,
@@ -93,25 +111,6 @@ function Missil({
   );
 }
 
-function MainBoardWithRobots({
-  board,
-  robots,
-}: {
-  board: boardConfig;
-  robots: robotInFrameConfig[];
-}): JSX.Element {
-  return (
-    <Group>
-      {BackGround(board)}
-      {robots.map((robot: robotInFrameConfig, key: number) => (
-        <Group key={key}>
-          <Robot board={board} robotConfig={robot} />
-        </Group>
-      ))}
-    </Group>
-  );
-}
-
 function MainBoard({
   board_size,
   robots,
@@ -127,19 +126,19 @@ function MainBoard({
   const margin_percentage: number = 0.025;
   const margin: number = window_min_size * margin_percentage;
 
+  const board: boardConfig = {
+    board_size: board_size,
+    x0: window_min_size * margin_percentage,
+    y0: window_min_size * margin_percentage,
+    size_in_screen: window_min_size - 2 * margin,
+    robotsSize: robot_size_relative * window_min_size,
+  };
+
   return (
     <Stage width={window_min_size} height={window_min_size}>
       <Layer>
-        <MainBoardWithRobots
-          board={{
-            board_size: board_size,
-            x0: window_min_size * margin_percentage,
-            y0: window_min_size * margin_percentage,
-            size_in_screen: window_min_size - 2 * margin,
-            robotsSize: robot_size_relative * window_min_size,
-          }}
-          robots={robots}
-        />
+        <BackGround {...board} />
+        <Robots board={board} robots={robots} />
       </Layer>
     </Stage>
   );
