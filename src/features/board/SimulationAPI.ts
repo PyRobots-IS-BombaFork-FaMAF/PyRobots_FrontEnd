@@ -4,10 +4,11 @@ export type robotInSimulationResult = {
     coords: { x: number; y: number };
     direction: number;
     speed: number;
+    damage: number;
     missil?: { direction: number, distance: number };
     scanner?: { direction: number, resolution_in_degrees: number };
   }>;
-  cause_of_death?: "robot execution error";
+  cause_of_death?: "robot execution error" | "out of life";
 };
 
 export type simulationResult = {
