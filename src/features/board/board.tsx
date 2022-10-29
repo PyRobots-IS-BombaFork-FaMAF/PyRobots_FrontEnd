@@ -1,4 +1,4 @@
-import { Stage, Layer, Rect, Circle, Group } from "react-konva";
+import { Stage, Layer, Rect, Circle, Group, Line } from "react-konva";
 
 import {
   boardConfig,
@@ -9,6 +9,7 @@ import {
   robotInAnimationInfo,
   robotInSideTextConfig,
   simulationResult_to_animationInfo,
+  missilInFrameConfig,
 } from "./boardHelper";
 
 import { simulationResult } from "./SimulationAPI";
@@ -51,6 +52,43 @@ function Robot({
       fill={robotConfig.color}
       stroke="black"
       strokeWidth={1}
+    />
+  );
+}
+
+/* Draws a missil as a strait line */
+function Missil({
+  board,
+  missilConfig,
+}: {
+  board: boardConfig;
+  missilConfig: missilInFrameConfig;
+}): JSX.Element {
+  const missil_board: gameCoords = gameToBoard_coordinates(
+    board,
+    missilConfig.coords
+  );
+
+  const x_component_direction: number = Math.cos(
+    (missilConfig.direction * Math.PI) / 180
+  );
+  const y_component_direction: number = Math.sin(
+    (missilConfig.direction * Math.PI) / 180
+  );
+
+  const missil_size: number = (board.robotsSize * 3) / 4;
+
+  return (
+    <Line
+      points={[
+        missil_board.x - (missil_size / 2) * x_component_direction,
+        missil_board.y - (missil_size / 2) * y_component_direction,
+        missil_board.x + (missil_size / 2) * x_component_direction,
+        missil_board.y + (missil_size / 2) * y_component_direction,
+      ]}
+      stroke={missilConfig.color}
+      strokeWidth={missil_size / 2}
+      lineCap="round"
     />
   );
 }
