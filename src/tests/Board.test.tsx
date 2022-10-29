@@ -9,6 +9,8 @@ import {
   simulationResult_to_animationInfo,
 } from "../features/board/boardHelper";
 import { simulationResult } from "../features/board/SimulationAPI";
+import { toMatchCloseTo } from "jest-matcher-deep-close-to";
+expect.extend({ toMatchCloseTo });
 
 describe("Componente Board", () => {
   const simulation: simulationResult = {
@@ -386,13 +388,14 @@ describe("Funciones dentro del componente `Board`", () => {
               color: "red",
             },
           ],
+          missils: [[]],
         },
       },
       {
         // Test 2
         input: {
           board_size: 1000,
-          missil_velocity: 7.63598,
+          missil_velocity: 2.5,
           robots: [
             {
               name: "ρομπότ",
@@ -419,6 +422,7 @@ describe("Funciones dentro del componente `Board`", () => {
                   direction: 315,
                   speed: 14.1421356237,
                   damage: 0,
+                  missil: { direction: 0, distance: 7.5 },
                 },
                 {
                   coords: { x: 20, y: 20 },
@@ -472,6 +476,7 @@ describe("Funciones dentro del componente `Board`", () => {
                   direction: 315,
                   speed: 14.1421356237,
                   damage: 0,
+                  missil: { direction: 0, distance: 7.5 },
                 },
                 {
                   coords: { x: 20, y: 20 },
@@ -495,6 +500,194 @@ describe("Funciones dentro del componente `Board`", () => {
               color: "blue",
             },
           ],
+          missils: [
+            [],
+            [{ coords: { x: 10, y: 10 }, direction: 0, color: "blue" }],
+            [{ coords: { x: 10 + 2.5, y: 10 }, direction: 0, color: "blue" }],
+            [{ coords: { x: 10 + 5, y: 10 }, direction: 0, color: "blue" }],
+            [],
+          ],
+        },
+      },
+      {
+        // Test 3
+        input: {
+          board_size: 800,
+          missil_velocity: 4,
+          robots: [
+            {
+              name: "Curry",
+              rounds: [
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                  missil: { direction: 45, distance: 16.0001 },
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                  missil: { direction: 210, distance: 15.9999 },
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+              ],
+            },
+          ],
+        },
+        expectedOutput: {
+          board_size: 800,
+          rounds_amount: 6,
+          robots: [
+            {
+              name: "Curry",
+              color: "red",
+              rounds: [
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                  missil: { direction: 45, distance: 16.0001 },
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                  missil: { direction: 210, distance: 15.9999 },
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+              ],
+            },
+          ],
+          missils: [
+            [
+              {
+                coords: { x: 302.2584, y: 302.2584 },
+                direction: 45,
+                color: "red",
+              },
+            ],
+            [
+              {
+                coords: {
+                  x: 302.2584 + 4 * Math.cos(Math.PI / 4),
+                  y: 302.2584 + 4 * Math.sin(Math.PI / 4),
+                },
+                direction: 45,
+                color: "red",
+              },
+              {
+                coords: { x: 302.2584, y: 302.2584 },
+                direction: 210,
+                color: "red",
+              },
+            ],
+            [
+              {
+                coords: {
+                  x: 302.2584 + 2 * 4 * Math.cos(Math.PI / 4),
+                  y: 302.2584 + 2 * 4 * Math.sin(Math.PI / 4),
+                },
+                direction: 45,
+                color: "red",
+              },
+              {
+                coords: {
+                  x: 302.2584 - 4 * Math.cos(Math.PI / 6),
+                  y: 302.2584 - 4 * Math.sin(Math.PI / 6),
+                },
+                direction: 210,
+                color: "red",
+              },
+            ],
+            [
+              {
+                coords: {
+                  x: 302.2584 + 3 * 4 * Math.cos(Math.PI / 4),
+                  y: 302.2584 + 3 * 4 * Math.sin(Math.PI / 4),
+                },
+                direction: 45,
+                color: "red",
+              },
+              {
+                coords: {
+                  x: 302.2584 - 2 * 4 * Math.cos(Math.PI / 6),
+                  y: 302.2584 - 2 * 4 * Math.sin(Math.PI / 6),
+                },
+                direction: 210,
+                color: "red",
+              },
+            ],
+            [
+              {
+                coords: {
+                  x: 302.2584 + 4 * 4 * Math.cos(Math.PI / 4),
+                  y: 302.2584 + 4 * 4 * Math.sin(Math.PI / 4),
+                },
+                direction: 45,
+                color: "red",
+              },
+              {
+                coords: {
+                  x: 302.2584 - 3 * 4 * Math.cos(Math.PI / 6),
+                  y: 302.2584 - 3 * 4 * Math.sin(Math.PI / 6),
+                },
+                direction: 210,
+                color: "red",
+              },
+            ],
+            [],
+          ],
         },
       },
     ];
@@ -509,7 +702,7 @@ describe("Funciones dentro del componente `Board`", () => {
         });
 
       result.forEach(({ expected, got }) => {
-        expect(got).toEqual(expected);
+        expect(got).toMatchCloseTo(expected, 6);
       });
     });
   });
