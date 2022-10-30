@@ -70,8 +70,12 @@ export function simulationResult_to_animationInfo(
       actual_missils.forEach((missil: missilsInSimulation) => {
         missil.distance_left -= missil_velocity;
         missil.coords = {
-          x: missil.coords.x + Math.cos(missil.direction * Math.PI / 180) * missil_velocity,
-          y: missil.coords.y + Math.sin(missil.direction * Math.PI / 180) * missil_velocity,
+          x:
+            missil.coords.x +
+            Math.cos((missil.direction * Math.PI) / 180) * missil_velocity,
+          y:
+            missil.coords.y +
+            Math.sin((missil.direction * Math.PI) / 180) * missil_velocity,
         };
       });
 
@@ -81,17 +85,22 @@ export function simulationResult_to_animationInfo(
       });
 
       // Add new missils to `actual_missils`
-      robots.forEach((robot: robotInAnimationInfo) => {
-        const missil = robot.rounds[i]?.missil;
-        if (missil) {
-          actual_missils.push({
-            coords: robot.rounds[i].coords,
-            direction: missil.direction,
-            distance_left: missil.distance,
-            color: robot.color,
-          });
-        }
-      });
+      actual_missils.push(
+        ...robots.flatMap((robot: robotInAnimationInfo) => {
+          const missil = robot.rounds[i]?.missil;
+
+          return missil
+            ? [
+                {
+                  coords: robot.rounds[i].coords,
+                  direction: missil.direction,
+                  distance_left: missil.distance,
+                  color: robot.color,
+                },
+              ]
+            : [];
+        })
+      );
 
       // Add `actual_missils` to `missils`
       missils.push(
