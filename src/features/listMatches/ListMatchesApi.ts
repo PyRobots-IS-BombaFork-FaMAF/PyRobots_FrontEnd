@@ -22,7 +22,7 @@ export type Match = {
   _creation_date: string; // Formato "año-mes-día hora:minuto:segundo"
   _password: string; // No es la contraseña real, si no un hash irreversible
   _private: boolean;
-  _joined : string;
+  _status : string;
 };
 
 export type ListMatch = Array<Match>;

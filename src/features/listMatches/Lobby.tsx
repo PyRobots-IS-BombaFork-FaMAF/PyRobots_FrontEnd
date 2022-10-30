@@ -35,6 +35,9 @@ const abandoneGame = () => {
     })
   };
   
+  const launchGame = () => {
+
+  }
   export const Lobby = ({ myKey, players, setShowLobby, isCreator}: Props) => {
     return (
       <Container key={myKey}>
@@ -102,10 +105,29 @@ const abandoneGame = () => {
             </Stack>
   
             <Stack direction="row" sx={{ mt: 3 }}>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Button
                   onClick={(event) => {
                     setShowLobby(false);
+                  }}
+                  variant="contained"
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    backgroundColor: "#ECE04A",
+                    "&:hover": {
+                      backgroundColor: "#ECE04A",
+                      boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+                    },
+                  }}
+                >
+                  Ir a listar partidas
+                </Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  onClick={(event) => {
+                    launchGame();
                   }}
                   variant="contained"
                   sx={{
@@ -118,10 +140,10 @@ const abandoneGame = () => {
                     },
                   }}
                 >
-                  Ir a listar partidas
+                  Iniciar Partida
                 </Button>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Button
                   variant="contained"
                   sx={{

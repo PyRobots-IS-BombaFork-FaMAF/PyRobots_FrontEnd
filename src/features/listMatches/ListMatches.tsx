@@ -59,18 +59,25 @@ function callApiList(
     listMatchesApi(filters, localStorage.getItem("access_token")?.toString()!)
   );
   promise1.then((value) => {
-    setMatches(JSON.parse(value).map((match: Match) => {
-      if(match._players
-        .map((elem: any) => {
-          return (
-            elem.player === localStorage.getItem("username")?.toString()!
-          );
-        }).includes(true)){
-          return({...match, _joined:"joined"});
-        }else{
-          return ({...match, _joined:"notJoined"});
+    setMatches(
+      JSON.parse(value).map((match: Match) => {
+        if (
+          match._players
+            .map((elem: any) => {
+              return (
+                elem.player === localStorage.getItem("username")?.toString()!
+              );
+            })
+            .includes(true)
+        ) {
+          return { ...match, _status: "joined" };
+        } else {
+          if (match._current_players === match._max_players)
+            return { ...match, _status: "full" };
+          else return { ...match, _status: "notJoined" };
         }
-      }));   
+      })
+    );
   });
 }
 
@@ -85,6 +92,7 @@ export default function ListMatches(): JSX.Element {
   const [socket, setSocket] = useState<WebSocket>();
   const [showLobby, setShowLobby] = useState(false);
   const [room, setRoom] = useState("");
+  const [actualLobby, setActualLobby] = useState(0);
   const [isCreator, setIsCreator] = useState(false);
 
   useEffect(() => {
@@ -95,32 +103,67 @@ export default function ListMatches(): JSX.Element {
     event.preventDefault();
     callApiList({}, matches, setMatches);
   };
- 
+
   const theme = createTheme();
 
-  function joinGame(row: any) {
+  function joinGame(data: any) {
     // Como las listas funcionan desde 0, matches necesita ser indexado con -1, pero las partidas se manejan de 1 en adelante.
-    const key = row.id - 1;
-    if (matches[row.id - 1]._creator !== localStorage.getItem("username")) {
-      const player: Player = {
-        game_id: row.id,
-        robot: "hola",
-        password: "",
-      };
+    const player: Player = {
+      game_id: data.row.id,
+      robot: "hola",
+      password: "",
+    };
+    if (data.row._status !== "joined") {
       JoinGameApi(player, localStorage.getItem("access_token")?.toString()!);
-      setRoom(matches[key]._websocketurl);
-      setIsCreator(false);
-    } else {
-      setRoom(matches[key]._websocketurl);
-      setIsCreator(true);
     }
-    const game = room;
-    setShowLobby(true);
-    if (!socket) {
-      setSocket(initSocket(game));
-    } else {
-      message(socket);
-      socket.close();
+    if (
+      data.row._current_players < data.row._max_players ||
+      data.row._status === "joined"
+    ) {
+      const key = data.row.id - 1;
+      setActualLobby(key);
+      if (matches[key]._creator !== localStorage.getItem("username")) {
+        setRoom(matches[key]._websocketurl);
+        setIsCreator(false);
+        const players = matches[key]._players;
+        if (
+          !players.find((elem) => {
+            return (
+              elem.player === localStorage.getItem("username")?.toString()!
+            );
+          })
+        ) {
+          players.push({
+            player: localStorage.getItem("username")?.toString()!,
+            robot: "hola",
+          });
+        }
+        setMatches(
+          matches.map((elem: any, id) => {
+            if (id === key) {
+              return {
+                ...elem,
+                _players: players,
+                _current_players: elem._current_players + 1,
+              };
+            } else {
+              return elem;
+            }
+          })
+        );
+      } else {
+        setRoom(matches[key]._websocketurl);
+        setIsCreator(true);
+      }
+      const game = room;
+      setShowLobby(true);
+
+      if (!socket) {
+        setSocket(initSocket(game));
+      } else {
+        message(socket);
+        socket.close();
+      }
     }
   }
 
@@ -157,11 +200,15 @@ export default function ListMatches(): JSX.Element {
                   borderColor: "#43B647",
                   "& .columnClass": {
                     backgroundColor: "#43B647",
-                  },'& .joined': {
+                  },
+                  "& .joined": {
                     backgroundColor: "#9BD87A",
                   },
-                  '& .notJoined': {
+                  "& .notJoined": {
                     backgroundColor: "white",
+                  },
+                  "& .full": {
+                    backgroundColor: "#EF4040",
                   },
                 }}
               >
@@ -187,14 +234,14 @@ export default function ListMatches(): JSX.Element {
                     _creator: elem._creator,
                     _current_players: elem._current_players,
                     _private: elem._private,
-                    _joined: elem._joined
+                    _status: elem._status,
                   }))}
                   columns={columns}
                   pageSize={5}
                   rowsPerPageOptions={[5]}
                   disableColumnSelector
                   experimentalFeatures={{ newEditingApi: true }}
-                  getRowClassName={(params) => `${params.row._joined}`}
+                  getRowClassName={(params) => `${params.row._status}`}
                   components={{ Toolbar: CustomToolBar }}
                   onRowClick={(row) => joinGame(row)}
                 />
@@ -202,7 +249,7 @@ export default function ListMatches(): JSX.Element {
             ) : showLobby ? (
               <Lobby
                 myKey={0}
-                players={props.players}
+                players={matches[actualLobby]._players}
                 setShowLobby={setShowLobby}
                 isCreator={isCreator}
               ></Lobby>
@@ -215,24 +262,3 @@ export default function ListMatches(): JSX.Element {
     </div>
   );
 }
-
-const props: any = {
-  players: [
-    {
-      player: "player1",
-      robot: "robot1",
-    },
-    {
-      player: "player2",
-      robot: "robot2",
-    },
-    {
-      player: "player3",
-      robot: "robot3",
-    },
-    {
-      player: "player4",
-      robot: "robot4",
-    },
-  ],
-};
