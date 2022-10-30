@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 /** Show `renderFrame(i)` in the `i`th frame. */
 export function Animate(
+  amountFrames: number,
   renderFrame: (frame: number) => JSX.Element
 ): JSX.Element {
   const [frame, setFrame] = useState(0);
@@ -15,13 +16,17 @@ export function Animate(
 
   const getInterval = () => {
     const progressInterval: NodeJS.Timer = setInterval(() => {
-      setFrame((frame) => frame + 1);
+      if (frame < amountFrames) {
+        setFrame((frame) => frame + 1);
+      }
     }, 500);
     return progressInterval;
   };
 
   const animation = () => {
-    setFrame(frame + 1);
+    if (frame < amountFrames) {
+      setFrame(frame + 1);
+    }
   };
 
   useEffect(() => {
