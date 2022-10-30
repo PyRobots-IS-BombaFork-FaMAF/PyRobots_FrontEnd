@@ -227,7 +227,7 @@ export function renderFrame(
         <MainBoard
           board_size={animation.board_size}
           robots={robotsInGame}
-          missils={[]}
+          missils={animation.missils[frame]}
         />
       </div>
       <div className="SideText">
@@ -240,7 +240,7 @@ export function renderFrame(
 export function Board(): JSX.Element {
   const simulation: simulationResult = {
     board_size: 1000,
-    missil_velocity: 10,
+    missil_velocity: 4,
     robots: [
       {
         name: "Robot 1",
@@ -252,7 +252,13 @@ export function Board(): JSX.Element {
           { coords: { x: 20, y: 20 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 30, y: 20 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 30, y: 30 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 40, y: 30 }, direction: 20, speed: 10, damage: 0 },
+          {
+            coords: { x: 40, y: 30 },
+            direction: 20,
+            speed: 10,
+            damage: 0,
+            missil: { direction: 135, distance: 60 },
+          },
           { coords: { x: 40, y: 40 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 50, y: 40 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 50, y: 50 }, direction: 20, speed: 10, damage: 0 },
