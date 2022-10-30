@@ -51,7 +51,7 @@ describe("Componente Board", () => {
             coords: { x: 2.156, y: 589.6 },
             direction: 256.32,
             speed: 96.235,
-            damage: 0,
+            damage: 0.5,
           },
         ],
       },
@@ -70,6 +70,18 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
   });
+
+  test("Campos de texto de `renderFrame`", () => {
+    render(renderFrame(animation, 1));
+    const board: HTMLElement = screen.getByTestId("Board");
+    expect(board).toBeInTheDocument();
+    expect(board).toHaveTextContent("Simulación");
+    expect(board).toHaveTextContent("fork bomb");
+    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("Vida: 100%");
+    expect(board).toHaveTextContent("Vida: 50%");
+  });
+
 
   test("Campos de texto de `renderFrame`", () => {
     render(renderFrame(animation, 10));

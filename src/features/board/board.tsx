@@ -216,7 +216,7 @@ export function renderFrame(
       return {
         name: robot.name,
         color: robot.color,
-        life: robot.rounds.length <= frame ? 0 : 1,
+        life: 1 - (robot.rounds[frame]?.damage ?? 1),
       };
     }
   );
@@ -264,9 +264,9 @@ export function Board(): JSX.Element {
           { coords: { x: 50, y: 50 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 60, y: 50 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 60, y: 60 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 70, y: 60 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 70, y: 70 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 80, y: 70 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 70, y: 60 }, direction: 20, speed: 10, damage: 0.5 },
+          { coords: { x: 70, y: 70 }, direction: 20, speed: 10, damage: 0.5 },
+          { coords: { x: 80, y: 70 }, direction: 20, speed: 10, damage: 0.5 },
         ],
       },
     ],
