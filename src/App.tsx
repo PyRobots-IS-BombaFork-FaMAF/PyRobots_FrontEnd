@@ -11,39 +11,10 @@ import PersistLogin from "./features/PersistLogin";
 import Home from "./features/directories/Home";
 import CreateRobot from './features/newrobot/CreateRobot';
 import ListMatches from "./features/listMatches/ListMatches";
-import { Lobby } from "./features/listMatches/Lobby";
 
 
 function App(): JSX.Element {
 
-  const props : any = {
-    players: [
-      {
-      player: "player1",
-      robot: "robot1",
-      avatarPlayer: "../public/avatarPlayer.jpg",
-      avatarRobot: "./public/avatarRobot.jpg"
-      },
-      {
-        player: "player2",
-        robot: "robot2",
-        avatarPlayer: "../public/avatarPlayer.jpg",
-        avatarRobot: "./public/avatarRobot.jpg"
-      },
-      {
-        player: "player3",
-        robot: "robot3",
-        avatarPlayer: "../public/avatarPlayer.jpg",
-        avatarRobot: "./public/avatarRobot.jpg"
-      },
-      {
-        player: "player4",
-        robot: "robot4",
-        avatarPlayer: "../public/avatarPlayer.jpg",
-        avatarRobot: "./public/avatarRobot.jpg"
-      },
-    ],
-  }
   return (
     <div className="App">
       <BrowserRouter>
@@ -60,7 +31,6 @@ function App(): JSX.Element {
               <Route path="/" element={<Home />} />
               <Route path="/listMatches" element={<ListMatches/>}/>
               <Route path="/newGame" element={<NewGame/>}/>
-              <Route path="/lobby" element ={<Lobby myKey={0} players={props.players}/>}/>
             </Route>
           </Route>
           

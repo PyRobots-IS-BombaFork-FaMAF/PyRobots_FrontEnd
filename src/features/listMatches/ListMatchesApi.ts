@@ -15,11 +15,14 @@ export type Match = {
   _games: number;
   _max_players: number;
   _min_players: number;
+  _websocketurl: string;
+  _current_players: number;
   _creator: string;
-  _players : {robot: string};
+  _players : [{player: string; robot: string}];
   _creation_date: string; // Formato "año-mes-día hora:minuto:segundo"
   _password: string; // No es la contraseña real, si no un hash irreversible
   _private: boolean;
+  _joined : string;
 };
 
 export type ListMatch = Array<Match>;
@@ -27,7 +30,7 @@ export type ListMatch = Array<Match>;
 export async function listMatchesApi(
   filters: ListMatchesFilter,
   access_token: string
-): Promise<ListMatch> {
+): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
       .post("game/list", filters, {

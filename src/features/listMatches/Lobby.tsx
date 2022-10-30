@@ -1,43 +1,147 @@
-import Avatar from '@mui/material/Avatar';
-import { Button, Container, Typography } from "@mui/material";
-import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import Paper from "@mui/material/Paper";
+import { Container } from "@mui/system";
+import { Button, Typography, Grid } from "@mui/material";
+import defaultPlayer from "../../assets/img/defaultPlayer.jpg";
+import defaultRobot from "../../assets/img/defaultRobot.jpg";
+import Swal from "sweetalert2";
+
 
 type Props = {
-    myKey : number,
-    players: [{
-        player: string,
-        robot: string,
-        avatarPlayer: string,
-        avatarRobot: string
-    }],
+    myKey: number;
+    players: [
+      {
+        player: string;
+        robot: string;
+      }
+    ];
+    setShowLobby: Function;
+    isCreator: boolean;
   };
 
-export const Lobby = ({myKey, players} : Props) => {
-    return(
-        <Container key={myKey}>
-            <Paper elevation={3} sx={{width: "40vw", heigth:"50vh"}}>
-                <Stack spacing={2} sx={{ml: 25, mt: 1}}>
-                    { players.map((player : any, key : number) : any => {
-                        return (
-                            <Stack direction="row" spacing={4} key={key}>
-                                <Avatar alt="Player"   src={player.avatarPlayer} sx={{ height: '100px', width: '100px' }}/> 
-                                <Typography variant="h5"> {player.player} </Typography>
-                                <Avatar alt="Robot" src={player.avatarRobot} sx={{ height: '100px', width: '100px' }}/>
-                                <Typography variant="h5">{player.robot} </Typography>
-                            </Stack>  
-                        )
-                    })
-                    }
-                </Stack>
-                <Stack direction="row" spacing={5} sx={{ml: 25}}>
-                    <Button>Ir a listar partidas</Button>
-                    <Button>Abandonar Partida</Button>
-                </Stack>
-            </Paper>
-
-            
-        </Container>
-    )
-}
-
+const abandoneGame = () => {
+    Swal.fire({
+      title: 'Estas seguro de querer abandonar la partida?',
+      showDenyButton: true,
+      confirmButtonText: 'Aceptar',
+      denyButtonText: `Cancelar`,
+      icon: "warning"
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        //TODO - implementar abandonar partida
+      }
+    })
+  };
+  
+  export const Lobby = ({ myKey, players, setShowLobby, isCreator}: Props) => {
+    return (
+      <Container key={myKey}>
+        <Grid
+          container
+          sx={{
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            mt: -20,
+          }}
+        >
+          <Paper
+            elevation={3}
+            sx={{
+              width: "40vw",
+              heigth: "100vh",
+              maxHeight: "100vh",
+              borderStyle: "groove",
+              borderRadius: 10,
+              borderColor: "#43B647",
+            }}
+          >
+            <Stack spacing={3}>
+              <Grid item xs={3}></Grid>
+              {players.map((player: any, key: number): any => {
+                return (
+                  <Stack
+                    direction="row"
+                    key={key}
+                    sx={{
+                      width: "30vw",
+                      mt: 1,
+                      borderStyle: "double",
+                      borderRadius: 60,
+                      borderColor: "#43B647",
+                    }}
+                  >
+                    <Grid item xs={2}>
+                      <Avatar
+                        alt="Player"
+                        src={defaultPlayer}
+                        sx={{ height: "50px", width: "50px" }}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Typography variant="h6"> {player.player} </Typography>
+                    </Grid>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={2}>
+                      <Avatar
+                        alt="Robot"
+                        src={defaultRobot}
+                        sx={{ height: "50px", width: "50px" }}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Typography variant="h6">{player.robot} </Typography>
+                    </Grid>
+                  </Stack>
+                );
+              })}
+            </Stack>
+  
+            <Stack direction="row" sx={{ mt: 3 }}>
+              <Grid item xs={6}>
+                <Button
+                  onClick={(event) => {
+                    setShowLobby(false);
+                  }}
+                  variant="contained"
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    backgroundColor: "#43B647",
+                    "&:hover": {
+                      backgroundColor: "#43B647",
+                      boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+                    },
+                  }}
+                >
+                  Ir a listar partidas
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    backgroundColor: "#C72603",
+                    "&:hover": {
+                      backgroundColor: "#C72603",
+                      boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+                    },
+                  }}
+                  disabled={isCreator}
+                  onClick={() => abandoneGame()}
+                >
+                  Abandonar Partida
+                </Button>
+              </Grid>
+            </Stack>
+          </Paper>
+        </Grid>
+      </Container>
+    );
+  };
