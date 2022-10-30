@@ -227,7 +227,7 @@ export function renderFrame(
         <MainBoard
           board_size={animation.board_size}
           robots={robotsInGame}
-          missils={animation.missils[frame]}
+          missils={animation.missils[frame] ?? []}
         />
       </div>
       <div className="SideText">
