@@ -6,49 +6,15 @@ import {
   listMatchesApi,
   Match,
 } from "./ListMatchesApi";
-import { Button, CssBaseline } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import NavBar from "../directories/NavBar";
 import "../directories/Home.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import {
-  GridToolbarFilterButton,
-  GridToolbarContainer,
-  DataGrid,
-  gridClasses,
-} from "@mui/x-data-grid";
-import { initSocket, message } from "../../websocket/WebSocket";
+import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import { Lobby } from "./Lobby";
-import { JoinGameApi } from "./JoinGameApi";
-import { columns } from "./ListMatchesColumns";
-
-function CustomToolBar(): JSX.Element {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarFilterButton />
-      <Button
-        type="submit"
-        fullWidth
-        form="my-form"
-        variant="contained"
-        data-testid="submit"
-        sx={{
-          maxWidth: 100,
-          mt: 2,
-          mb: 2,
-          ml: 2,
-          backgroundColor: "#43B647",
-          "&:hover": {
-            backgroundColor: "#43B647",
-            boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-          },
-        }}
-      >
-        Refresh
-      </Button>
-    </GridToolbarContainer>
-  );
-}
+import { columns, CustomToolBar } from "./DataGridUtils";
+import { joinGame } from "./JoinGame";
 
 function callApiList(
   filters: ListMatchesFilter,
@@ -81,12 +47,6 @@ function callApiList(
   });
 }
 
-export type Player = {
-  game_id: number;
-  robot: string;
-  password: string;
-};
-
 export default function ListMatches(): JSX.Element {
   const [matches, setMatches] = useState<ListMatch>([]);
   const [socket, setSocket] = useState<WebSocket>();
@@ -105,67 +65,6 @@ export default function ListMatches(): JSX.Element {
   };
 
   const theme = createTheme();
-
-  function joinGame(data: any) {
-    // Como las listas funcionan desde 0, matches necesita ser indexado con -1, pero las partidas se manejan de 1 en adelante.
-    const player: Player = {
-      game_id: data.row.id,
-      robot: "hola",
-      password: "",
-    };
-    if (data.row._status !== "joined") {
-      JoinGameApi(player, localStorage.getItem("access_token")?.toString()!);
-    }
-    if (
-      data.row._current_players < data.row._max_players ||
-      data.row._status === "joined"
-    ) {
-      const key = data.row.id - 1;
-      setActualLobby(key);
-      if (matches[key]._creator !== localStorage.getItem("username")) {
-        setRoom(matches[key]._websocketurl);
-        setIsCreator(false);
-        const players = matches[key]._players;
-        if (
-          !players.find((elem) => {
-            return (
-              elem.player === localStorage.getItem("username")?.toString()!
-            );
-          })
-        ) {
-          players.push({
-            player: localStorage.getItem("username")?.toString()!,
-            robot: "hola",
-          });
-        }
-        setMatches(
-          matches.map((elem: any, id) => {
-            if (id === key) {
-              return {
-                ...elem,
-                _players: players,
-                _current_players: elem._current_players + 1,
-              };
-            } else {
-              return elem;
-            }
-          })
-        );
-      } else {
-        setRoom(matches[key]._websocketurl);
-        setIsCreator(true);
-      }
-      const game = room;
-      setShowLobby(true);
-
-      if (!socket) {
-        setSocket(initSocket(game));
-      } else {
-        message(socket);
-        socket.close();
-      }
-    }
-  }
 
   return (
     <div>
@@ -243,7 +142,20 @@ export default function ListMatches(): JSX.Element {
                   experimentalFeatures={{ newEditingApi: true }}
                   getRowClassName={(params) => `${params.row._status}`}
                   components={{ Toolbar: CustomToolBar }}
-                  onRowClick={(row) => joinGame(row)}
+                  onRowClick={(row) =>
+                    joinGame(
+                      row,
+                      setActualLobby,
+                      setRoom,
+                      setIsCreator,
+                      setMatches,
+                      setShowLobby,
+                      setSocket,
+                      matches,
+                      socket!,
+                      room
+                    )
+                  }
                 />
               </Box>
             ) : showLobby ? (

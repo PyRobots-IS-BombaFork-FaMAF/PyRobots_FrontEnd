@@ -18,11 +18,11 @@ export type Match = {
   _websocketurl: string;
   _current_players: number;
   _creator: string;
-  _players : [{player: string; robot: string}];
+  _players: [{ player: string; robot: string }];
   _creation_date: string; // Formato "año-mes-día hora:minuto:segundo"
   _password: string; // No es la contraseña real, si no un hash irreversible
   _private: boolean;
-  _status : string;
+  _status: string;
 };
 
 export type ListMatch = Array<Match>;
