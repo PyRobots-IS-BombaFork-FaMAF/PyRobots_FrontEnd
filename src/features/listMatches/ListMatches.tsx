@@ -12,13 +12,12 @@ import "../directories/Home.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
-import { Lobby } from "./Lobby";
+import { Lobby } from "../joinGame/Lobby";
 import { columns, CustomToolBar } from "./DataGridUtils";
-import { joinGame } from "./JoinGame";
+import { joinGame } from "../joinGame/JoinGame";
 
 function callApiList(
   filters: ListMatchesFilter,
-  matches: ListMatch,
   setMatches: Function
 ): void {
   const promise1 = Promise.resolve(
@@ -36,11 +35,13 @@ function callApiList(
             })
             .includes(true)
         ) {
-          return { ...match, _status: "joined" };
+          return ({ ...match, _status: "joined" });
         } else {
-          if (match._current_players === match._max_players)
+          if (match._current_players === match._max_players){
             return { ...match, _status: "full" };
-          else return { ...match, _status: "notJoined" };
+          }            
+          else 
+            return { ...match, _status: "notJoined" };
         }
       })
     );
@@ -56,12 +57,12 @@ export default function ListMatches(): JSX.Element {
   const [isCreator, setIsCreator] = useState(false);
 
   useEffect(() => {
-    callApiList({}, matches, setMatches);
+    callApiList({}, setMatches);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    callApiList({}, matches, setMatches);
+    callApiList({}, setMatches);
   };
 
   const theme = createTheme();
@@ -152,7 +153,6 @@ export default function ListMatches(): JSX.Element {
                       setShowLobby,
                       setSocket,
                       matches,
-                      socket!,
                       room
                     )
                   }
@@ -164,6 +164,7 @@ export default function ListMatches(): JSX.Element {
                 players={matches[actualLobby]._players}
                 setShowLobby={setShowLobby}
                 isCreator={isCreator}
+                socket={socket}
               ></Lobby>
             ) : (
               <div></div>

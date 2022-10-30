@@ -6,6 +6,7 @@ import { Button, Typography, Grid } from "@mui/material";
 import defaultPlayer from "../../assets/img/defaultPlayer.jpg";
 import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import Swal from "sweetalert2";
+// import { message } from "../../websocket/WebSocket";
 
 type Props = {
   myKey: number;
@@ -17,6 +18,7 @@ type Props = {
   ];
   setShowLobby: Function;
   isCreator: boolean;
+  socket : WebSocket | undefined;
 };
 
 const abandoneGame = () => {
@@ -34,8 +36,10 @@ const abandoneGame = () => {
   });
 };
 
-const launchGame = () => {};
-export const Lobby = ({ myKey, players, setShowLobby, isCreator }: Props) => {
+const launchGame = (socket : WebSocket | undefined) => {
+  
+};
+export const Lobby = ({ myKey, players, setShowLobby, isCreator, socket }: Props) => {
   return (
     <Container key={myKey}>
       <Grid
@@ -105,6 +109,7 @@ export const Lobby = ({ myKey, players, setShowLobby, isCreator }: Props) => {
             <Grid item xs={4}>
               <Button
                 onClick={(event) => {
+                  socket?.close();
                   setShowLobby(false);
                 }}
                 variant="contained"
@@ -124,7 +129,7 @@ export const Lobby = ({ myKey, players, setShowLobby, isCreator }: Props) => {
             <Grid item xs={4}>
               <Button
                 onClick={(event) => {
-                  launchGame();
+                  launchGame(socket);
                 }}
                 variant="contained"
                 sx={{

@@ -1,7 +1,6 @@
 const BASE_URL = "ws://127.0.0.1:8000";
 
 export const initSocket = (dir : string) : WebSocket => {
-    console.log(BASE_URL + dir);
     return new WebSocket(BASE_URL + dir); 
 } 
 
