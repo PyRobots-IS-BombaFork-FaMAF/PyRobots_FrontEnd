@@ -75,7 +75,7 @@ function Robots({
 }
 
 /* Draws a missile as a strait line */
-function missile({
+function Missile({
   board,
   missileConfig,
 }: {
@@ -111,7 +111,7 @@ function missile({
   );
 }
 
-function missiles({
+function Missiles({
   board,
   missiles,
 }: {
@@ -122,7 +122,7 @@ function missiles({
     <Group>
       {missiles.map((missile: missileInFrameConfig, key: number) => (
         <Group key={key}>
-          <missile board={board} missileConfig={missile} />
+          <Missile board={board} missileConfig={missile} />
         </Group>
       ))}
     </Group>
@@ -159,7 +159,7 @@ function MainBoard({
       <Layer>
         <BackGround {...board} />
         <Robots board={board} robots={robots} />
-        <missiles board={board} missiles={missiles} />
+        <Missiles board={board} missiles={missiles} />
       </Layer>
     </Stage>
   );
