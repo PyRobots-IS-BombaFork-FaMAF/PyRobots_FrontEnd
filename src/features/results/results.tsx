@@ -5,7 +5,18 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import NavBar from "../directories/NavBar";
-import { Grid } from "@mui/material";
+import { Box, Grid, Modal } from "@mui/material";
+import { useState } from "react";
+
+type modalState = {
+  modal: boolean;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const ModalState = React.createContext<modalState>({
+  modal: false,
+  setModal: () => {},
+});
 
 const results = [
   {
@@ -52,7 +63,53 @@ const results = [
   },
 ];
 
+const Stats = (props: any) => {
+  const { modal } = React.useContext(ModalState);
+  const { setModal } = React.useContext(ModalState);
+
+  const body = (
+    <div>
+      <div data-align="center">
+        <h2> Estadísticas de partidas </h2>
+        <Button onClick={() => props.setModal(false)}> Cerrar </Button>
+      </div>
+    </div>
+  );
+
+  const handleClose = () => {
+    setModal(false);
+  };
+
+  return (
+    <div>
+      <Modal open={modal} onClose={handleClose}>
+        <Box
+          sx={{
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          {body}
+        </Box>
+      </Modal>
+    </div>
+  );
+};
+
 const CardWin = (props: any) => {
+  const { setModal } = React.useContext(ModalState);
+
+  const handleClick = () => {
+    setModal(true);
+  };
+
   return (
     <Card
       variant="outlined"
@@ -78,7 +135,10 @@ const CardWin = (props: any) => {
           <strong>Nro. de partida:</strong>{" "}
         </Typography>
         <CardActions>
-          <Button size="small"> Estadísticas </Button>
+          <Button size="small" onClick={handleClick}>
+            {" "}
+            Estadísticas{" "}
+          </Button>
         </CardActions>
       </CardContent>
     </Card>
@@ -86,6 +146,12 @@ const CardWin = (props: any) => {
 };
 
 const CardLose = (props: any) => {
+  const { setModal } = React.useContext(ModalState);
+
+  const handleClick = () => {
+    setModal(true);
+  };
+
   return (
     <Card
       variant="outlined"
@@ -110,34 +176,47 @@ const CardLose = (props: any) => {
           <strong>Nro. de partida:</strong>{" "}
         </Typography>
         <CardActions>
-          <Button size="small"> Estadísticas </Button>
+          <Button onClick={handleClick} size="small">
+            {" "}
+            Estadísticas{" "}
+          </Button>
         </CardActions>
       </CardContent>
     </Card>
   );
 };
 
-const HistoricalResults = () => (
-  <div>
-    <NavBar />
-    <Grid container>
-      {results.map((result: any, index: number) => (
-        <Grid key={index}>
-          {result.winner.player === localStorage.getItem("username")?.toString() ? (
-            <CardWin
-              playerName={result.winner.player}
-              robotName={result.winner.robot}
-            />
-          ) : (
-            <CardLose
-              playerName={result.winner.player}
-              robotName={result.winner.robot}
-            />
-          )}
+const HistoricalResults = () => {
+  const [modal, setModal] = useState<boolean>(false);
+
+  return (
+    <div>
+      <NavBar />
+      <ModalState.Provider value={{ modal, setModal }}>
+        <Grid container>
+          {results.map((result: any, index: number) => (
+            <Grid key={index}>
+              {result.winner.player ===
+              localStorage.getItem("username")?.toString() ? (
+                <CardWin
+                  playerName={result.winner.player}
+                  robotName={result.winner.robot}
+                  setModal={setModal}
+                />
+              ) : (
+                <CardLose
+                  playerName={result.winner.player}
+                  robotName={result.winner.robot}
+                  setModal={setModal}
+                />
+              )}
+            </Grid>
+          ))}
         </Grid>
-      ))}
-    </Grid>
-  </div>
-);
+        <Stats modal={modal} setModal={setModal} />
+      </ModalState.Provider>
+    </div>
+  );
+};
 
 export default HistoricalResults;
