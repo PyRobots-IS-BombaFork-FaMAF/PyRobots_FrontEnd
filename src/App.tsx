@@ -11,6 +11,7 @@ import PersistLogin from "./features/PersistLogin";
 import Home from "./features/directories/Home";
 import CreateRobot from './features/newrobot/CreateRobot';
 import ListMatches from "./features/listMatches/ListMatches";
+import NewSimulation from "./features/board/NewSimulation";
 
 function App(): JSX.Element {
   return (
@@ -25,6 +26,7 @@ function App(): JSX.Element {
           <Route element={<PersistLogin />}>
             <Route element={<RequiereAuth />}>
               <Route path="/tableroDePrueba/" element={<Board />} />
+              <Route path="/Simulation/" element={<NewSimulation />} />
               <Route path="/createRobot" element= {<CreateRobot />} />
               <Route path="/" element={<Home />} />
               <Route path="/listMatches" element={<ListMatches/>}/>
