@@ -63,7 +63,7 @@ const results = [
   },
 ];
 
-const Stats = (props: any) => {
+const Stats = () => {
   const { modal } = React.useContext(ModalState);
   const { setModal } = React.useContext(ModalState);
 
@@ -71,7 +71,15 @@ const Stats = (props: any) => {
     <div>
       <div data-align="center">
         <h2> Estadísticas de partidas </h2>
-        <Button onClick={() => props.setModal(false)}> Cerrar </Button>
+        <Button
+          variant="outlined"
+          onClick={() => setModal(false)}
+          color="error"
+          sx={{ width: "100%", color: "#BF0F0F" }}
+        >
+          {" "}
+          Cerrar{" "}
+        </Button>
       </div>
     </div>
   );
@@ -135,7 +143,18 @@ const CardWin = (props: any) => {
           <strong>Nro. de partida:</strong>{" "}
         </Typography>
         <CardActions>
-          <Button size="small" onClick={handleClick}>
+          <Button
+            onClick={handleClick}
+            type="submit"
+            role="button"
+            variant="contained"
+            data-testid="submit-robot"
+            sx={{
+              width: "100%",
+              backgroundColor: "#43B647",
+              "&:hover": { backgroundColor: "#43B647" },
+            }}
+          >
             {" "}
             Estadísticas{" "}
           </Button>
@@ -176,7 +195,18 @@ const CardLose = (props: any) => {
           <strong>Nro. de partida:</strong>{" "}
         </Typography>
         <CardActions>
-          <Button onClick={handleClick} size="small">
+          <Button
+            onClick={handleClick}
+            type="submit"
+            role="button"
+            variant="contained"
+            data-testid="submit-robot"
+            sx={{
+              width: "100%",
+              backgroundColor: "#BF0F0F",
+              "&:hover": { backgroundColor: "#BF0F0F" },
+            }}
+          >
             {" "}
             Estadísticas{" "}
           </Button>
@@ -201,19 +231,17 @@ const HistoricalResults = () => {
                 <CardWin
                   playerName={result.winner.player}
                   robotName={result.winner.robot}
-                  setModal={setModal}
                 />
               ) : (
                 <CardLose
                   playerName={result.winner.player}
                   robotName={result.winner.robot}
-                  setModal={setModal}
                 />
               )}
             </Grid>
           ))}
         </Grid>
-        <Stats modal={modal} setModal={setModal} />
+        <Stats />
       </ModalState.Provider>
     </div>
   );
