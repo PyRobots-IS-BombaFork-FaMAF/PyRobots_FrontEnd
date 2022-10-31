@@ -1,4 +1,4 @@
-import { Stage, Layer, Rect, Circle, Group } from "react-konva";
+import { Stage, Layer, Rect, Circle, Group, Line } from "react-konva";
 
 import {
   boardConfig,
@@ -9,6 +9,7 @@ import {
   robotInAnimationInfo,
   robotInSideTextConfig,
   simulationResult_to_animationInfo,
+  missileInFrameConfig,
 } from "./boardHelper";
 
 import { simulationResult } from "./SimulationAPI";
@@ -22,8 +23,8 @@ function BackGround(board: boardConfig): JSX.Element {
     <Rect
       x={board.x0}
       y={board.y0}
-      width={board.size}
-      height={board.size}
+      width={board.size_in_screen}
+      height={board.size_in_screen}
       fill="#FDFD96"
       shadowBlur={10}
     />
@@ -55,7 +56,7 @@ function Robot({
   );
 }
 
-function MainBoardWithRobots({
+function Robots({
   board,
   robots,
 }: {
@@ -64,23 +65,79 @@ function MainBoardWithRobots({
 }): JSX.Element {
   return (
     <Group>
-      <BackGround
-        x0={board.x0}
-        y0={board.y0}
-        size={board.size}
-        robotsSize={board.robotsSize}
-      />
-      {robots.map((robot: robotInFrameConfig, key : number) =>   
-      (
+      {robots.map((robot: robotInFrameConfig, key: number) => (
         <Group key={key}>
-        <Robot board={board} robotConfig={robot} />
+          <Robot board={board} robotConfig={robot} />
         </Group>
       ))}
     </Group>
   );
 }
 
-function MainBoard({ robots }: { robots: robotInFrameConfig[] }): JSX.Element {
+/* Draws a missile as a strait line */
+function Missile({
+  board,
+  missileConfig,
+}: {
+  board: boardConfig;
+  missileConfig: missileInFrameConfig;
+}): JSX.Element {
+  const missile_board: gameCoords = gameToBoard_coordinates(
+    board,
+    missileConfig.coords
+  );
+
+  const x_component_direction: number = Math.cos(
+    (missileConfig.direction * Math.PI) / 180
+  );
+  const y_component_direction: number = Math.sin(
+    (missileConfig.direction * Math.PI) / 180
+  );
+
+  const missile_size: number = (board.robotsSize * 3) / 4;
+
+  return (
+    <Line
+      points={[
+        missile_board.x - (missile_size / 2) * x_component_direction,
+        missile_board.y - (missile_size / 2) * y_component_direction,
+        missile_board.x + (missile_size / 2) * x_component_direction,
+        missile_board.y + (missile_size / 2) * y_component_direction,
+      ]}
+      stroke={missileConfig.color}
+      strokeWidth={missile_size / 2}
+      lineCap="round"
+    />
+  );
+}
+
+function Missiles({
+  board,
+  missiles,
+}: {
+  board: boardConfig;
+  missiles: missileInFrameConfig[];
+}): JSX.Element {
+  return (
+    <Group>
+      {missiles.map((missile: missileInFrameConfig, key: number) => (
+        <Group key={key}>
+          <Missile board={board} missileConfig={missile} />
+        </Group>
+      ))}
+    </Group>
+  );
+}
+
+function MainBoard({
+  board_size,
+  robots,
+  missiles,
+}: {
+  board_size: number;
+  robots: robotInFrameConfig[];
+  missiles: missileInFrameConfig[];
+}): JSX.Element {
   const robot_size_relative: number = 0.02;
   const window_min_size: number = Math.min(
     window.innerWidth,
@@ -89,18 +146,20 @@ function MainBoard({ robots }: { robots: robotInFrameConfig[] }): JSX.Element {
   const margin_percentage: number = 0.025;
   const margin: number = window_min_size * margin_percentage;
 
+  const board: boardConfig = {
+    board_size: board_size,
+    x0: window_min_size * margin_percentage,
+    y0: window_min_size * margin_percentage,
+    size_in_screen: window_min_size - 2 * margin,
+    robotsSize: robot_size_relative * window_min_size,
+  };
+
   return (
     <Stage width={window_min_size} height={window_min_size}>
       <Layer>
-        <MainBoardWithRobots
-          board={{
-            x0: window_min_size * margin_percentage,
-            y0: window_min_size * margin_percentage,
-            size: window_min_size - 2 * margin,
-            robotsSize: robot_size_relative * window_min_size,
-          }}
-          robots={robots}
-        />
+        <BackGround {...board} />
+        <Robots board={board} robots={robots} />
+        <Missiles board={board} missiles={missiles} />
       </Layer>
     </Stage>
   );
@@ -157,7 +216,7 @@ export function renderFrame(
       return {
         name: robot.name,
         color: robot.color,
-        life: robot.rounds.length <= frame ? 0 : 1,
+        life: 1 - (robot.rounds[frame]?.damage ?? 1),
       };
     }
   );
@@ -165,7 +224,11 @@ export function renderFrame(
   return (
     <div className="Board" data-testid="Board">
       <div className="MainBoard">
-        <MainBoard robots={robotsInGame} />
+        <MainBoard
+          board_size={animation.board_size}
+          robots={robotsInGame}
+          missiles={animation.missiles[frame] ?? []}
+        />
       </div>
       <div className="SideText">
         <SideText robots={robotsInSideText} />
@@ -175,29 +238,39 @@ export function renderFrame(
 }
 
 export function Board(): JSX.Element {
-  const simulation: simulationResult = [
-    {
-      name: "Robot 1",
-      rounds: [
-        { coords: { x: 0, y: 0 }, direction: 20, speed: 10 },
-        { coords: { x: 10, y: 0 }, direction: 20, speed: 10 },
-        { coords: { x: 10, y: 10 }, direction: 20, speed: 10 },
-        { coords: { x: 20, y: 10 }, direction: 20, speed: 10 },
-        { coords: { x: 20, y: 20 }, direction: 20, speed: 10 },
-        { coords: { x: 30, y: 20 }, direction: 20, speed: 10 },
-        { coords: { x: 30, y: 30 }, direction: 20, speed: 10 },
-        { coords: { x: 40, y: 30 }, direction: 20, speed: 10 },
-        { coords: { x: 40, y: 40 }, direction: 20, speed: 10 },
-        { coords: { x: 50, y: 40 }, direction: 20, speed: 10 },
-        { coords: { x: 50, y: 50 }, direction: 20, speed: 10 },
-        { coords: { x: 60, y: 50 }, direction: 20, speed: 10 },
-        { coords: { x: 60, y: 60 }, direction: 20, speed: 10 },
-        { coords: { x: 70, y: 60 }, direction: 20, speed: 10 },
-        { coords: { x: 70, y: 70 }, direction: 20, speed: 10 },
-        { coords: { x: 80, y: 70 }, direction: 20, speed: 10 },
-      ],
-    },
-  ];
+  const simulation: simulationResult = {
+    board_size: 1000,
+    missile_velocity: 4,
+    robots: [
+      {
+        name: "Robot 1",
+        rounds: [
+          { coords: { x: 0, y: 0 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 10, y: 0 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 10, y: 10 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 20, y: 10 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 20, y: 20 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 30, y: 20 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 30, y: 30 }, direction: 20, speed: 10, damage: 0 },
+          {
+            coords: { x: 40, y: 30 },
+            direction: 20,
+            speed: 10,
+            damage: 0,
+            missile: { direction: 135, distance: 60 },
+          },
+          { coords: { x: 40, y: 40 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 50, y: 40 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 50, y: 50 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 60, y: 50 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 60, y: 60 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 70, y: 60 }, direction: 20, speed: 10, damage: 0.5 },
+          { coords: { x: 70, y: 70 }, direction: 20, speed: 10, damage: 0.5 },
+          { coords: { x: 80, y: 70 }, direction: 20, speed: 10, damage: 0.5 },
+        ],
+      },
+    ],
+  };
 
   const animation: animationInfo =
     simulationResult_to_animationInfo(simulation);
@@ -205,10 +278,12 @@ export function Board(): JSX.Element {
   return (
     <div>
       <div>
-        <NavBar></NavBar>
+        <NavBar />
       </div>
       <div className="Board" data-testid="Board">
-        {Animate((frame: number) => renderFrame(animation, frame))}
+        {Animate(animation.rounds_amount - 1, (frame: number) =>
+          renderFrame(animation, frame)
+        )}
       </div>
     </div>
   );

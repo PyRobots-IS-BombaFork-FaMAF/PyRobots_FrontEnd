@@ -9,38 +9,54 @@ import {
   simulationResult_to_animationInfo,
 } from "../features/board/boardHelper";
 import { simulationResult } from "../features/board/SimulationAPI";
+import { toMatchCloseTo } from "jest-matcher-deep-close-to";
+expect.extend({ toMatchCloseTo });
 
 describe("Componente Board", () => {
-  const simulation: simulationResult = [
-    {
-      name: "fork bomb",
-      rounds: [
-        { coords: { x: 0, y: 0 }, direction: 20, speed: 10 },
-        { coords: { x: 10, y: 0 }, direction: 20, speed: 10 },
-        { coords: { x: 10, y: 10 }, direction: 20, speed: 10 },
-        { coords: { x: 20, y: 10 }, direction: 20, speed: 10 },
-        { coords: { x: 20, y: 20 }, direction: 20, speed: 10 },
-        { coords: { x: 30, y: 20 }, direction: 20, speed: 10 },
-        { coords: { x: 30, y: 30 }, direction: 20, speed: 10 },
-        { coords: { x: 40, y: 30 }, direction: 20, speed: 10 },
-        { coords: { x: 40, y: 40 }, direction: 20, speed: 10 },
-        { coords: { x: 50, y: 40 }, direction: 20, speed: 10 },
-        { coords: { x: 50, y: 50 }, direction: 20, speed: 10 },
-        { coords: { x: 60, y: 50 }, direction: 20, speed: 10 },
-        { coords: { x: 60, y: 60 }, direction: 20, speed: 10 },
-        { coords: { x: 70, y: 60 }, direction: 20, speed: 10 },
-        { coords: { x: 70, y: 70 }, direction: 20, speed: 10 },
-        { coords: { x: 80, y: 70 }, direction: 20, speed: 10 },
-      ],
-    },
-    {
-      name: "teipysgrif",
-      rounds: [
-        { coords: { x: 465.465, y: 63.156 }, direction: 20.654, speed: 3.1416 },
-        { coords: { x: 2.156, y: 589.6 }, direction: 256.32, speed: 96.235 },
-      ],
-    },
-  ];
+  const simulation: simulationResult = {
+    board_size: 1000,
+    missile_velocity: 10,
+    robots: [
+      {
+        name: "fork bomb",
+        rounds: [
+          { coords: { x: 0, y: 0 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 10, y: 0 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 10, y: 10 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 20, y: 10 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 20, y: 20 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 30, y: 20 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 30, y: 30 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 40, y: 30 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 40, y: 40 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 50, y: 40 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 50, y: 50 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 60, y: 50 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 60, y: 60 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 70, y: 60 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 70, y: 70 }, direction: 20, speed: 10, damage: 0 },
+          { coords: { x: 80, y: 70 }, direction: 20, speed: 10, damage: 0 },
+        ],
+      },
+      {
+        name: "teipysgrif",
+        rounds: [
+          {
+            coords: { x: 465.465, y: 63.156 },
+            direction: 20.654,
+            speed: 3.1416,
+            damage: 0,
+          },
+          {
+            coords: { x: 2.156, y: 589.6 },
+            direction: 256.32,
+            speed: 96.235,
+            damage: 0.5,
+          },
+        ],
+      },
+    ],
+  };
 
   const animation: animationInfo =
     simulationResult_to_animationInfo(simulation);
@@ -54,6 +70,18 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
   });
+
+  test("Campos de texto de `renderFrame`", () => {
+    render(renderFrame(animation, 1));
+    const board: HTMLElement = screen.getByTestId("Board");
+    expect(board).toBeInTheDocument();
+    expect(board).toHaveTextContent("Simulación");
+    expect(board).toHaveTextContent("fork bomb");
+    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("Vida: 100%");
+    expect(board).toHaveTextContent("Vida: 50%");
+  });
+
 
   test("Campos de texto de `renderFrame`", () => {
     render(renderFrame(animation, 10));
@@ -92,105 +120,225 @@ describe("Funciones dentro del componente `Board`", () => {
       boardCoords: boardCoords;
     }[] = [
       {
-        board: { x0: 0, y0: 0, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: 0, y: 0 },
         boardCoords: { x: 0, y: 0 },
       },
       {
-        board: { x0: 0, y0: 0, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: 1000, y: 1000 },
         boardCoords: { x: 1000, y: 1000 },
       },
       {
-        board: { x0: 0, y0: 0, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: -500, y: 500 },
         boardCoords: { x: -500, y: 500 },
       },
       {
-        board: { x0: 0, y0: 0, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: 500, y: -500 },
         boardCoords: { x: 500, y: -500 },
       },
       {
-        board: { x0: 0, y0: 0, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: -1000, y: -500 },
         boardCoords: { x: -1000, y: -500 },
       },
 
       {
-        board: { x0: 0, y0: 0, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: 0, y: 0 },
         boardCoords: { x: 0, y: 0 },
       },
       {
-        board: { x0: 0, y0: 0, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: 1000, y: 500 },
         boardCoords: { x: 500, y: 250 },
       },
       {
-        board: { x0: 0, y0: 0, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: -500, y: 250 },
         boardCoords: { x: -250, y: 125 },
       },
       {
-        board: { x0: 0, y0: 0, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: 250, y: -125 },
         boardCoords: { x: 125, y: -62.5 },
       },
       {
-        board: { x0: 0, y0: 0, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 0,
+          y0: 0,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: -1000, y: -250 },
         boardCoords: { x: -500, y: -125 },
       },
 
       {
-        board: { x0: 200, y0: 300, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: 0, y: 0 },
         boardCoords: { x: 200, y: 300 },
       },
       {
-        board: { x0: 200, y0: 300, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: 1000, y: 1000 },
         boardCoords: { x: 1200, y: 1300 },
       },
       {
-        board: { x0: 200, y0: 300, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: -500, y: 500 },
         boardCoords: { x: -300, y: 800 },
       },
       {
-        board: { x0: 200, y0: 300, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: 500, y: -500 },
         boardCoords: { x: 700, y: -200 },
       },
       {
-        board: { x0: 200, y0: 300, size: 1000, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 1000,
+          robotsSize: 0,
+        },
         gameCoords: { x: -1000, y: -500 },
         boardCoords: { x: -800, y: -200 },
       },
 
       {
-        board: { x0: 200, y0: 300, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: 0, y: 0 },
         boardCoords: { x: 200, y: 300 },
       },
       {
-        board: { x0: 200, y0: 300, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: 1000, y: 500 },
         boardCoords: { x: 700, y: 550 },
       },
       {
-        board: { x0: 200, y0: 300, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: -500, y: 250 },
         boardCoords: { x: -50, y: 425 },
       },
       {
-        board: { x0: 200, y0: 300, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: 250, y: -125 },
         boardCoords: { x: 325, y: 237.5 },
       },
       {
-        board: { x0: 200, y0: 300, size: 500, robotsSize: 0 },
+        board: {
+          board_size: 1000,
+          x0: 200,
+          y0: 300,
+          size_in_screen: 500,
+          robotsSize: 0,
+        },
         gameCoords: { x: -1000, y: -250 },
         boardCoords: { x: -300, y: 175 },
       },
@@ -218,19 +366,25 @@ describe("Funciones dentro del componente `Board`", () => {
     }> = [
       {
         // Test 1
-        input: [
-          {
-            name: "robot1",
-            rounds: [
-              {
-                coords: { x: 0, y: 0 },
-                direction: 30,
-                speed: 2,
-              },
-            ],
-          },
-        ],
+        input: {
+          board_size: 1000,
+          missile_velocity: 10,
+          robots: [
+            {
+              name: "robot1",
+              rounds: [
+                {
+                  coords: { x: 0, y: 0 },
+                  direction: 30,
+                  speed: 2,
+                  damage: 0,
+                },
+              ],
+            },
+          ],
+        },
         expectedOutput: {
+          board_size: 1000,
           rounds_amount: 1,
           robots: [
             {
@@ -240,58 +394,72 @@ describe("Funciones dentro del componente `Board`", () => {
                   coords: { x: 0, y: 0 },
                   direction: 30,
                   speed: 2,
+                  damage: 0,
                 },
               ],
               color: "red",
             },
           ],
+          missiles: [[]],
         },
       },
       {
         // Test 2
-        input: [
-          {
-            name: "ρομπότ",
-            rounds: [
-              {
-                coords: { x: 563.48, y: 915.153 },
-                direction: 265.564,
-                speed: 26.156,
-              },
-            ],
-          },
-          {
-            name: "хай живе україна",
-            rounds: [
-              {
-                coords: { x: 0, y: 0 },
-                direction: 315,
-                speed: 1.41421356237,
-              },
-              {
-                coords: { x: 10, y: 10 },
-                direction: 315,
-                speed: 14.1421356237,
-              },
-              {
-                coords: { x: 20, y: 20 },
-                direction: 315,
-                speed: 14.1421356237,
-              },
-              {
-                coords: { x: 40, y: 40 },
-                direction: 315,
-                speed: 14.1421356237,
-              },
-              {
-                coords: { x: 50, y: 50 },
-                direction: 315,
-                speed: 14.1421356237,
-              },
-            ],
-          },
-        ],
+        input: {
+          board_size: 1000,
+          missile_velocity: 2.5,
+          robots: [
+            {
+              name: "ρομπότ",
+              rounds: [
+                {
+                  coords: { x: 563.48, y: 915.153 },
+                  direction: 265.564,
+                  speed: 26.156,
+                  damage: 0,
+                },
+              ],
+            },
+            {
+              name: "хай живе україна",
+              rounds: [
+                {
+                  coords: { x: 0, y: 0 },
+                  direction: 315,
+                  speed: 1.41421356237,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 10, y: 10 },
+                  direction: 315,
+                  speed: 14.1421356237,
+                  damage: 0,
+                  missile: { direction: 0, distance: 7.5 },
+                },
+                {
+                  coords: { x: 20, y: 20 },
+                  direction: 315,
+                  speed: 14.1421356237,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 40, y: 40 },
+                  direction: 315,
+                  speed: 14.1421356237,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 50, y: 50 },
+                  direction: 315,
+                  speed: 14.1421356237,
+                  damage: 0,
+                },
+              ],
+            },
+          ],
+        },
         expectedOutput: {
+          board_size: 1000,
           rounds_amount: 5,
           robots: [
             {
@@ -301,6 +469,7 @@ describe("Funciones dentro del componente `Board`", () => {
                   coords: { x: 563.48, y: 915.153 },
                   direction: 265.564,
                   speed: 26.156,
+                  damage: 0,
                 },
               ],
               color: "red",
@@ -312,30 +481,224 @@ describe("Funciones dentro del componente `Board`", () => {
                   coords: { x: 0, y: 0 },
                   direction: 315,
                   speed: 1.41421356237,
+                  damage: 0,
                 },
                 {
                   coords: { x: 10, y: 10 },
                   direction: 315,
                   speed: 14.1421356237,
+                  damage: 0,
+                  missile: { direction: 0, distance: 7.5 },
                 },
                 {
                   coords: { x: 20, y: 20 },
                   direction: 315,
                   speed: 14.1421356237,
+                  damage: 0,
                 },
                 {
                   coords: { x: 40, y: 40 },
                   direction: 315,
                   speed: 14.1421356237,
+                  damage: 0,
                 },
                 {
                   coords: { x: 50, y: 50 },
                   direction: 315,
                   speed: 14.1421356237,
+                  damage: 0,
                 },
               ],
               color: "blue",
             },
+          ],
+          missiles: [
+            [],
+            [{ coords: { x: 10, y: 10 }, direction: 0, color: "blue" }],
+            [{ coords: { x: 10 + 2.5, y: 10 }, direction: 0, color: "blue" }],
+            [{ coords: { x: 10 + 5, y: 10 }, direction: 0, color: "blue" }],
+            [],
+          ],
+        },
+      },
+      {
+        // Test 3
+        input: {
+          board_size: 800,
+          missile_velocity: 4,
+          robots: [
+            {
+              name: "Curry",
+              rounds: [
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                  missile: { direction: 45, distance: 16.0001 },
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                  missile: { direction: 210, distance: 15.9999 },
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+              ],
+            },
+          ],
+        },
+        expectedOutput: {
+          board_size: 800,
+          rounds_amount: 6,
+          robots: [
+            {
+              name: "Curry",
+              color: "red",
+              rounds: [
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                  missile: { direction: 45, distance: 16.0001 },
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                  missile: { direction: 210, distance: 15.9999 },
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+                {
+                  coords: { x: 302.2584, y: 302.2584 },
+                  direction: 0,
+                  speed: 0,
+                  damage: 0,
+                },
+              ],
+            },
+          ],
+          missiles: [
+            [
+              {
+                coords: { x: 302.2584, y: 302.2584 },
+                direction: 45,
+                color: "red",
+              },
+            ],
+            [
+              {
+                coords: {
+                  x: 302.2584 + 4 * Math.cos(Math.PI / 4),
+                  y: 302.2584 + 4 * Math.sin(Math.PI / 4),
+                },
+                direction: 45,
+                color: "red",
+              },
+              {
+                coords: { x: 302.2584, y: 302.2584 },
+                direction: 210,
+                color: "red",
+              },
+            ],
+            [
+              {
+                coords: {
+                  x: 302.2584 + 2 * 4 * Math.cos(Math.PI / 4),
+                  y: 302.2584 + 2 * 4 * Math.sin(Math.PI / 4),
+                },
+                direction: 45,
+                color: "red",
+              },
+              {
+                coords: {
+                  x: 302.2584 - 4 * Math.cos(Math.PI / 6),
+                  y: 302.2584 - 4 * Math.sin(Math.PI / 6),
+                },
+                direction: 210,
+                color: "red",
+              },
+            ],
+            [
+              {
+                coords: {
+                  x: 302.2584 + 3 * 4 * Math.cos(Math.PI / 4),
+                  y: 302.2584 + 3 * 4 * Math.sin(Math.PI / 4),
+                },
+                direction: 45,
+                color: "red",
+              },
+              {
+                coords: {
+                  x: 302.2584 - 2 * 4 * Math.cos(Math.PI / 6),
+                  y: 302.2584 - 2 * 4 * Math.sin(Math.PI / 6),
+                },
+                direction: 210,
+                color: "red",
+              },
+            ],
+            [
+              {
+                coords: {
+                  x: 302.2584 + 4 * 4 * Math.cos(Math.PI / 4),
+                  y: 302.2584 + 4 * 4 * Math.sin(Math.PI / 4),
+                },
+                direction: 45,
+                color: "red",
+              },
+              {
+                coords: {
+                  x: 302.2584 - 3 * 4 * Math.cos(Math.PI / 6),
+                  y: 302.2584 - 3 * 4 * Math.sin(Math.PI / 6),
+                },
+                direction: 210,
+                color: "red",
+              },
+            ],
+            [],
           ],
         },
       },
@@ -351,7 +714,7 @@ describe("Funciones dentro del componente `Board`", () => {
         });
 
       result.forEach(({ expected, got }) => {
-        expect(got).toEqual(expected);
+        expect(got).toMatchCloseTo(expected, 6);
       });
     });
   });
