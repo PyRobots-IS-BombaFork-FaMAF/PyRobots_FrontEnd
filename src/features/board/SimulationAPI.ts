@@ -5,7 +5,7 @@ export type robotInSimulationResult = {
     direction: number;
     speed: number;
     damage: number;
-    missil?: { direction: number, distance: number };
+    missile?: { direction: number, distance: number };
     scanner?: { direction: number, resolution_in_degrees: number };
   }>;
   cause_of_death?: "robot execution error" | "out of life";
@@ -13,6 +13,6 @@ export type robotInSimulationResult = {
 
 export type simulationResult = {
   board_size: number;
-  missil_velocity: number;
+  missile_velocity: number;
   robots: Array<robotInSimulationResult>;
 };

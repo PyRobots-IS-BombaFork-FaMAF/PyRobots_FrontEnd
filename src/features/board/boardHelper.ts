@@ -14,7 +14,7 @@ export type boardCoords = { x: number; y: number };
 export type robotConfig = { name: string; color: string };
 export type robotInSideTextConfig = robotConfig & { life: number };
 export type robotInFrameConfig = robotConfig & { coords: gameCoords };
-export type missilInFrameConfig = {
+export type missileInFrameConfig = {
   coords: gameCoords;
   direction: number;
   color: string;
@@ -24,7 +24,7 @@ export type animationInfo = {
   board_size: number;
   rounds_amount: number;
   robots: Array<robotInAnimationInfo>;
-  missils: Array<Array<missilInFrameConfig>>;
+  missiles: Array<Array<missileInFrameConfig>>;
 };
 
 // functions
@@ -56,45 +56,45 @@ export function simulationResult_to_animationInfo(
     }
   );
 
-  const missils: Array<Array<missilInFrameConfig>> = [];
+  const missiles: Array<Array<missileInFrameConfig>> = [];
   {
-    // Calculate missils positions in each round
-    const missil_velocity = simulationResult.missil_velocity;
+    // Calculate missiles positions in each round
+    const missile_velocity = simulationResult.missile_velocity;
 
-    type missilsInSimulation = missilInFrameConfig & { distance_left: number };
+    type missilesInSimulation = missileInFrameConfig & { distance_left: number };
 
-    let actual_missils: Array<missilsInSimulation> = [];
+    let actual_missiles: Array<missilesInSimulation> = [];
 
     for (let i = 0; i < rounds_amount; i++) {
-      // Update `actual_missils` positions
-      actual_missils.forEach((missil: missilsInSimulation) => {
-        missil.distance_left -= missil_velocity;
-        missil.coords = {
+      // Update `actual_missiles` positions
+      actual_missiles.forEach((missile: missilesInSimulation) => {
+        missile.distance_left -= missile_velocity;
+        missile.coords = {
           x:
-            missil.coords.x +
-            Math.cos((missil.direction * Math.PI) / 180) * missil_velocity,
+            missile.coords.x +
+            Math.cos((missile.direction * Math.PI) / 180) * missile_velocity,
           y:
-            missil.coords.y +
-            Math.sin((missil.direction * Math.PI) / 180) * missil_velocity,
+            missile.coords.y +
+            Math.sin((missile.direction * Math.PI) / 180) * missile_velocity,
         };
       });
 
-      // Remove from `actual_missils` missils that have reached their destination
-      actual_missils = actual_missils.filter((missil: missilsInSimulation) => {
-        return missil.distance_left > 0;
+      // Remove from `actual_missiles` missiles that have reached their destination
+      actual_missiles = actual_missiles.filter((missile: missilesInSimulation) => {
+        return missile.distance_left > 0;
       });
 
-      // Add new missils to `actual_missils`
-      actual_missils.push(
+      // Add new missiles to `actual_missiles`
+      actual_missiles.push(
         ...robots.flatMap((robot: robotInAnimationInfo) => {
-          const missil = robot.rounds[i]?.missil;
+          const missile = robot.rounds[i]?.missile;
 
-          return missil
+          return missile
             ? [
                 {
                   coords: robot.rounds[i].coords,
-                  direction: missil.direction,
-                  distance_left: missil.distance,
+                  direction: missile.direction,
+                  distance_left: missile.distance,
                   color: robot.color,
                 },
               ]
@@ -102,13 +102,13 @@ export function simulationResult_to_animationInfo(
         })
       );
 
-      // Add `actual_missils` to `missils`
-      missils.push(
-        actual_missils.map((missil: missilsInSimulation) => {
+      // Add `actual_missiles` to `missiles`
+      missiles.push(
+        actual_missiles.map((missile: missilesInSimulation) => {
           return {
-            coords: missil.coords,
-            direction: missil.direction,
-            color: missil.color,
+            coords: missile.coords,
+            direction: missile.direction,
+            color: missile.color,
           };
         })
       );
@@ -119,6 +119,6 @@ export function simulationResult_to_animationInfo(
     board_size: simulationResult.board_size,
     rounds_amount: rounds_amount,
     robots: robots,
-    missils: missils,
+    missiles: missiles,
   };
 }
