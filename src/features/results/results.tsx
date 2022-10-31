@@ -5,8 +5,9 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import NavBar from "../directories/NavBar";
-import { Box, Grid, Modal } from "@mui/material";
+import { Box, Divider, Grid, Modal, Stack } from "@mui/material";
 import { useState } from "react";
+import { AvatarRobot } from "../newrobot/CreateRobot";
 
 type modalState = {
   modal: boolean;
@@ -67,20 +68,30 @@ const Stats = () => {
   const { modal } = React.useContext(ModalState);
   const { setModal } = React.useContext(ModalState);
 
-  const body = (
+  const statsInfo = (
     <div>
-      <div data-align="center">
-        <h2> Estadísticas de partidas </h2>
-        <Button
-          variant="outlined"
-          onClick={() => setModal(false)}
-          color="error"
-          sx={{ width: "100%", color: "#BF0F0F" }}
-        >
-          {" "}
-          Cerrar{" "}
-        </Button>
-      </div>
+      <Typography variant="h5">Configuración de partida </Typography>
+      <Stack divider={<Divider />}>
+        <Typography>Nombre de la partida:</Typography>
+        <Typography>Jugadores:</Typography>
+        <Typography>Cantidad de juegos:</Typography>
+        <Typography> Cantidad de rondas: </Typography>
+        <Typography> Privada: </Typography>
+      </Stack>
+      <Typography variant="h5">Ganador </Typography>
+      <AvatarRobot />
+      <Stack mt={2} divider={<Divider />}>
+        <Typography> Nombre del robot: </Typography>
+        <Typography> Usuario: </Typography>
+      </Stack>
+      <Button
+        variant="outlined"
+        onClick={() => setModal(false)}
+        color="error"
+        sx={{ width: "100%", color: "#BF0F0F", mt: "10px" }}
+      >
+        Cerrar
+      </Button>
     </div>
   );
 
@@ -104,7 +115,7 @@ const Stats = () => {
             p: 4,
           }}
         >
-          {body}
+          {statsInfo}
         </Box>
       </Modal>
     </div>

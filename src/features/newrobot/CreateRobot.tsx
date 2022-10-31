@@ -23,7 +23,7 @@ function InputFile({ label }: { label: string }): JSX.Element {
   );
 }
 
-function AvatarRobot(): JSX.Element {
+export function AvatarRobot(): JSX.Element {
   return (
     <div id="avatar-view" data-testid="avatarView">
       <img
