@@ -278,7 +278,7 @@ export function Board(): JSX.Element {
   return (
     <div>
       <div>
-        <NavBar></NavBar>
+        <NavBar />
       </div>
       <div className="Board" data-testid="Board">
         {Animate(animation.rounds_amount - 1, (frame: number) =>
