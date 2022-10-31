@@ -137,8 +137,8 @@ const CardWin = (props: any) => {
         maxWidth: 300,
         margin: 3,
         background: "rgba(0,80,0,0.001)",
-        boxShadow: 1,
-        borderColor: "#2EA52E",
+        boxShadow: 6,
+        border: "2px solid #2EA52E",
         "&:hover": { boxShadow: "0rem 0.5rem 1rem #93D696" },
       }}
     >
@@ -189,8 +189,9 @@ const CardLose = (props: any) => {
         minWidth: 275,
         maxWidth: 300,
         margin: 3,
+        boxShadow: 6,
         background: "rgba(100,0,0,0.05)",
-        borderColor: "#BF0F0F",
+        border: "2px solid #BF0F0F",
         "&:hover": { boxShadow: "0rem 0.5rem 1rem #D38787" },
       }}
     >
