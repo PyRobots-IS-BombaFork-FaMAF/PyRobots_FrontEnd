@@ -9,7 +9,7 @@ import {
   robotInAnimationInfo,
   robotInSideTextConfig,
   simulationResult_to_animationInfo,
-  missilInFrameConfig,
+  missileInFrameConfig,
 } from "./boardHelper";
 
 import { simulationResult } from "./SimulationAPI";
@@ -74,55 +74,55 @@ function Robots({
   );
 }
 
-/* Draws a missil as a strait line */
-function Missil({
+/* Draws a missile as a strait line */
+function Missile({
   board,
-  missilConfig,
+  missileConfig,
 }: {
   board: boardConfig;
-  missilConfig: missilInFrameConfig;
+  missileConfig: missileInFrameConfig;
 }): JSX.Element {
-  const missil_board: gameCoords = gameToBoard_coordinates(
+  const missile_board: gameCoords = gameToBoard_coordinates(
     board,
-    missilConfig.coords
+    missileConfig.coords
   );
 
   const x_component_direction: number = Math.cos(
-    (missilConfig.direction * Math.PI) / 180
+    (missileConfig.direction * Math.PI) / 180
   );
   const y_component_direction: number = Math.sin(
-    (missilConfig.direction * Math.PI) / 180
+    (missileConfig.direction * Math.PI) / 180
   );
 
-  const missil_size: number = (board.robotsSize * 3) / 4;
+  const missile_size: number = (board.robotsSize * 3) / 4;
 
   return (
     <Line
       points={[
-        missil_board.x - (missil_size / 2) * x_component_direction,
-        missil_board.y - (missil_size / 2) * y_component_direction,
-        missil_board.x + (missil_size / 2) * x_component_direction,
-        missil_board.y + (missil_size / 2) * y_component_direction,
+        missile_board.x - (missile_size / 2) * x_component_direction,
+        missile_board.y - (missile_size / 2) * y_component_direction,
+        missile_board.x + (missile_size / 2) * x_component_direction,
+        missile_board.y + (missile_size / 2) * y_component_direction,
       ]}
-      stroke={missilConfig.color}
-      strokeWidth={missil_size / 2}
+      stroke={missileConfig.color}
+      strokeWidth={missile_size / 2}
       lineCap="round"
     />
   );
 }
 
-function Missils({
+function Missiles({
   board,
-  missils,
+  missiles,
 }: {
   board: boardConfig;
-  missils: missilInFrameConfig[];
+  missiles: missileInFrameConfig[];
 }): JSX.Element {
   return (
     <Group>
-      {missils.map((missil: missilInFrameConfig, key: number) => (
+      {missiles.map((missile: missileInFrameConfig, key: number) => (
         <Group key={key}>
-          <Missil board={board} missilConfig={missil} />
+          <Missile board={board} missileConfig={missile} />
         </Group>
       ))}
     </Group>
@@ -132,11 +132,11 @@ function Missils({
 function MainBoard({
   board_size,
   robots,
-  missils,
+  missiles,
 }: {
   board_size: number;
   robots: robotInFrameConfig[];
-  missils: missilInFrameConfig[];
+  missiles: missileInFrameConfig[];
 }): JSX.Element {
   const robot_size_relative: number = 0.02;
   const window_min_size: number = Math.min(
@@ -159,7 +159,7 @@ function MainBoard({
       <Layer>
         <BackGround {...board} />
         <Robots board={board} robots={robots} />
-        <Missils board={board} missils={missils} />
+        <Missiles board={board} missiles={missiles} />
       </Layer>
     </Stage>
   );
@@ -227,7 +227,7 @@ export function renderFrame(
         <MainBoard
           board_size={animation.board_size}
           robots={robotsInGame}
-          missils={animation.missils[frame] ?? []}
+          missiles={animation.missiles[frame] ?? []}
         />
       </div>
       <div className="SideText">
@@ -240,7 +240,7 @@ export function renderFrame(
 export function Board(): JSX.Element {
   const simulation: simulationResult = {
     board_size: 1000,
-    missil_velocity: 4,
+    missile_velocity: 4,
     robots: [
       {
         name: "Robot 1",
@@ -257,7 +257,7 @@ export function Board(): JSX.Element {
             direction: 20,
             speed: 10,
             damage: 0,
-            missil: { direction: 135, distance: 60 },
+            missile: { direction: 135, distance: 60 },
           },
           { coords: { x: 40, y: 40 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 50, y: 40 }, direction: 20, speed: 10, damage: 0 },
@@ -278,7 +278,7 @@ export function Board(): JSX.Element {
   return (
     <div>
       <div>
-        <NavBar></NavBar>
+        <NavBar />
       </div>
       <div className="Board" data-testid="Board">
         {Animate(animation.rounds_amount - 1, (frame: number) =>

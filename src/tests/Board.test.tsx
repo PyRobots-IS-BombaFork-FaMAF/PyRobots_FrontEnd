@@ -15,7 +15,7 @@ expect.extend({ toMatchCloseTo });
 describe("Componente Board", () => {
   const simulation: simulationResult = {
     board_size: 1000,
-    missil_velocity: 10,
+    missile_velocity: 10,
     robots: [
       {
         name: "fork bomb",
@@ -368,7 +368,7 @@ describe("Funciones dentro del componente `Board`", () => {
         // Test 1
         input: {
           board_size: 1000,
-          missil_velocity: 10,
+          missile_velocity: 10,
           robots: [
             {
               name: "robot1",
@@ -400,14 +400,14 @@ describe("Funciones dentro del componente `Board`", () => {
               color: "red",
             },
           ],
-          missils: [[]],
+          missiles: [[]],
         },
       },
       {
         // Test 2
         input: {
           board_size: 1000,
-          missil_velocity: 2.5,
+          missile_velocity: 2.5,
           robots: [
             {
               name: "ρομπότ",
@@ -434,7 +434,7 @@ describe("Funciones dentro del componente `Board`", () => {
                   direction: 315,
                   speed: 14.1421356237,
                   damage: 0,
-                  missil: { direction: 0, distance: 7.5 },
+                  missile: { direction: 0, distance: 7.5 },
                 },
                 {
                   coords: { x: 20, y: 20 },
@@ -488,7 +488,7 @@ describe("Funciones dentro del componente `Board`", () => {
                   direction: 315,
                   speed: 14.1421356237,
                   damage: 0,
-                  missil: { direction: 0, distance: 7.5 },
+                  missile: { direction: 0, distance: 7.5 },
                 },
                 {
                   coords: { x: 20, y: 20 },
@@ -512,7 +512,7 @@ describe("Funciones dentro del componente `Board`", () => {
               color: "blue",
             },
           ],
-          missils: [
+          missiles: [
             [],
             [{ coords: { x: 10, y: 10 }, direction: 0, color: "blue" }],
             [{ coords: { x: 10 + 2.5, y: 10 }, direction: 0, color: "blue" }],
@@ -525,7 +525,7 @@ describe("Funciones dentro del componente `Board`", () => {
         // Test 3
         input: {
           board_size: 800,
-          missil_velocity: 4,
+          missile_velocity: 4,
           robots: [
             {
               name: "Curry",
@@ -535,14 +535,14 @@ describe("Funciones dentro del componente `Board`", () => {
                   direction: 0,
                   speed: 0,
                   damage: 0,
-                  missil: { direction: 45, distance: 16.0001 },
+                  missile: { direction: 45, distance: 16.0001 },
                 },
                 {
                   coords: { x: 302.2584, y: 302.2584 },
                   direction: 0,
                   speed: 0,
                   damage: 0,
-                  missil: { direction: 210, distance: 15.9999 },
+                  missile: { direction: 210, distance: 15.9999 },
                 },
                 {
                   coords: { x: 302.2584, y: 302.2584 },
@@ -585,14 +585,14 @@ describe("Funciones dentro del componente `Board`", () => {
                   direction: 0,
                   speed: 0,
                   damage: 0,
-                  missil: { direction: 45, distance: 16.0001 },
+                  missile: { direction: 45, distance: 16.0001 },
                 },
                 {
                   coords: { x: 302.2584, y: 302.2584 },
                   direction: 0,
                   speed: 0,
                   damage: 0,
-                  missil: { direction: 210, distance: 15.9999 },
+                  missile: { direction: 210, distance: 15.9999 },
                 },
                 {
                   coords: { x: 302.2584, y: 302.2584 },
@@ -621,7 +621,7 @@ describe("Funciones dentro del componente `Board`", () => {
               ],
             },
           ],
-          missils: [
+          missiles: [
             [
               {
                 coords: { x: 302.2584, y: 302.2584 },
