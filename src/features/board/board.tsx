@@ -237,41 +237,7 @@ export function renderFrame(
   );
 }
 
-export function Board(): JSX.Element {
-  const simulation: simulationResult = {
-    board_size: 1000,
-    missile_velocity: 4,
-    robots: [
-      {
-        name: "Robot 1",
-        rounds: [
-          { coords: { x: 0, y: 0 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 10, y: 0 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 10, y: 10 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 20, y: 10 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 20, y: 20 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 30, y: 20 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 30, y: 30 }, direction: 20, speed: 10, damage: 0 },
-          {
-            coords: { x: 40, y: 30 },
-            direction: 20,
-            speed: 10,
-            damage: 0,
-            missile: { direction: 135, distance: 60 },
-          },
-          { coords: { x: 40, y: 40 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 50, y: 40 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 50, y: 50 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 60, y: 50 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 60, y: 60 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 70, y: 60 }, direction: 20, speed: 10, damage: 0.5 },
-          { coords: { x: 70, y: 70 }, direction: 20, speed: 10, damage: 0.5 },
-          { coords: { x: 80, y: 70 }, direction: 20, speed: 10, damage: 0.5 },
-        ],
-      },
-    ],
-  };
-
+export function Board(simulation: simulationResult): JSX.Element {
   const animation: animationInfo =
     simulationResult_to_animationInfo(simulation);
 

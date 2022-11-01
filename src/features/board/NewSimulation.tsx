@@ -4,9 +4,20 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import NavBar from "../directories/NavBar";
-import { newSimulationAPI, newSimulationInfo } from "./SimulationAPI";
+import {
+  newSimulationAPI,
+  newSimulationInfo,
+  simulationResult,
+} from "./SimulationAPI";
+import { useState } from "react";
+import Board from "./board";
 
-function onSubmit_newSimulation(event: React.FormEvent<HTMLFormElement>): void {
+function onSubmit_newSimulation(
+  setSimulationResult: React.Dispatch<
+    React.SetStateAction<simulationResult | null>
+  >,
+  event: React.FormEvent<HTMLFormElement>
+): void {
   event.preventDefault();
   const data: FormData = new FormData(event.currentTarget);
 
@@ -24,18 +35,32 @@ function onSubmit_newSimulation(event: React.FormEvent<HTMLFormElement>): void {
   }
 
   const access_token: string | null = localStorage.getItem("access_token");
-  newSimulationAPI(newSimulationInfo, access_token);
+  const simulationResult: Promise<simulationResult> = newSimulationAPI(
+    newSimulationInfo,
+    access_token
+  );
 
-  // TODO: Do something with the response
+  simulationResult.then((result) => {
+    setSimulationResult(result);
+  });
 }
 
 // Regex of input validation (in string because `pattern` requires a string)
 export const rounds_amount_regex: string = "^([1-9][0-9]{0,3}|10000)$";
 
-function SimulationForm(): JSX.Element {
+function SimulationForm(
+  setSimulationResult: React.Dispatch<
+    React.SetStateAction<simulationResult | null>
+  >
+): JSX.Element {
   return (
     <Container>
-      <Box component="form" onSubmit={onSubmit_newSimulation}>
+      <Box
+        component="form"
+        onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+          onSubmit_newSimulation(setSimulationResult, event);
+        }}
+      >
         <Grid>
           <TextField
             required
@@ -73,16 +98,24 @@ function SimulationForm(): JSX.Element {
 }
 
 function NewSimulation(): JSX.Element {
+  const [simulationResult, setSimulationResult] =
+    useState<simulationResult | null>(null);
+
   return (
     <div>
       <div>
         <NavBar />
       </div>
-      <div className="bg-image"></div>
-      <div className="form">
-        <h1>Nueva simulación</h1>
-        <SimulationForm />
-      </div>
+      {simulationResult === null ? (
+        <div className="bg-image">
+          <div className="form">
+            <h1>Nueva simulación</h1>
+            {SimulationForm(setSimulationResult)}
+          </div>
+        </div>
+      ) : (
+        Board(simulationResult)
+      )}
     </div>
   );
 }
