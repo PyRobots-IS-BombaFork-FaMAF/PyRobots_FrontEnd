@@ -13,7 +13,9 @@ import CreateRobot from './features/newrobot/CreateRobot';
 import ListMatches from "./features/listMatches/ListMatches";
 import HistoricalResults from './features/results/results';
 
+
 function App(): JSX.Element {
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -33,6 +35,7 @@ function App(): JSX.Element {
               <Route path="/newGame" element={<NewGame/>}/>
             </Route>
           </Route>
+          
           <Route path="*" element={<NotFound />} />
 
         </Routes>

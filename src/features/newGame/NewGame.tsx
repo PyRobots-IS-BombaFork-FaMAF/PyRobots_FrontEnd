@@ -37,7 +37,7 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>): void {
   if (typeof min_players === "string") {
     newGameInfo.min_players = parseInt(min_players);
   }
-
+  newGameInfo.robot = "loc";
   if (newGameInfo.name.length > newGameInfo.name.trim().length) {
     alert("No se puede incluir espacios en blanco");
   } else {
