@@ -6,8 +6,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import NavBar from "../directories/NavBar";
 import { Box, Divider, Grid, Modal, Stack } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import { AvatarRobot } from "../newrobot/CreateRobot";
+import { getResults } from "./resultsApi";
 
 type modalState = {
   modal: boolean;
@@ -166,8 +167,7 @@ const CardWin = (props: any) => {
               "&:hover": { backgroundColor: "#43B647" },
             }}
           >
-            {" "}
-            Estadísticas{" "}
+            Estadísticas
           </Button>
         </CardActions>
       </CardContent>
@@ -230,6 +230,8 @@ const CardLose = (props: any) => {
 
 const HistoricalResults = () => {
   const [modal, setModal] = useState<boolean>(false);
+
+  useEffect(() => {getResults()});
 
   return (
     <div>

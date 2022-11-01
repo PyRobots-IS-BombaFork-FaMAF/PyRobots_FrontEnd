@@ -28,9 +28,9 @@ function App(): JSX.Element {
               <Route path="/tableroDePrueba/" element={<Board />} />
               <Route path="/createRobot" element= {<CreateRobot />} />
               <Route path="/" element={<Home />} />
+              <Route path="/results" element={<HistoricalResults/>} />
               <Route path="/listMatches" element={<ListMatches/>}/>
               <Route path="/newGame" element={<NewGame/>}/>
-              <Route path="/results" element={<HistoricalResults/>} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
