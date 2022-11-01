@@ -27,7 +27,7 @@ export type Match = {
 
 export type ListMatch = Array<Match>;
 
-export async function listMatchesApi(
+async function listMatchesApi(
   filters: ListMatchesFilter,
   access_token: string
 ): Promise<any> {
@@ -56,5 +56,37 @@ export async function listMatchesApi(
           }, 2000);
         }
       });
+  });
+}
+
+export function callApiListMatch(
+  filters: ListMatchesFilter,
+  setMatches: Function
+): void {
+  const promise1 = Promise.resolve(
+    listMatchesApi(filters, localStorage.getItem("access_token")?.toString()!)
+  );
+  promise1.then((value) => {
+    setMatches(
+      JSON.parse(value).map((match: Match) => {
+        if (
+          match._players
+            .map((elem: any) => {
+              return (
+                elem.player === localStorage.getItem("username")?.toString()!
+              );
+            })
+            .includes(true)
+        ) {
+          return ({ ...match, _status: "joined" });
+        } else {
+          if (match._current_players === match._max_players){
+            return { ...match, _status: "full" };
+          }            
+          else 
+            return { ...match, _status: "notJoined" };
+        }
+      })
+    );
   });
 }

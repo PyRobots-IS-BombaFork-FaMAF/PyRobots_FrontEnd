@@ -1,12 +1,16 @@
 import Box from "@mui/material/Box";
 import { Container } from "@mui/system";
+import { ListMatch, callApiListMatch } from "./ListMatchesApi";
+
 import {
-  ListMatchesFilter,
-  ListMatch,
-  listMatchesApi,
-  Match,
-} from "./ListMatchesApi";
-import { CssBaseline } from "@mui/material";
+  Button,
+  CssBaseline,
+  MenuItem,
+  Modal,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from "@mui/material";
 import NavBar from "../directories/NavBar";
 import "../directories/Home.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -14,55 +18,97 @@ import { useEffect, useState } from "react";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import { Lobby } from "../joinGame/Lobby";
 import { columns, CustomToolBar } from "./DataGridUtils";
-import { joinGame } from "../joinGame/JoinGame";
+import { joinGame, Player, Robot } from "../joinGame/JoinGame";
+import { callApiListRobot } from "../robotApi/ListRobotApi";
+import { JoinGameApi } from "../joinGame/JoinGameApi";
 
-function callApiList(
-  filters: ListMatchesFilter,
-  setMatches: Function
-): void {
-  const promise1 = Promise.resolve(
-    listMatchesApi(filters, localStorage.getItem("access_token")?.toString()!)
-  );
-  promise1.then((value) => {
-    setMatches(
-      JSON.parse(value).map((match: Match) => {
-        if (
-          match._players
-            .map((elem: any) => {
-              return (
-                elem.player === localStorage.getItem("username")?.toString()!
-              );
-            })
-            .includes(true)
-        ) {
-          return ({ ...match, _status: "joined" });
-        } else {
-          if (match._current_players === match._max_players){
-            return { ...match, _status: "full" };
-          }            
-          else 
-            return { ...match, _status: "notJoined" };
-        }
-      })
-    );
-  });
-}
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px groover #000",
+  borderRadius: 10,
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+};
 
 export default function ListMatches(): JSX.Element {
   const [matches, setMatches] = useState<ListMatch>([]);
   const [socket, setSocket] = useState<WebSocket>();
+  const [open, setOpen] = useState(false);
   const [showLobby, setShowLobby] = useState(false);
-  const [room, setRoom] = useState("");
   const [actualLobby, setActualLobby] = useState(0);
   const [isCreator, setIsCreator] = useState(false);
+  const [robot, setRobot] = useState<Robot | null>(null);
+  const [robotIndex, setRobotIndex] = useState("");
+  const [arrRobot, setArrRobot] = useState<Robot[]>([]);
+  const [password, setPassword] = useState("");
+  const [room, setRoom] = useState("");
+  const [row, setRow] = useState<any>({});
+  const [error, setError] = useState("");
+
+  const handleSubmitJoin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    setPassword(data.get("password")?.toString()!);
+    console.log(robotIndex);
+    setRobot(arrRobot[+robotIndex]);
+    if (row.status !== "joined") {
+      const player : Player = {
+        game_id: row.id,
+        robot : robot?.name!,
+        password : password
+      }
+    setError(await JoinGameApi(player, localStorage.getItem("access_token")?.toString()!));
+    handleClose();
+  }
+    
+  };
+  
+  useEffect(() => {
+    if (robot && error === "Not Error") {
+      console.log("hola");
+      joinGame(
+        row,
+        setActualLobby,
+        setRoom,
+        setIsCreator,
+        setMatches,
+        setShowLobby,
+        setSocket,
+        matches,
+        room
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, robot])
+
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleChange = (e: SelectChangeEvent) => {
+    setRobotIndex(e.target.value as string);
+  };
 
   useEffect(() => {
-    callApiList({}, setMatches);
+    callApiListMatch({}, setMatches);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitMatches = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
-    callApiList({}, setMatches);
+    callApiListMatch({}, setMatches);
   };
 
   const theme = createTheme();
@@ -76,7 +122,7 @@ export default function ListMatches(): JSX.Element {
             <CssBaseline />
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmitMatches}
               noValidate
               id="my-form"
             />
@@ -143,20 +189,83 @@ export default function ListMatches(): JSX.Element {
                   experimentalFeatures={{ newEditingApi: true }}
                   getRowClassName={(params) => `${params.row._status}`}
                   components={{ Toolbar: CustomToolBar }}
-                  onRowClick={(row) =>
-                    joinGame(
-                      row,
-                      setActualLobby,
-                      setRoom,
-                      setIsCreator,
-                      setMatches,
-                      setShowLobby,
-                      setSocket,
-                      matches,
-                      room
-                    )
-                  }
+                  onRowClick={(row) => {
+                    setRow(row);
+                    callApiListRobot(setArrRobot);
+                    handleOpen();
+                  }}
                 />
+                <Container>
+                  <Modal hideBackdrop open={open} onClose={handleClose}>
+                    <Box
+                      component="form"
+                      onSubmit={handleSubmitJoin}
+                      noValidate
+                      sx={{ ...style, width: 200 }}
+                    >
+                      <TextField
+                        margin="normal"
+                        data-testid="passJoin"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Contraseña"
+                        type="password"
+                        id="password"
+                        autoComplete="off"
+                      ></TextField>
+                      <h3> Elija el robot que quiera usar </h3>
+                      <Select
+                        data-testid="selectJoin"
+                        value={robotIndex}
+                        label="Robots"
+                        onChange={handleChange}
+                      >
+                        <MenuItem value=""></MenuItem>
+                        {arrRobot.map((elem: Robot, key) => {
+                          return (
+                            <MenuItem key={key} value={`${key}`}>
+                              {elem.name}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{
+                          mt: 3,
+                          mb: 2,
+                          backgroundColor: "#43B647",
+                          "&:hover": {
+                            backgroundColor: "#43B647",
+                            boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+                          },
+                        }}
+                        onClick={handleClose}
+                      >
+                        {" "}
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{
+                          mt: 3,
+                          mb: 2,
+                          backgroundColor: "#43B647",
+                          "&:hover": {
+                            backgroundColor: "#43B647",
+                            boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+                          },
+                        }}
+                      >
+                        Unirse
+                      </Button>
+                    </Box>
+                  </Modal>
+                </Container>
               </Box>
             ) : showLobby ? (
               <Lobby
