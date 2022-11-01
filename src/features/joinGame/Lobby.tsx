@@ -47,6 +47,7 @@ export const Lobby = ({
   isCreator,
   socket,
 }: Props) => {
+  console.log(players);
   useEffect(() => {
     message(socket!);
   }, [socket])

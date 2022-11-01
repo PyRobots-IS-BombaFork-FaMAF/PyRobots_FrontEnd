@@ -21,7 +21,10 @@ import { columns, CustomToolBar } from "./DataGridUtils";
 import { joinGame, Player, Robot } from "../joinGame/JoinGame";
 import { callApiListRobot } from "../robotApi/ListRobotApi";
 import { JoinGameApi } from "../joinGame/JoinGameApi";
+import { Match } from "./ListMatchesApi"
 import swal from "sweetalert2"
+
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -42,7 +45,7 @@ export default function ListMatches(): JSX.Element {
   const [socket, setSocket] = useState<WebSocket>();
   const [open, setOpen] = useState(false);
   const [showLobby, setShowLobby] = useState(false);
-  const [actualLobby, setActualLobby] = useState(0);
+  const [actualMatch, setActualMatch] = useState<Match | null>(null);
   const [isCreator, setIsCreator] = useState(false);
 
   const [robotIndex, setRobotIndex] = useState("");
@@ -79,7 +82,7 @@ export default function ListMatches(): JSX.Element {
       joinGame(
         row,
         arrRobot[+robotIndex].name,
-        setActualLobby,
+        setActualMatch,
         setIsCreator,
         setMatches,
         setShowLobby,
@@ -87,7 +90,7 @@ export default function ListMatches(): JSX.Element {
         matches,
       );
     }
-   
+    console.log(actualMatch);
   }, [error, showLobby, password, matches, row, arrRobot, robotIndex, socket])
 
 
@@ -199,13 +202,14 @@ export default function ListMatches(): JSX.Element {
                       joinGame(
                         row,
                         arrRobot[+robotIndex].name,
-                        setActualLobby,
+                        setActualMatch,
                         setIsCreator,
                         setMatches,
                         setShowLobby,
                         setSocket,
                         matches,
                       );
+                      
                     }else{
                       handleOpen();
                     }
@@ -284,10 +288,10 @@ export default function ListMatches(): JSX.Element {
                   </Modal>
                 </Container>
               </Box>
-            ) : showLobby ? (
+            ) : showLobby && actualMatch ? (
               <Lobby
                 myKey={0}
-                players={matches[actualLobby]._players}
+                players={actualMatch?._players!}
                 setShowLobby={setShowLobby}
                 isCreator={isCreator}
                 socket={socket}
