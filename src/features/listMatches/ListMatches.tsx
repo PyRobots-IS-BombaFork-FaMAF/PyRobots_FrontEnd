@@ -21,7 +21,7 @@ import { columns, CustomToolBar } from "./DataGridUtils";
 import { joinGame, Player, Robot } from "../joinGame/JoinGame";
 import { callApiListRobot } from "../robotApi/ListRobotApi";
 import { JoinGameApi } from "../joinGame/JoinGameApi";
-
+import swal from "sweetalert2"
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -64,6 +64,8 @@ export default function ListMatches(): JSX.Element {
           password : password
         }
         setError(await JoinGameApi(player, localStorage.getItem("access_token")?.toString()!));
+      }else{
+        swal.fire("Debe crear un robot primero", "" , "error");
       }
     }
     handleClose();
@@ -86,7 +88,7 @@ export default function ListMatches(): JSX.Element {
       );
     }
    
-  }, [error, showLobby, password, matches, row, arrRobot, robotIndex])
+  }, [error, showLobby, password, matches, row, arrRobot, robotIndex, socket])
 
 
   const handleOpen = () => {

@@ -7,9 +7,14 @@ export const initSocket = (dir : string) : WebSocket => {
 
 export const message = (socket : WebSocket) => {
     socket.onmessage = (event) => {
-        console.log(event.data.players);
-        console.log(JSON.parse(event.data));
-        console.log(`[message] Data received from server: ${event.data}`);
+        try {
+            console.log(event.data.players);
+            console.log(JSON.parse(event.data));
+            console.log(`[message] Data received from server: ${event.data}`);
+        }catch(err){
+
+        }
+        
     }
 }
 
