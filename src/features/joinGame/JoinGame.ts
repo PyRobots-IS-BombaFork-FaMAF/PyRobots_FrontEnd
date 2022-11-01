@@ -5,6 +5,9 @@ export type Player = {
   game_id: number;
   robot: string;
   password: string;
+} | {
+  game_id: number;
+  robot: string;
 };
 
 export type Robot = {
@@ -16,16 +19,15 @@ export type Robot = {
 
 
 
-export const joinGame = async (
+export const joinGame = (
   data: any,
+  robot: string,
   setActualLobby: Function,
-  setRoom: Function,
   setIsCreator: Function,
   setMatches: Function,
   setShowLobby: Function,
   setSocket: Function,
   matches: ListMatch,
-  room: string
 ) => {
   // Como las listas funcionan desde 0, matches necesita ser indexado con -1, pero las partidas se manejan de 1 en adelante.
   const key = data.row.id - 1;
@@ -36,7 +38,6 @@ export const joinGame = async (
       
       setActualLobby(key);
       if (matches[key]._creator !== localStorage.getItem("username")) {
-        setRoom(matches[key]._websocketurl);
         setIsCreator(false);
         const players = matches[key]._players;
         if (
@@ -46,7 +47,7 @@ export const joinGame = async (
         ) {
           players.push({
             player: localStorage.getItem("username")?.toString()!,
-            robot: "hola",
+            robot : robot
           });
           setMatches(
             matches.map((elem: any, id) => {
@@ -66,13 +67,9 @@ export const joinGame = async (
       } else {
         setIsCreator(true);
       }
-      setRoom(matches[key]._websocketurl);
-      console.log(room);
-      const game = room;
       setShowLobby(true);
-      const socket = initSocket(game);
+      const socket = initSocket(matches[key]._websocketurl);
       setSocket(socket);
-      console.log(socket);
       if(socket){
         message(socket);
       }

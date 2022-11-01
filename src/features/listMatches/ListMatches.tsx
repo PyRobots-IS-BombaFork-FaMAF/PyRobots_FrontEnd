@@ -44,11 +44,10 @@ export default function ListMatches(): JSX.Element {
   const [showLobby, setShowLobby] = useState(false);
   const [actualLobby, setActualLobby] = useState(0);
   const [isCreator, setIsCreator] = useState(false);
-  const [robot, setRobot] = useState<Robot | null>(null);
+
   const [robotIndex, setRobotIndex] = useState("");
   const [arrRobot, setArrRobot] = useState<Robot[]>([]);
   const [password, setPassword] = useState("");
-  const [room, setRoom] = useState("");
   const [row, setRow] = useState<any>({});
   const [error, setError] = useState("");
 
@@ -56,37 +55,38 @@ export default function ListMatches(): JSX.Element {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     setPassword(data.get("password")?.toString()!);
-    console.log(robotIndex);
-    setRobot(arrRobot[+robotIndex]);
+
     if (row.status !== "joined") {
-      const player : Player = {
-        game_id: row.id,
-        robot : robot?.name!,
-        password : password
+      if(arrRobot[+robotIndex]){
+        const player : Player = {
+          game_id: row.id,
+          robot : arrRobot[+robotIndex].name,
+          password : password
+        }
+        setError(await JoinGameApi(player, localStorage.getItem("access_token")?.toString()!));
       }
-    setError(await JoinGameApi(player, localStorage.getItem("access_token")?.toString()!));
+    }
     handleClose();
-  }
-    
   };
   
   useEffect(() => {
-    if (robot && error === "Not Error") {
-      console.log("hola");
+    console.log(error);
+    if (error === "Not Error") {
+      handleClose();
+      setError("");
       joinGame(
         row,
+        arrRobot[+robotIndex].name,
         setActualLobby,
-        setRoom,
         setIsCreator,
         setMatches,
         setShowLobby,
         setSocket,
         matches,
-        room
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, robot])
+   
+  }, [error, showLobby, password, matches, row, arrRobot, robotIndex])
 
 
   const handleOpen = () => {
@@ -102,6 +102,7 @@ export default function ListMatches(): JSX.Element {
 
   useEffect(() => {
     callApiListMatch({}, setMatches);
+    callApiListRobot(setArrRobot);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleSubmitMatches = async (
@@ -109,6 +110,7 @@ export default function ListMatches(): JSX.Element {
   ) => {
     event.preventDefault();
     callApiListMatch({}, setMatches);
+    callApiListRobot(setArrRobot);
   };
 
   const theme = createTheme();
@@ -191,8 +193,21 @@ export default function ListMatches(): JSX.Element {
                   components={{ Toolbar: CustomToolBar }}
                   onRowClick={(row) => {
                     setRow(row);
-                    callApiListRobot(setArrRobot);
-                    handleOpen();
+                    if(row.row._status === "joined"){
+                      joinGame(
+                        row,
+                        arrRobot[+robotIndex].name,
+                        setActualLobby,
+                        setIsCreator,
+                        setMatches,
+                        setShowLobby,
+                        setSocket,
+                        matches,
+                      );
+                    }else{
+                      handleOpen();
+                    }
+                    
                   }}
                 />
                 <Container>

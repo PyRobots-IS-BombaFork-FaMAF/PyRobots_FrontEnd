@@ -4,6 +4,8 @@ import { Button, Typography, Grid } from "@mui/material";
 import defaultPlayer from "../../assets/img/defaultPlayer.jpg";
 import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import Swal from "sweetalert2";
+import { useEffect } from "react";
+import { message } from "../../websocket/WebSocket";
 // import { message } from "../../websocket/WebSocket";
 
 type Props = {
@@ -34,7 +36,10 @@ const abandoneGame = () => {
   });
 };
 
-const launchGame = (socket: WebSocket | undefined) => {};
+const launchGame = (socket: WebSocket | undefined) => {
+
+
+};
 export const Lobby = ({
   myKey,
   players,
@@ -42,6 +47,9 @@ export const Lobby = ({
   isCreator,
   socket,
 }: Props) => {
+  useEffect(() => {
+    message(socket!);
+  }, [socket])
   return (
     <Grid
       key={myKey}

@@ -16,6 +16,9 @@ export function JoinGameApi(player: Player, access_token: string): Promise<any> 
       return resolve("Not Error");
     })
     .catch(function (error: any) {
+      if(error.status === 403){
+        return resolve(error.response.data.detail);
+      }
       swal.fire({
         title: "Error",
         text: error.response.data.detail,
@@ -28,7 +31,6 @@ export function JoinGameApi(player: Player, access_token: string): Promise<any> 
           window.location.reload();
         }, 2000);
       }
-      return resolve(error.response.data.detail);
     });
   });
 }
