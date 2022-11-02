@@ -44,7 +44,9 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>, arrRobot : Ro
   }
   const robotId = data.get("select-robot");
   if(typeof robotId === "string"){
-    newGameInfo.robot = arrRobot[parseInt(robotId)].name;
+    if(robotId){
+      newGameInfo.robot = arrRobot[parseInt(robotId)].name;
+    }
   }
  
   if (newGameInfo.name.length > newGameInfo.name.trim().length) {
@@ -52,7 +54,7 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>, arrRobot : Ro
   } else {
     if (newGameInfo.min_players! > newGameInfo.max_players!) {
       alert("El mínimo de jugadores no puede ser mayor a la máxima");
-    } else if(arrRobot.length > 0) {
+    } else if(newGameInfo.robot && arrRobot.length > 0) {
       const access_token: string | null = localStorage.getItem("access_token");
       createMatchApi(newGameInfo, access_token);
     }else{
