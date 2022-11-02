@@ -12,7 +12,7 @@ export type newGameInfo = {
 
 export function leaveMatchApi(roomId: string, access_token: string | null) {
   axios
-    .post(`game/${roomId}/leave`, {
+    .post(`game/${roomId}/leave`, {}, {
       headers: {
         Authorization: `Bearer ${access_token}`,
         "Content-Type": "application/json",

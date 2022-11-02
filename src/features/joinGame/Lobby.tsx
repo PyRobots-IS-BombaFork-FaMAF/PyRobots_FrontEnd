@@ -50,10 +50,12 @@ const Buttons = ({
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        leaveMatchApi(roomId, localStorage.getItem("access_token"));
+        leaveMatchApi(roomId, localStorage.getItem("access_token")?.toString()!);
         socket?.close();
         setShowLobby(false);
-        callApiListMatch({}, setMatches);
+        setTimeout(() => {
+          callApiListMatch({}, setMatches);
+        },1000);
       }
     });
   };
