@@ -13,6 +13,7 @@ import ListMatches from "./features/listMatches/ListMatches";
 import NewSimulation from "./features/board/NewSimulation";
 import { simulationResult } from "./features/board/SimulationAPI";
 
+
 function App(): JSX.Element {
   const simulation: simulationResult = {
     board_size: 1000,
@@ -67,6 +68,7 @@ function App(): JSX.Element {
               <Route path="/newGame" element={<NewGame />} />
             </Route>
           </Route>
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

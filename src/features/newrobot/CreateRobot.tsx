@@ -64,7 +64,11 @@ function ButtonChangeAvatar(): JSX.Element {
   );
 }
 
+
+
+
 function CreateRobot(): JSX.Element {
+ 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data: FormData = new FormData(e.currentTarget);
@@ -72,6 +76,8 @@ function CreateRobot(): JSX.Element {
       postRobot(data);
     }
   };
+
+
 
   return (
     <div>

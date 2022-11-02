@@ -1,5 +1,5 @@
 import axios from "../../api/axios";
-import swal from 'sweetalert2';
+import swal from "sweetalert2";
 
 export type ListMatchesFilter = {
   game_name?: string;
@@ -9,23 +9,29 @@ export type ListMatchesFilter = {
 };
 
 export type Match = {
+  _id: number;
   _name: string;
   _rounds: number;
   _games: number;
   _max_players: number;
   _min_players: number;
+  _websocketurl: string;
+  _current_players: number;
   _creator: string;
+  _players: [{ player: string; robot: string }];
   _creation_date: string; // Formato "año-mes-día hora:minuto:segundo"
   _password: string; // No es la contraseña real, si no un hash irreversible
   _private: boolean;
+  _gameStatus: number;
+  _status: string;
 };
 
 export type ListMatch = Array<Match>;
 
-export async function listMatchesApi(
+async function listMatchesApi(
   filters: ListMatchesFilter,
   access_token: string
-): Promise<ListMatch> {
+): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
       .post("game/list", filters, {
@@ -39,17 +45,49 @@ export async function listMatchesApi(
       })
       .catch(function (error: any) {
         swal.fire({
-          title: "Error", 
-          text: error.response.data.detail, 
+          title: "Error",
+          text: error.response.data.detail,
           icon: "error",
-          confirmButtonColor: '#43B647'
+          confirmButtonColor: "#43B647",
         });
-        if(error.response.status === 401){
+        if (error.response.status === 401) {
           localStorage.clear();
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         }
       });
+  });
+}
+
+export function callApiListMatch(
+  filters: ListMatchesFilter,
+  setMatches: Function
+): void {
+  const promise1 = Promise.resolve(
+    listMatchesApi(filters, localStorage.getItem("access_token")?.toString()!)
+  );
+  promise1.then((value) => {
+    setMatches(
+      JSON.parse(value).map((match: Match) => {
+        if (
+          match._players
+            .map((elem: any) => {
+              return (
+                elem.player === localStorage.getItem("username")?.toString()!
+              );
+            })
+            .includes(true)
+        ) {
+          return ({ ...match, _status: "joined" });
+        } else {
+          if (match._current_players === match._max_players){
+            return { ...match, _status: "full" };
+          }            
+          else 
+            return { ...match, _status: "notJoined" };
+        }
+      })
+    );
   });
 }
