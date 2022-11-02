@@ -251,7 +251,7 @@ export function Board({
         <NavBar />
       </div>
       <div className="Board" data-testid="Board">
-        {Animate(animation.rounds_amount - 1, (frame: number) =>
+        {Animate(animation.rounds_amount - 1, 25, (frame: number) =>
           renderFrame(animation, frame)
         )}
       </div>
