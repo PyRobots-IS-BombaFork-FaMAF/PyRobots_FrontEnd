@@ -1,23 +1,23 @@
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import { Button, Typography, Grid } from "@mui/material";
+import { Button, Typography, Grid, Container } from "@mui/material";
 import defaultPlayer from "../../assets/img/defaultPlayer.jpg";
 import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import Swal from "sweetalert2";
-import { useEffect } from "react";
-import { message } from "../../websocket/WebSocket";
-// import { message } from "../../websocket/WebSocket";
+import {  useState } from "react";
+import { callApiLaunchApi } from "./LaunchGameApi";
 
+type Player = {
+  player: string;
+  robot: string;
+}
+type ListPlayer = Player[];
 type Props = {
   myKey: number;
-  players: [
-    {
-      player: string;
-      robot: string;
-    }
-  ];
   setShowLobby: Function;
+  players : ListPlayer;
   isCreator: boolean;
+  roomId : string;
   socket: WebSocket | undefined;
 };
 
@@ -36,21 +36,35 @@ const abandoneGame = () => {
   });
 };
 
-const launchGame = (socket: WebSocket | undefined) => {
 
-
-};
 export const Lobby = ({
   myKey,
   players,
   setShowLobby,
   isCreator,
+  roomId,
   socket,
 }: Props) => {
-  console.log(players);
-  useEffect(() => {
-    message(socket!);
-  }, [socket])
+  const [playersSocket, setPlayersSocket] = useState<ListPlayer>([]);
+  const [serverMessage, setServerMessage] = useState("");
+ 
+  socket!.onmessage = (event) => {
+    const json = JSON.parse(event.data);
+    if(json.status === 0 || json.status === 1 || json.status === 4){
+      setPlayersSocket(json.players);
+      setServerMessage(json.message);
+    }else {
+      setServerMessage(json.message);
+    }
+  }
+
+  if(playersSocket.length > 0){
+    players = [...playersSocket];
+  }
+  
+  const launchGame = () => {
+    callApiLaunchApi(roomId);
+};
   return (
     <Grid
       key={myKey}
@@ -67,7 +81,9 @@ export const Lobby = ({
       }}
     >
       <Grid>
-        <Stack spacing={3}>
+      
+        <Container>
+          <Stack spacing={3}>
           {players.map((player: any, key: number): any => {
             return (
               <Stack
@@ -105,6 +121,8 @@ export const Lobby = ({
             );
           })}
         </Stack>
+          <h6>{serverMessage}</h6>
+        </Container>
       </Grid>
 
       <Stack direction="row" sx={{ mt: 3 }}>
@@ -130,9 +148,7 @@ export const Lobby = ({
         </Grid>
         <Grid item xs={4}>
           <Button
-            onClick={(event) => {
-              launchGame(socket);
-            }}
+            onClick={() => launchGame()}
             variant="contained"
             sx={{
               mt: 3,
@@ -143,6 +159,7 @@ export const Lobby = ({
                 boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
               },
             }}
+            disabled={!isCreator}
           >
             Iniciar Partida
           </Button>
@@ -160,7 +177,7 @@ export const Lobby = ({
               },
             }}
             disabled={isCreator}
-            onClick={() => abandoneGame()}
+            onClick= {abandoneGame}
           >
             Abandonar Partida
           </Button>

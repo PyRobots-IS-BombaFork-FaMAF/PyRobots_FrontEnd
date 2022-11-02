@@ -60,22 +60,25 @@ export default function ListMatches(): JSX.Element {
     setPassword(data.get("password")?.toString()!);
 
     if (row.status !== "joined") {
-      if(arrRobot[+robotIndex]){
-        const player : Player = {
-          game_id: row.id,
-          robot : arrRobot[+robotIndex].name,
-          password : password
+      if(robotIndex !== ""){
+        if(arrRobot[+robotIndex]){
+          const player : Player = {
+            game_id: row.id,
+            robot : arrRobot[+robotIndex].name,
+            password : password
+          }
+          setError(await JoinGameApi(player, localStorage.getItem("access_token")?.toString()!, handleClose));
         }
-        setError(await JoinGameApi(player, localStorage.getItem("access_token")?.toString()!));
       }else{
-        swal.fire("Debe crear un robot primero", "" , "error");
+        handleClose();
+        swal.fire("Error", "Debe elegir un robot o crear uno si no lo tiene", "warning");
       }
+      
     }
-    handleClose();
+    
   };
   
   useEffect(() => {
-    console.log(error);
     if (error === "Not Error") {
       handleClose();
       setError("");
@@ -90,8 +93,7 @@ export default function ListMatches(): JSX.Element {
         matches,
       );
     }
-    console.log(actualMatch);
-  }, [error, showLobby, password, matches, row, arrRobot, robotIndex, socket])
+  }, [error, showLobby, password, matches, row, arrRobot, robotIndex])
 
 
   const handleOpen = () => {
@@ -177,7 +179,7 @@ export default function ListMatches(): JSX.Element {
                       },
                     border: "none",
                   }}
-                  rows={matches.map((elem, index) => ({
+                  rows={matches.filter((elem, index) => elem._gameStatus === 0).map((elem, index) => ({
                     id: elem._id,
                     _name: elem._name,
                     _rounds: elem._rounds,
@@ -293,6 +295,7 @@ export default function ListMatches(): JSX.Element {
                 myKey={0}
                 players={actualMatch?._players!}
                 setShowLobby={setShowLobby}
+                roomId = {actualMatch?._id.toString()}
                 isCreator={isCreator}
                 socket={socket}
               ></Lobby>

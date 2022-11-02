@@ -1,5 +1,5 @@
 import { ListMatch } from "../listMatches/ListMatchesApi";
-import { initSocket, message } from "../../websocket/WebSocket";
+import { initSocket } from "../../websocket/WebSocket";
 
 export type Player = {
   game_id: number;
@@ -61,7 +61,6 @@ export const joinGame = (
               }
             })
           );
-          console.log(match);
         }
       } else {
         setIsCreator(true);
@@ -69,9 +68,6 @@ export const joinGame = (
       setShowLobby(true);
       const socket = initSocket(match?._websocketurl!);
       setSocket(socket);
-      if(socket){
-        message(socket);
-      }
     }else{
       setMatches(
         matches.map((elem: any, id) => {
