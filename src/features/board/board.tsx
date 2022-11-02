@@ -246,15 +246,10 @@ export function Board({
     simulationResult_to_animationInfo(simulation);
 
   return (
-    <div>
-      <div>
-        <NavBar />
-      </div>
-      <div className="Board" data-testid="Board">
-        {Animate(animation.rounds_amount - 1, 25, (frame: number) =>
-          renderFrame(animation, frame)
-        )}
-      </div>
+    <div className="Board" data-testid="Board">
+      {Animate(animation.rounds_amount - 1, 25, (frame: number) =>
+        renderFrame(animation, frame)
+      )}
     </div>
   );
 }
