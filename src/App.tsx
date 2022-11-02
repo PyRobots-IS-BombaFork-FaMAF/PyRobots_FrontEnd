@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Board from "./features/board/board";
 import SignUp from "./features/register/SignUp";
 import NewGame from "./features/newGame/NewGame";
 import SignIn from "./features/login/SignIn";
@@ -11,7 +10,6 @@ import Home from "./features/directories/Home";
 import CreateRobot from "./features/newrobot/CreateRobot";
 import ListMatches from "./features/listMatches/ListMatches";
 import NewSimulation from "./features/board/NewSimulation";
-import { simulationResult } from "./features/board/SimulationAPI";
 
 function App(): JSX.Element {
   return (
