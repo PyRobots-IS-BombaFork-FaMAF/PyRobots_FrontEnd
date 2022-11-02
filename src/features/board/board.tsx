@@ -142,7 +142,7 @@ function MainBoard({
     window.innerWidth,
     window.innerHeight
   );
-  const margin_percentage: number = 0.025;
+  const margin_percentage: number = 0;
   const margin: number = window_min_size * margin_percentage;
 
   const board: boardConfig = {
@@ -246,7 +246,7 @@ export function Board({
 
   return (
     <div className="Board" data-testid="Board">
-      {Animate(animation.rounds_amount - 1, 0.01, 2, (frame: number) =>
+      {Animate(animation.rounds_amount - 1, 50, 5, (frame: number) =>
         renderFrame(animation, frame)
       )}
     </div>
