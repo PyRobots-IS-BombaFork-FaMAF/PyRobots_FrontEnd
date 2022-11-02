@@ -5,18 +5,3 @@ export const initSocket = (dir : string) : WebSocket => {
 } 
 
 
-export const message = (socket : WebSocket) => {
-    socket.onmessage = (event) => {
-        try {
-            console.log(event.data);
-            console.log(JSON.parse(event.data));
-            console.log(JSON.parse(event.data).players);
-            console.log(`[message] Data received from server: ${event.data}`);
-        }catch(err){
-
-        }
-        
-    }
-}
-
-

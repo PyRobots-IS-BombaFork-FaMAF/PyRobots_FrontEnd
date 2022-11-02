@@ -2,7 +2,7 @@ import axios from "../../api/axios";
 import swal from "sweetalert2";
 import { Player } from "./JoinGame";
 
-export function JoinGameApi(player: Player, access_token: string): Promise<any> {
+export function JoinGameApi(player: Player, access_token: string, handleClose : Function): Promise<any> {
   return new Promise((resolve, reject) => {
   axios
     .post(`game/${player.game_id}/join`, player, {
@@ -12,6 +12,7 @@ export function JoinGameApi(player: Player, access_token: string): Promise<any> 
       },
     })
     .then((response) => {
+      handleClose();
       swal.fire("Se ha unido con exito", "", "success");
       return resolve("Not Error");
     })
@@ -19,6 +20,7 @@ export function JoinGameApi(player: Player, access_token: string): Promise<any> 
       if(error.status === 403){
         return resolve(error.response.data.detail);
       }
+      handleClose();
       swal.fire({
         title: "Error",
         text: error.response.data.detail,
