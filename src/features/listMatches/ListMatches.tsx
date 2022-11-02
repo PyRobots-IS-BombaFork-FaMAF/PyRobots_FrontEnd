@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import NavBar from "../directories/NavBar";
 import "../directories/Home.css";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import { Lobby } from "../joinGame/Lobby";
@@ -121,17 +120,15 @@ export default function ListMatches(): JSX.Element {
     callApiListRobot(setArrRobot);
   };
 
-  const theme = createTheme();
-
   return (
     <div>
       <NavBar />
       <div className="bg-image">
-        <ThemeProvider theme={theme}>
           <Container component="main">
             <CssBaseline />
             <Box
               component="form"
+              data-testid="formList"
               onSubmit={handleSubmitMatches}
               noValidate
               id="my-form"
@@ -221,7 +218,7 @@ export default function ListMatches(): JSX.Element {
                   }}
                 />
                 <Container>
-                  <Modal hideBackdrop open={open} onClose={handleClose}>
+                  <Modal data-testid="modal" hideBackdrop open={open} onClose={handleClose}>
                     <Box
                       component="form"
                       onSubmit={handleSubmitJoin}
@@ -306,7 +303,6 @@ export default function ListMatches(): JSX.Element {
               <div></div>
             )}
           </Container>
-        </ThemeProvider>
       </div>
     </div>
   );
