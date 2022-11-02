@@ -11,6 +11,7 @@ import {
 } from "./SimulationAPI";
 import { useState } from "react";
 import Board from "./board";
+import { ListOfRobots } from "../robotApi/ListOfRobots";
 
 function onSubmit_newSimulation(
   setSimulationResult: React.Dispatch<
@@ -24,14 +25,34 @@ function onSubmit_newSimulation(
   // pattern guarantees that all formats are correct
 
   const newSimulationInfo: newSimulationInfo = {
-    amount_rounds: 1000,
-    robot1_id: 0,
-    robot2_id: 0,
+    rounds: { rounds: 10000 },
+    robots: [],
   };
 
   const rounds = data.get("rounds-amount");
   if (typeof rounds === "string") {
-    newSimulationInfo.amount_rounds = parseInt(rounds);
+    newSimulationInfo.rounds = { rounds: parseInt(rounds) };
+  }
+
+  const robotId_1 = data.get("select-robot-1");
+  if (typeof robotId_1 === "string" && robotId_1 !== "") {
+    const id = parseInt(robotId_1);
+    newSimulationInfo.robots.push({ id: parseInt(robotId_1) });
+  }
+
+  const robotId_2 = data.get("select-robot-2");
+  if (typeof robotId_2 === "string" && robotId_2 !== "") {
+    newSimulationInfo.robots.push({ id: parseInt(robotId_2) });
+  }
+
+  const robotId_3 = data.get("select-robot-3");
+  if (typeof robotId_3 === "string" && robotId_3 !== "") {
+    newSimulationInfo.robots.push({ id: parseInt(robotId_3) });
+  }
+
+  const robotId_4 = data.get("select-robot-4");
+  if (typeof robotId_4 === "string" && robotId_4 !== "") {
+    newSimulationInfo.robots.push({ id: parseInt(robotId_4) });
   }
 
   const access_token: string | null = localStorage.getItem("access_token");
@@ -39,6 +60,7 @@ function onSubmit_newSimulation(
     newSimulationInfo,
     access_token
   );
+
 
   simulationResult.then((result) => {
     setSimulationResult(result);
@@ -75,6 +97,10 @@ function SimulationForm(
             sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
+        <ListOfRobots name="select-robot-1" label="Robot 1" />
+        <ListOfRobots name="select-robot-2" label="Robot 2" />
+        <ListOfRobots name="select-robot-3" label="Robot 3" />
+        <ListOfRobots name="select-robot-4" label="Robot 4" />
         <Button
           type="submit"
           role="button"

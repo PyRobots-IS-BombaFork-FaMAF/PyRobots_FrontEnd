@@ -30,7 +30,7 @@ export function ListOfRobots(props: SelectProps<string>): JSX.Element {
           <MenuItem value="" />
           {arrRobot.map((elem: Robot, key) => {
             return (
-              <MenuItem key={key} value={`${key}`}>
+              <MenuItem key={key} value={elem.id}>
                 {elem.name}
               </MenuItem>
             );
