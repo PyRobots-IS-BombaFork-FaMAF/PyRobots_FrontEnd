@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { Robot } from "../joinGame/JoinGame";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { callApiListRobot } from "../robotApi/ListRobotApi";
+import swal from "sweetalert2"
 
 function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>, arrRobot : Robot[]): void {
   event.preventDefault();
@@ -51,9 +52,11 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>, arrRobot : Ro
   } else {
     if (newGameInfo.min_players! > newGameInfo.max_players!) {
       alert("El mínimo de jugadores no puede ser mayor a la máxima");
-    } else {
+    } else if(arrRobot.length > 0) {
       const access_token: string | null = localStorage.getItem("access_token");
       createMatchApi(newGameInfo, access_token);
+    }else{
+      swal.fire("Cuidado", "Tienes que tener robots creados para poder crear una partida", "warning");
     }
   }
 }
@@ -79,7 +82,6 @@ function GameForm(): JSX.Element {
     setRobotIndex(e.target.value as string);
   };
   return ( 
-    arrRobot.length > 0 ?
      <Container>
         <Box component="form" onSubmit={(e : React.FormEvent<HTMLFormElement>) => onSubmit_newGame(e, arrRobot)}>
           <Grid>
@@ -173,6 +175,9 @@ function GameForm(): JSX.Element {
             />
           </Grid>
           <Grid>
+          
+          {arrRobot.length > 0 ?
+          <div>
             <h5>Elegir Robot</h5>
             <Select sx={{mb:1}}
               data-testid="selectJoin"
@@ -190,6 +195,9 @@ function GameForm(): JSX.Element {
                 );
               })}
             </Select>
+          </div>
+           : <div></div>
+          }
           </Grid>
           <Button
             type="submit"
@@ -209,7 +217,7 @@ function GameForm(): JSX.Element {
             Crear Partida
           </Button>
         </Box>
-      </Container> : <Container></Container>
+      </Container> 
   );
 }
 

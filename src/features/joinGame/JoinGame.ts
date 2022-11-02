@@ -25,42 +25,38 @@ export const joinGame = (
   setActualMatch: Function,
   setIsCreator: Function,
   setMatches: Function,
+  userName: string,
   setShowLobby: Function,
   setSocket: Function,
   matches: ListMatch,
 ) => {
   const match = matches?.find(element => element._id === data.row.id);
+  const index = matches?.findIndex(o => o._id === match?._id!);
   if ( 
       data.row._current_players < data.row._max_players ||
       data.row._status === "joined"
     ) {
       
-      if (match?._creator !== localStorage.getItem("username")) {
+      if (match?._creator !== userName) {
         setIsCreator(false);
         const players = match?._players;
         if (
           !players?.find((elem) => {
-            return elem.player === localStorage.getItem("username")?.toString()!;
+            return elem.player === userName;
           })
         ) {
           players?.push({
-            player: localStorage.getItem("username")?.toString()!,
+            player: userName,
             robot : robot
           });
-          setMatches(
-            matches.map((elem: any, id) => {
-              if (id === match?._id) {
-                return {
-                  ...elem,
-                  _players: players,
-                  _current_players: elem._current_players + 1,
-                  _status : "joined"
-                };
-              } else {
-                return elem;
-              }
-            })
-          );
+          if(players){
+            match._players = players;
+            match._current_players = match._current_players + 1;
+            match._status = "joined";
+            console.log(match);
+            matches[index] = match;
+          }  
+          setMatches(matches);    
         }
       } else {
         setIsCreator(true);
@@ -69,18 +65,11 @@ export const joinGame = (
       const socket = initSocket(match?._websocketurl!);
       setSocket(socket);
     }else{
-      setMatches(
-        matches.map((elem: any, id) => {
-          if (id === match?._id) {
-            return {
-              ...elem,
-              _status : "full"
-            };
-          } else {
-            return elem;
-          }
-        })
-      );
+      if(match && matches){
+        match._status = "full";
+        matches[index] = match;
+        setMatches(matches);
+      }
     } 
     setActualMatch(match);
 };

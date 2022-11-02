@@ -88,6 +88,7 @@ export default function ListMatches(): JSX.Element {
         setActualMatch,
         setIsCreator,
         setMatches,
+        localStorage.getItem("username")?.toString()!,
         setShowLobby,
         setSocket,
         matches,
@@ -207,6 +208,7 @@ export default function ListMatches(): JSX.Element {
                         setActualMatch,
                         setIsCreator,
                         setMatches,
+                        localStorage.getItem("username")?.toString()!,
                         setShowLobby,
                         setSocket,
                         matches,
@@ -297,6 +299,7 @@ export default function ListMatches(): JSX.Element {
                 setShowLobby={setShowLobby}
                 roomId = {actualMatch?._id.toString()}
                 isCreator={isCreator}
+                setMatches={setMatches}
                 socket={socket}
               ></Lobby>
             ) : (

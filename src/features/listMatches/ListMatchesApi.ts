@@ -1,6 +1,6 @@
 import axios from "../../api/axios";
 import swal from "sweetalert2";
-
+import { ListPlayer } from "../joinGame/Lobby"
 export type ListMatchesFilter = {
   game_name?: string;
   game_creation_date?: string; // Formato "año-mes-díaT__:__:__Z" donde los __ son de hora, minuto y segundo, pero no se usan
@@ -18,7 +18,7 @@ export type Match = {
   _websocketurl: string;
   _current_players: number;
   _creator: string;
-  _players: [{ player: string; robot: string }];
+  _players: ListPlayer;
   _creation_date: string; // Formato "año-mes-día hora:minuto:segundo"
   _password: string; // No es la contraseña real, si no un hash irreversible
   _private: boolean;

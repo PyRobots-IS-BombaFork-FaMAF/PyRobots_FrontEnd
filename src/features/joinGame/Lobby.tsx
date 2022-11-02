@@ -6,35 +6,23 @@ import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import Swal from "sweetalert2";
 import {  useState } from "react";
 import { callApiLaunchApi } from "./LaunchGameApi";
-
-type Player = {
+import { callApiListMatch } from "../listMatches/ListMatchesApi";
+export type Player = {
   player: string;
   robot: string;
 }
-type ListPlayer = Player[];
+export type ListPlayer = Player[];
 type Props = {
   myKey: number;
   setShowLobby: Function;
   players : ListPlayer;
   isCreator: boolean;
   roomId : string;
+  setMatches : Function;
   socket: WebSocket | undefined;
 };
 
-const abandoneGame = () => {
-  Swal.fire({
-    title: "Estas seguro de querer abandonar la partida?",
-    showDenyButton: true,
-    confirmButtonText: "Aceptar",
-    denyButtonText: `Cancelar`,
-    icon: "warning",
-  }).then((result) => {
-    /* Read more about isConfirmed, isDenied below */
-    if (result.isConfirmed) {
-      //TODO - implementar abandonar partida
-    }
-  });
-};
+
 
 
 export const Lobby = ({
@@ -43,6 +31,7 @@ export const Lobby = ({
   setShowLobby,
   isCreator,
   roomId,
+  setMatches,
   socket,
 }: Props) => {
   const [playersSocket, setPlayersSocket] = useState<ListPlayer>([]);
@@ -61,6 +50,22 @@ export const Lobby = ({
   if(playersSocket.length > 0){
     players = [...playersSocket];
   }
+
+  const abandoneGame = () => {
+    Swal.fire({
+      title: "Estas seguro de querer abandonar la partida?",
+      showDenyButton: true,
+      confirmButtonText: "Aceptar",
+      denyButtonText: `Cancelar`,
+      icon: "warning",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        callApiListMatch({}, setMatches);
+        setShowLobby(false);
+      }
+    });
+  };
   
   const launchGame = () => {
     callApiLaunchApi(roomId);
@@ -130,6 +135,7 @@ export const Lobby = ({
           <Button
             onClick={(event) => {
               socket?.close();
+              callApiListMatch({}, setMatches);
               setShowLobby(false);
             }}
             variant="contained"
