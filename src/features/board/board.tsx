@@ -247,7 +247,7 @@ export function Board({
 
   return (
     <div className="Board" data-testid="Board">
-      {Animate(animation.rounds_amount - 1, 25, (frame: number) =>
+      {Animate(animation.rounds_amount - 1, 0.01, 2, (frame: number) =>
         renderFrame(animation, frame)
       )}
     </div>
