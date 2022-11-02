@@ -61,6 +61,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/react-router-dom": "^5.3.3",
-    "eslint-config-react-app": "^7.0.1"
+    "eslint-config-react-app": "^7.0.1",
+    "jest-matcher-deep-close-to": "^3.0.2"
   }
 }
