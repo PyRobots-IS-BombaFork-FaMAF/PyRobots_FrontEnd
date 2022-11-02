@@ -1,0 +1,42 @@
+import Grid from "@mui/material/Grid";
+import {
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  SelectProps,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+
+import { callApiListRobot } from "../robotApi/ListRobotApi";
+import { Robot } from "../joinGame/JoinGame";
+
+export function ListOfRobots(props: SelectProps<string>): JSX.Element {
+  const [arrRobot, setArrRobot] = useState<Robot[]>([]);
+  const [robotIndex, setRobotIndex] = useState("");
+
+  useEffect(() => {
+    callApiListRobot(setArrRobot);
+  }, []);
+
+  const handleChange = (e: SelectChangeEvent) => {
+    setRobotIndex(e.target.value as string);
+  };
+
+  return (
+    <Grid>
+      <div>
+        <h5>Elegir Robot</h5>
+        <Select value={robotIndex} onChange={handleChange} {...props}>
+          <MenuItem value="" />
+          {arrRobot.map((elem: Robot, key) => {
+            return (
+              <MenuItem key={key} value={`${key}`}>
+                {elem.name}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </div>
+    </Grid>
+  );
+}
