@@ -1,6 +1,6 @@
 import axios from "../../api/axios";
 import swal from "sweetalert2";
-import { ListPlayer } from "../joinGame/Lobby"
+import { ListPlayer } from "../joinGame/Lobby";
 export type ListMatchesFilter = {
   game_name?: string;
   game_creation_date?: string; // Formato "año-mes-díaT__:__:__Z" donde los __ son de hora, minuto y segundo, pero no se usan
@@ -79,13 +79,11 @@ export function callApiListMatch(
             })
             .includes(true)
         ) {
-          return ({ ...match, _status: "joined" });
+          return { ...match, _status: "joined" };
         } else {
-          if (match._current_players === match._max_players){
+          if (match._current_players === match._max_players) {
             return { ...match, _status: "full" };
-          }            
-          else 
-            return { ...match, _status: "notJoined" };
+          } else return { ...match, _status: "notJoined" };
         }
       })
     );
