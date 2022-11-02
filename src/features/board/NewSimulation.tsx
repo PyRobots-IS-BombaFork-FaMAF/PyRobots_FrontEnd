@@ -36,7 +36,6 @@ function onSubmit_newSimulation(
 
   const robotId_1 = data.get("select-robot-1");
   if (typeof robotId_1 === "string" && robotId_1 !== "") {
-    const id = parseInt(robotId_1);
     newSimulationInfo.robots.push({ id: parseInt(robotId_1) });
   }
 
@@ -60,7 +59,6 @@ function onSubmit_newSimulation(
     newSimulationInfo,
     access_token
   );
-
 
   simulationResult.then((result) => {
     setSimulationResult(result);
@@ -140,7 +138,7 @@ function NewSimulation(): JSX.Element {
           </div>
         </div>
       ) : (
-        Board(simulationResult)
+        <Board simulation={simulationResult} />
       )}
     </div>
   );

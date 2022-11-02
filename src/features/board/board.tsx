@@ -237,7 +237,11 @@ export function renderFrame(
   );
 }
 
-export function Board(simulation: simulationResult): JSX.Element {
+export function Board({
+  simulation,
+}: {
+  simulation: simulationResult;
+}): JSX.Element {
   const animation: animationInfo =
     simulationResult_to_animationInfo(simulation);
 
