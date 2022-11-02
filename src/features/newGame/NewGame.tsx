@@ -193,7 +193,7 @@ function GameForm(): JSX.Element {
             <div>
               <h5>Elegir Robot</h5>
               <Select
-                sx={{ mb: 1 }}
+                sx={{ mb: 1, backgroundColor: "#f2f2f2", width: "100%" }}
                 data-testid="selectJoin"
                 value={robotIndex}
                 name="select-robot"
