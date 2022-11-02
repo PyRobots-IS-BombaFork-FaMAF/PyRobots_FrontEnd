@@ -16,7 +16,6 @@ import { simulationResult } from "./SimulationAPI";
 import { Animate } from "./Animation";
 
 import "./board.css";
-import NavBar from "../directories/NavBar";
 
 function BackGround(board: boardConfig): JSX.Element {
   return (
