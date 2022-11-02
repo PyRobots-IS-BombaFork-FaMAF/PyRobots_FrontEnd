@@ -4,9 +4,10 @@ import { Button, Typography, Grid, Container } from "@mui/material";
 import defaultPlayer from "../../assets/img/defaultPlayer.jpg";
 import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import Swal from "sweetalert2";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { callApiLaunchApi } from "./LaunchGameApi";
 import { callApiListMatch } from "../listMatches/ListMatchesApi";
+import { useLocation } from "react-router-dom";
 export type Player = {
   player: string;
   robot: string;
@@ -36,7 +37,9 @@ export const Lobby = ({
 }: Props) => {
   const [playersSocket, setPlayersSocket] = useState<ListPlayer>([]);
   const [serverMessage, setServerMessage] = useState("");
- 
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   socket!.onmessage = (event) => {
     const json = JSON.parse(event.data);
     if(json.status === 0 || json.status === 1 || json.status === 4){
@@ -46,6 +49,13 @@ export const Lobby = ({
       setServerMessage(json.message);
     }
   }
+  useEffect(() => {
+    if(currentPath !== location.pathname){
+      console.log(currentPath);
+      console.log(location.pathname);
+      socket?.close();
+    }
+  },[location, socket, currentPath])
 
   if(playersSocket.length > 0){
     players = [...playersSocket];
@@ -62,6 +72,7 @@ export const Lobby = ({
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         callApiListMatch({}, setMatches);
+        socket?.close();
         setShowLobby(false);
       }
     });
