@@ -179,7 +179,7 @@ export const Lobby = ({
       <Grid>
         <Container>
           <Stack spacing={3}>
-            {players.map((player: any, key: number): any => {
+            {players.map((player: Player, key: number): JSX.Element => {
               return (
                 <Stack
                   direction="row"
