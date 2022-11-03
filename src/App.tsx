@@ -9,6 +9,8 @@ import PersistLogin from "./features/PersistLogin";
 import Home from "./features/directories/Home";
 import CreateRobot from "./features/newrobot/CreateRobot";
 import ListMatches from "./features/listMatches/ListMatches";
+import HistoryResults from './features/results/results';
+
 import NewSimulation from "./features/board/NewSimulation";
 
 function App(): JSX.Element {
@@ -26,6 +28,7 @@ function App(): JSX.Element {
               <Route path="/Simulation/" element={<NewSimulation />} />
               <Route path="/createRobot" element={<CreateRobot />} />
               <Route path="/" element={<Home />} />
+              <Route path="/results" element={<HistoryResults/>} />
               <Route path="/listMatches" element={<ListMatches />} />
               <Route path="/newGame" element={<NewGame />} />
             </Route>
