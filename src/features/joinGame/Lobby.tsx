@@ -42,7 +42,6 @@ const Buttons = ({
 }: PropsButtons) => {
   const abandoneGame = () => {
     if(!disableAbandone){
-      console.log(disableAbandone);
     Swal.fire({
       title: "Estás seguro de querer abandonar la partida?",
       showDenyButton: true,
