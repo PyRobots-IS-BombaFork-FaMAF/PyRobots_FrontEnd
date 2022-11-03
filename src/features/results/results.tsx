@@ -73,7 +73,7 @@ const Stats = (props: any) => {
             </Typography>
             <Typography>
               {" "}
-              <strong>Usuario:</strong> {result.winners[0].name}
+              <strong>Usuario:</strong> {result.winners[0].player}
             </Typography>
           </Stack>
         </div>
