@@ -44,7 +44,7 @@ const Buttons = ({
     if(!disableAbandone){
       console.log(disableAbandone);
     Swal.fire({
-      title: "Estas seguro de querer abandonar la partida?",
+      title: "Estás seguro de querer abandonar la partida?",
       showDenyButton: true,
       confirmButtonText: "Aceptar",
       denyButtonText: `Cancelar`,

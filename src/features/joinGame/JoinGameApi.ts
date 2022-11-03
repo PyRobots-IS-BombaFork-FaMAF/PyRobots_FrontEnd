@@ -13,7 +13,7 @@ export function JoinGameApi(player: Player, access_token: string, handleClose : 
     })
     .then((response) => {
       handleClose();
-      swal.fire("Se ha unido con exito", "", "success");
+      swal.fire("Se ha unido con éxito", "", "success");
       return resolve("Not Error");
     })
     .catch(function (error: any) {
