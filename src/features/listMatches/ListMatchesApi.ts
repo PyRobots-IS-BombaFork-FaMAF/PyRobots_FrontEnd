@@ -31,7 +31,7 @@ export type ListMatch = Array<Match>;
 async function listMatchesApi(
   filters: ListMatchesFilter,
   access_token: string
-): Promise<any> {
+): Promise<string> {
   return new Promise((resolve, reject) => {
     axios
       .post("game/list", filters, {
