@@ -54,11 +54,11 @@ const Buttons = ({
         
         if (result.isConfirmed) {
           leaveMatchApi(roomId, localStorage.getItem("access_token")?.toString()!);
-          socket?.close();
           setShowLobby(false);
           setTimeout(() => {
             callApiListMatch({}, setMatches);
-          },1000)
+            socket?.close();
+          },3000)
         }
       })
     }else{
@@ -66,6 +66,7 @@ const Buttons = ({
     }
   };
 
+  
   const launchGame = () => {
     callApiLaunchApi(roomId);
   };
@@ -145,7 +146,6 @@ export const Lobby = ({
   const [playersSocket, setPlayersSocket] = useState<ListPlayer>([]);
   const [serverMessage, setServerMessage] = useState("");
   const [disableAbandone, setDisableAbandone] = useState(false);
-
   socket!.onmessage = (event) => {
     const json = JSON.parse(event.data);
     if (json.status === 0 || json.status === 1 || json.status === 4) {
@@ -156,10 +156,6 @@ export const Lobby = ({
       setServerMessage(json.message);
     }
   };
-
-  if (playersSocket.length > 0) {
-    players = [...playersSocket];
-  }
 
   return (
     <Grid
@@ -179,7 +175,7 @@ export const Lobby = ({
       <Grid>
         <Container>
           <Stack spacing={3}>
-            {players.map((player: Player, key: number): JSX.Element => {
+            {playersSocket.map((player: Player, key: number): JSX.Element => {
               return (
                 <Stack
                   direction="row"
