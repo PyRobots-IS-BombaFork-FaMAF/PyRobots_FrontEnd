@@ -370,23 +370,21 @@ const HistoryResults = () => {
           {currentResult.map((result: any, index: number) =>
             currentResult.length > 0 ? (
               <Grid key={index}>
-                {result.winners.length > 1 &&
-                result.winners.find(searchName).player ===
-                  localStorage.getItem("username")?.toString() ? (
+                {result.winners.length > 1 && 
+                  result.winners.find((element: any) => searchName(element)) ? (
                   <CardDraw
                     index={index}
                     setIdStats={setIdStats}
-                    robotName={result.players.find(searchName).robot}
+                    robotName={result.players.find((element: any) => searchName(element)).robot}
                     gameDate={result.creation_date}
                     gameName={result.name}
                   />
                 ) : result.winners.length === 1 &&
-                  result.winners.find(searchName).player ===
-                    localStorage.getItem("username")?.toString() ? (
+                  result.winners.find((element: any) => searchName(element)) ? (
                   <CardWin
                     index={index}
                     setIdStats={setIdStats}
-                    robotName={result.players.find(searchName).robot}
+                    robotName={result.players.find((element: any) => searchName(element)).robot}
                     gameDate={result.creation_date}
                     gameName={result.name}
                   />
@@ -394,7 +392,7 @@ const HistoryResults = () => {
                   <CardLose
                     index={index}
                     setIdStats={setIdStats}
-                    robotName={result.players.find(searchName).robot}
+                    robotName={result.players.find((element: any) => searchName(element)).robot}
                     gameDate={result.creation_date}
                     gameName={result.name}
                   />
