@@ -1,35 +1,17 @@
 import axios from "../../api/axios";
-import swal from "sweetalert2";
-export type newGameInfo = {
-  rounds?: number;
-  games?: number;
-  name: string;
-  max_players?: number;
-  min_players?: number;
-  password?: string;
-  robot?: string;
-};
-
-export function createMatchApi(
-  newGame: newGameInfo,
-  access_token: string | null
-): Promise<void> {
-  return new Promise((resolve, reject) => {
+import swal from "sweetalert2"
+export function launchGameApi(roomId : string, access_token: string) {
+    return new Promise((resolve, reject) => {
     axios
-      .post("game/create", newGame, {
+      .get(`game/${roomId.toString()}/start`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        swal.fire({
-          title: response.data.msg,
-          icon: "success",
-          confirmButtonColor: "#43B647",
-        });
       })
-      .catch(function (error) {
+      .catch(function (error: any) {
         swal.fire({
           title: "Error",
           text: error.response.data.detail,
@@ -43,5 +25,11 @@ export function createMatchApi(
           }, 2000);
         }
       });
-  });
-}
+    });
+  }
+
+  export function callApiLaunchApi(
+    roomId: string
+  ): void {
+    launchGameApi(roomId, localStorage.getItem("access_token")?.toString()!)
+  }

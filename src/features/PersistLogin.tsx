@@ -22,6 +22,6 @@ function PersistLogin(): JSX.Element {
       )}
     </div>
   );
-};
+}
 
 export default PersistLogin;

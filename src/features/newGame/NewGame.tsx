@@ -6,8 +6,16 @@ import TextField from "@mui/material/TextField";
 import NavBar from "../directories/NavBar";
 import { createMatchApi, newGameInfo } from "./NewGameApi";
 import "../directories/Home.css";
+import { useEffect, useState } from "react";
+import { Robot } from "../joinGame/JoinGame";
+import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { callApiListRobot } from "../robotApi/ListRobotApi";
+import swal from "sweetalert2";
 
-function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>): void {
+function onSubmit_newGame(
+  event: React.FormEvent<HTMLFormElement>,
+  arrRobot: Robot[]
+): void {
   event.preventDefault();
   const data: FormData = new FormData(event.currentTarget);
 
@@ -37,15 +45,27 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>): void {
   if (typeof min_players === "string") {
     newGameInfo.min_players = parseInt(min_players);
   }
+  const robotId = data.get("select-robot");
+  if (typeof robotId === "string") {
+    if (robotId) {
+      newGameInfo.robot = arrRobot[parseInt(robotId)].name;
+    }
+  }
 
   if (newGameInfo.name.length > newGameInfo.name.trim().length) {
     alert("No se puede incluir espacios en blanco");
   } else {
     if (newGameInfo.min_players! > newGameInfo.max_players!) {
       alert("El mínimo de jugadores no puede ser mayor a la máxima");
-    } else {
+    } else if (newGameInfo.robot && arrRobot.length > 0) {
       const access_token: string | null = localStorage.getItem("access_token");
       createMatchApi(newGameInfo, access_token);
+    } else {
+      swal.fire(
+        "Cuidado",
+        "Tienes que tener robots creados para poder crear una partida",
+        "warning"
+      );
     }
   }
 }
@@ -59,9 +79,25 @@ export const min_players_regex: string = "^[2-4]$";
 export const password_regex: string = "^.{8,16}$";
 
 function GameForm(): JSX.Element {
+  const [arrRobot, setArrRobot] = useState<Robot[]>([]);
+  const [robotIndex, setRobotIndex] = useState("");
+
+  useEffect(() => {
+    callApiListRobot(setArrRobot);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleChange = (e: SelectChangeEvent) => {
+    setRobotIndex(e.target.value as string);
+  };
   return (
     <Container>
-      <Box component="form" onSubmit={onSubmit_newGame}>
+      <Box
+        component="form"
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+          onSubmit_newGame(e, arrRobot)
+        }
+      >
         <Grid>
           <TextField
             required
@@ -152,19 +188,46 @@ function GameForm(): JSX.Element {
             sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
+        <Grid>
+          {arrRobot.length > 0 ? (
+            <div>
+              <h5>Elegir Robot</h5>
+              <Select
+                sx={{ mb: 1, backgroundColor: "#f2f2f2", width: "100%" }}
+                data-testid="selectJoin"
+                value={robotIndex}
+                name="select-robot"
+                label="Robots"
+                onChange={handleChange}
+              >
+                <MenuItem value=""></MenuItem>
+                {arrRobot.map((elem: Robot, key) => {
+                  return (
+                    <MenuItem key={key} value={`${key}`}>
+                      {elem.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </Grid>
         <Button
           type="submit"
           role="button"
           variant="contained"
           data-testid="submit"
-          sx={
-            {
-              mt: 3,
-              mb: 2,
+          sx={{
+            mt: 3,
+            mb: 2,
+            backgroundColor: "#43B647",
+            "&:hover": {
               backgroundColor: "#43B647",
-              "&:hover": { backgroundColor: "#43B647", boxShadow: "0rem 0.1rem 0.5rem #0d8f11" }
-            }
-          }
+              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+            },
+          }}
         >
           Crear Partida
         </Button>
@@ -189,4 +252,3 @@ function NewGame(): JSX.Element {
 }
 
 export default NewGame;
-

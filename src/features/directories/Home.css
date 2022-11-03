@@ -9,6 +9,15 @@
     min-height: 100vh;
 }
 
+
+.form {
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+  }
+
 .MuiTextField-root{
     background-color: white;
 }

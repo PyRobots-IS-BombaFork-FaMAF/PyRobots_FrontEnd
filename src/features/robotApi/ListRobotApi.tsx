@@ -1,33 +1,16 @@
 import axios from "../../api/axios";
 import swal from "sweetalert2";
-export type newGameInfo = {
-  rounds?: number;
-  games?: number;
-  name: string;
-  max_players?: number;
-  min_players?: number;
-  password?: string;
-  robot?: string;
-};
-
-export function createMatchApi(
-  newGame: newGameInfo,
-  access_token: string | null
-): Promise<void> {
+export function listRobotApi(access_token: string | null): Promise<void> {
   return new Promise((resolve, reject) => {
     axios
-      .post("game/create", newGame, {
+      .get("robot/list", {
         headers: {
           Authorization: `Bearer ${access_token}`,
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        swal.fire({
-          title: response.data.msg,
-          icon: "success",
-          confirmButtonColor: "#43B647",
-        });
+        return resolve(response.data);
       })
       .catch(function (error) {
         swal.fire({
@@ -43,5 +26,14 @@ export function createMatchApi(
           }, 2000);
         }
       });
+  });
+}
+
+export function callApiListRobot(setArrRobot: Function): void {
+  const promise1 = Promise.resolve(
+    listRobotApi(localStorage.getItem("access_token")?.toString()!)
+  );
+  promise1.then((value) => {
+    setArrRobot(value);
   });
 }
