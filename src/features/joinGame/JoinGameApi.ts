@@ -2,7 +2,7 @@ import axios from "../../api/axios";
 import swal from "sweetalert2";
 import { Player } from "./JoinGame";
 
-export function JoinGameApi(player: Player, access_token: string, handleClose : Function): Promise<any> {
+export function JoinGameApi(player: Player, access_token: string, handleClose : Function): Promise<string> {
   return new Promise((resolve, reject) => {
   axios
     .post(`game/${player.game_id}/join`, player, {
