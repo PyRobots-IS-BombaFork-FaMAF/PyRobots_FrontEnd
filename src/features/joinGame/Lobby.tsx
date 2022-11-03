@@ -13,7 +13,7 @@ export type Player = {
   robot: string;
 };
 export type ListPlayer = Player[];
-type Props = {
+type PropsLobby = {
   myKey: number;
   setShowLobby: Function;
   players: ListPlayer;
@@ -141,7 +141,7 @@ export const Lobby = ({
   roomId,
   setMatches,
   socket,
-}: Props) => {
+}: PropsLobby) => {
   const [playersSocket, setPlayersSocket] = useState<ListPlayer>([]);
   const [serverMessage, setServerMessage] = useState("");
   const [disableAbandone, setDisableAbandone] = useState(false);
