@@ -41,6 +41,8 @@ const Buttons = ({
   disableAbandone,
 }: PropsButtons) => {
   const abandoneGame = () => {
+    if(!disableAbandone){
+      console.log(disableAbandone);
     Swal.fire({
       title: "Estas seguro de querer abandonar la partida?",
       showDenyButton: true,
@@ -49,15 +51,20 @@ const Buttons = ({
       icon: "warning",
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        leaveMatchApi(roomId, localStorage.getItem("access_token")?.toString()!);
-        socket?.close();
-        setShowLobby(false);
-        setTimeout(() => {
-          callApiListMatch({}, setMatches);
-        },1000);
-      }
-    });
+      
+        
+        if (result.isConfirmed) {
+          leaveMatchApi(roomId, localStorage.getItem("access_token")?.toString()!);
+          socket?.close();
+          setShowLobby(false);
+          setTimeout(() => {
+            callApiListMatch({}, setMatches);
+          },1000)
+        }
+      })
+    }else{
+      Swal.fire("Cuidado", "No se puede abandonar", "warning");
+    }
   };
 
   const launchGame = () => {
@@ -117,7 +124,7 @@ const Buttons = ({
               boxShadow: "0rem 0.1rem 0.5rem #E23D19",
             },
           }}
-          disabled={isCreator && !disableAbandone}
+          disabled={isCreator}
           onClick={() => abandoneGame()}
         >
           Abandonar Partida
@@ -144,9 +151,8 @@ export const Lobby = ({
     const json = JSON.parse(event.data);
     if (json.status === 0 || json.status === 1 || json.status === 4) {
       setPlayersSocket(json.players);
-      setDisableAbandone(false);
       setServerMessage(json.message);
-    } else {
+    } else if (json.status === 2 || json.status === 3){
       setDisableAbandone(true);
       setServerMessage(json.message);
     }

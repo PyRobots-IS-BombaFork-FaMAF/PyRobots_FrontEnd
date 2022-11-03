@@ -52,7 +52,6 @@ export const joinGame = (
           match._players = players;
           match._current_players = match._current_players + 1;
           match._status = "joined";
-          console.log(match);
           matches[index] = match;
         }
         setMatches(matches);

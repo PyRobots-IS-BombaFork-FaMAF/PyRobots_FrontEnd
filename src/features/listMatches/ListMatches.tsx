@@ -24,17 +24,14 @@ export default function ListMatches(): JSX.Element {
   const [showLobby, setShowLobby] = useState(false);
   const [actualMatch, setActualMatch] = useState<Match | null>(null);
   const [isCreator, setIsCreator] = useState(false);
-
   const [robotIndex, setRobotIndex] = useState("");
   const [arrRobot, setArrRobot] = useState<Robot[]>([]);
-  const [password, setPassword] = useState("");
   const [row, setRow] = useState<any>({});
   const [error, setError] = useState("");
 
   const handleSubmitJoin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    setPassword(data.get("password")?.toString()!);
 
     if (row.status !== "joined") {
       if (robotIndex !== "") {
@@ -42,7 +39,7 @@ export default function ListMatches(): JSX.Element {
           const player: Player = {
             game_id: row.id,
             robot: arrRobot[+robotIndex].name,
-            password: password,
+            password: data.get("password")?.toString()!,
           };
           setError(
             await JoinGameApi(
@@ -79,7 +76,7 @@ export default function ListMatches(): JSX.Element {
         matches
       );
     }
-  }, [error, showLobby, password, matches, row, arrRobot, robotIndex]);
+  }, [error, showLobby, matches, row, arrRobot, robotIndex]);
 
   const handleOpen = () => {
     setOpen(true);
