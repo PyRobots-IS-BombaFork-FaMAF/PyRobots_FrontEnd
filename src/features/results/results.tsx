@@ -32,7 +32,7 @@ const Stats = (props: any) => {
   const { modal } = React.useContext(ModalState);
   const { setModal } = React.useContext(ModalState);
   const result = props.currentResult[props.idStats];
-  console.log(result);
+
 
   const infoGame =
     props.currentResult.length > 0 ? (

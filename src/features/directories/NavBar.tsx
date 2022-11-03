@@ -26,6 +26,9 @@ export default function NavBar(): JSX.Element {
     localStorage.clear();
     navigate("/login", { replace: true });
   };
+  const historyResults = () => {
+    navigate("/results", {replace:true});
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -79,6 +82,13 @@ export default function NavBar(): JSX.Element {
             data-testid="listarPartidas"
           >
             Listar Partidas
+          </Button>
+          <Button
+            sx={{ mr: 5 }}
+            color="inherit"
+            onClick={(e) => historyResults()}
+            >
+            Historial de partidas
           </Button>
           <Button
             sx={{ mr: 5 }}
