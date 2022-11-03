@@ -10,8 +10,12 @@ import { useEffect, useState } from "react";
 import { Robot } from "../joinGame/JoinGame";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { callApiListRobot } from "../robotApi/ListRobotApi";
+import swal from "sweetalert2";
 
-function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>, arrRobot : Robot[]): void {
+function onSubmit_newGame(
+  event: React.FormEvent<HTMLFormElement>,
+  arrRobot: Robot[]
+): void {
   event.preventDefault();
   const data: FormData = new FormData(event.currentTarget);
 
@@ -42,18 +46,26 @@ function onSubmit_newGame(event: React.FormEvent<HTMLFormElement>, arrRobot : Ro
     newGameInfo.min_players = parseInt(min_players);
   }
   const robotId = data.get("select-robot");
-  if(typeof robotId === "string"){
-    newGameInfo.robot = arrRobot[parseInt(robotId)].name;
+  if (typeof robotId === "string") {
+    if (robotId) {
+      newGameInfo.robot = arrRobot[parseInt(robotId)].name;
+    }
   }
- 
+
   if (newGameInfo.name.length > newGameInfo.name.trim().length) {
     alert("No se puede incluir espacios en blanco");
   } else {
     if (newGameInfo.min_players! > newGameInfo.max_players!) {
       alert("El mínimo de jugadores no puede ser mayor a la máxima");
-    } else {
+    } else if (newGameInfo.robot && arrRobot.length > 0) {
       const access_token: string | null = localStorage.getItem("access_token");
       createMatchApi(newGameInfo, access_token);
+    } else {
+      swal.fire(
+        "Cuidado",
+        "Tienes que tener robots creados para poder crear una partida",
+        "warning"
+      );
     }
   }
 }
@@ -78,138 +90,149 @@ function GameForm(): JSX.Element {
   const handleChange = (e: SelectChangeEvent) => {
     setRobotIndex(e.target.value as string);
   };
-  return ( 
-    arrRobot.length > 0 ?
-     <Container>
-        <Box component="form" onSubmit={(e : React.FormEvent<HTMLFormElement>) => onSubmit_newGame(e, arrRobot)}>
-          <Grid>
-            <TextField
-              required
-              multiline
-              name="game-name"
-              label="Nombre"
-              variant="standard"
-              helperText="Entre 3 y 12 caracteres"
-              data-testid="game-name"
-              type="text"
-              inputProps={{
-                minLength: 3,
-                maxLength: 12,
-                pattern: game_name_regex,
-              }}
-              sx={{ backgroundColor: "#f2f2f2" }}
-            />
-          </Grid>
-          <Grid>
-            <TextField
-              required
-              name="games-amount"
-              label="Cantidad de juegos"
-              variant="standard"
-              helperText="Entre 1 y 200"
-              defaultValue="200"
-              type="text"
-              data-testid="games-amount"
-              inputProps={{ maxLength: 3, pattern: games_amount_regex }}
-              sx={{ backgroundColor: "#f2f2f2" }}
-            />
-          </Grid>
-          <Grid>
-            <TextField
-              required
-              name="rounds-amount"
-              label="Cantidad de rondas"
-              variant="standard"
-              helperText="Entre 1 y 10000"
-              defaultValue="10000"
-              data-testid="rounds-amount"
-              type="text"
-              inputProps={{ maxLength: 5, pattern: rounds_amount_regex }}
-              sx={{ backgroundColor: "#f2f2f2" }}
-            />
-          </Grid>
-          <Grid>
-            <TextField
-              required
-              name="max-players"
-              label="Máximo de jugadores"
-              variant="standard"
-              helperText="Entre 2 y 4"
-              defaultValue="4"
-              data-testid="max-players"
-              type="text"
-              inputProps={{ maxLength: 1, pattern: max_players_regex }}
-              sx={{ backgroundColor: "#f2f2f2" }}
-            />
-          </Grid>
-          <Grid>
-            <TextField
-              required
-              name="min-players"
-              label="Mínimo de jugadores"
-              variant="standard"
-              helperText="Entre 2 y 4"
-              defaultValue="2"
-              data-testid="min-players"
-              type="text"
-              inputProps={{ maxLength: 1, pattern: min_players_regex }}
-              sx={{ backgroundColor: "#f2f2f2" }}
-            />
-          </Grid>
-          <Grid>
-            <TextField
-              name="password"
-              label="Contraseña"
-              variant="standard"
-              helperText="Entre 8 y 16 caracteres"
-              type="text"
-              data-testid="password"
-              inputProps={{
-                minLength: 8,
-                maxLength: 16,
-                pattern: password_regex,
-              }}
-              sx={{ backgroundColor: "#f2f2f2" }}
-            />
-          </Grid>
-          <Grid>
-            <h5>Elegir Robot</h5>
-            <Select sx={{mb:1}}
-              data-testid="selectJoin"
-              value={robotIndex}
-              name="select-robot"
-              label="Robots"
-              onChange={handleChange}
-            >
-              <MenuItem value=""></MenuItem>
-              {arrRobot.map((elem: Robot, key) => {
-                return (
-                  <MenuItem key={key} value={`${key}`}>
-                    {elem.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </Grid>
-          <Button
-            type="submit"
-            role="button"
-            variant="contained"
-            data-testid="submit"
-            sx={{
-              mt:3,
-              mb:2,
-              backgroundColor: "#43B647",
-              "&:hover": {
-                backgroundColor: "#43B647",
-                boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-              },
+  return (
+    <Container>
+      <Box
+        component="form"
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+          onSubmit_newGame(e, arrRobot)
+        }
+      >
+        <Grid>
+          <TextField
+            required
+            multiline
+            name="game-name"
+            label="Nombre"
+            variant="standard"
+            helperText="Entre 3 y 12 caracteres"
+            data-testid="game-name"
+            type="text"
+            inputProps={{
+              minLength: 3,
+              maxLength: 12,
+              pattern: game_name_regex,
             }}
-          >
-            Crear Partida
-          </Button>
-        </Box>
-      </Container> : <Container></Container>
+            sx={{ backgroundColor: "#f2f2f2" }}
+          />
+        </Grid>
+        <Grid>
+          <TextField
+            required
+            name="games-amount"
+            label="Cantidad de juegos"
+            variant="standard"
+            helperText="Entre 1 y 200"
+            defaultValue="200"
+            type="text"
+            data-testid="games-amount"
+            inputProps={{ maxLength: 3, pattern: games_amount_regex }}
+            sx={{ backgroundColor: "#f2f2f2" }}
+          />
+        </Grid>
+        <Grid>
+          <TextField
+            required
+            name="rounds-amount"
+            label="Cantidad de rondas"
+            variant="standard"
+            helperText="Entre 1 y 10000"
+            defaultValue="10000"
+            data-testid="rounds-amount"
+            type="text"
+            inputProps={{ maxLength: 5, pattern: rounds_amount_regex }}
+            sx={{ backgroundColor: "#f2f2f2" }}
+          />
+        </Grid>
+        <Grid>
+          <TextField
+            required
+            name="max-players"
+            label="Máximo de jugadores"
+            variant="standard"
+            helperText="Entre 2 y 4"
+            defaultValue="4"
+            data-testid="max-players"
+            type="text"
+            inputProps={{ maxLength: 1, pattern: max_players_regex }}
+            sx={{ backgroundColor: "#f2f2f2" }}
+          />
+        </Grid>
+        <Grid>
+          <TextField
+            required
+            name="min-players"
+            label="Mínimo de jugadores"
+            variant="standard"
+            helperText="Entre 2 y 4"
+            defaultValue="2"
+            data-testid="min-players"
+            type="text"
+            inputProps={{ maxLength: 1, pattern: min_players_regex }}
+            sx={{ backgroundColor: "#f2f2f2" }}
+          />
+        </Grid>
+        <Grid>
+          <TextField
+            name="password"
+            label="Contraseña"
+            variant="standard"
+            helperText="Entre 8 y 16 caracteres"
+            type="text"
+            data-testid="password"
+            inputProps={{
+              minLength: 8,
+              maxLength: 16,
+              pattern: password_regex,
+            }}
+            sx={{ backgroundColor: "#f2f2f2" }}
+          />
+        </Grid>
+        <Grid>
+          {arrRobot.length > 0 ? (
+            <div>
+              <h5>Elegir Robot</h5>
+              <Select
+                sx={{ mb: 1, backgroundColor: "#f2f2f2", width: "100%" }}
+                data-testid="selectJoin"
+                value={robotIndex}
+                name="select-robot"
+                label="Robots"
+                onChange={handleChange}
+              >
+                <MenuItem value=""></MenuItem>
+                {arrRobot.map((elem: Robot, key) => {
+                  return (
+                    <MenuItem key={key} value={`${key}`}>
+                      {elem.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </Grid>
+        <Button
+          type="submit"
+          role="button"
+          variant="contained"
+          data-testid="submit"
+          sx={{
+            mt: 3,
+            mb: 2,
+            backgroundColor: "#43B647",
+            "&:hover": {
+              backgroundColor: "#43B647",
+              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+            },
+          }}
+        >
+          Crear Partida
+        </Button>
+      </Box>
+    </Container>
   );
 }
 

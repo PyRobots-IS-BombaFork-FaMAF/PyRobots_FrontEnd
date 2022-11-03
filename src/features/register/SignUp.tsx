@@ -14,7 +14,7 @@ import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 import { signUpApi } from "./SignUpApi";
 import { Navigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-import swal from 'sweetalert2';
+import swal from "sweetalert2";
 
 function Copyright(props: any): JSX.Element {
   return (
@@ -62,14 +62,14 @@ export default function SignUp(): JSX.Element {
       isValidPassword(data.get("password")?.toString()!) &&
       isValidEmail(data.get("email")?.toString()!)
     ) {
-      if(data.get("confirmPassword") === data.get("password")){
+      if (data.get("confirmPassword") === data.get("password")) {
         signUpApi(data);
-      }else{
+      } else {
         swal.fire({
-          title: "Error", 
-          text: "Las contraseñas deben coincidir", 
+          title: "Error",
+          text: "Las contraseñas deben coincidir",
           icon: "error",
-          confirmButtonColor: '#43B647'
+          confirmButtonColor: "#43B647",
         });
       }
     }
@@ -77,7 +77,8 @@ export default function SignUp(): JSX.Element {
 
   return (
     <div>
-      {localStorage.getItem("isLoggedIn") && localStorage.getItem("access_token") ? (
+      {localStorage.getItem("isLoggedIn") &&
+      localStorage.getItem("access_token") ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
         <ThemeProvider theme={theme}>
@@ -114,9 +115,7 @@ export default function SignUp(): JSX.Element {
                         event: React.ChangeEvent<
                           HTMLTextAreaElement | HTMLInputElement
                         >
-                      ) =>
-                        setErrUser(handleChange(event, isValidUserName))
-                      }
+                      ) => setErrUser(handleChange(event, isValidUserName))}
                       data-testid="user"
                       id="userName"
                       label="Usuario"
@@ -137,8 +136,7 @@ export default function SignUp(): JSX.Element {
                         event: React.ChangeEvent<
                           HTMLTextAreaElement | HTMLInputElement
                         >
-                      ) => setErrEmail(handleChange(event, isValidEmail))
-                      }
+                      ) => setErrEmail(handleChange(event, isValidEmail))}
                       id="email"
                       label="Direccion De Email"
                       name="email"
@@ -160,8 +158,7 @@ export default function SignUp(): JSX.Element {
                         event: React.ChangeEvent<
                           HTMLTextAreaElement | HTMLInputElement
                         >
-                      ) => setErrPass(handleChange(event, isValidPassword))
-                      }
+                      ) => setErrPass(handleChange(event, isValidPassword))}
                       data-testid="pass"
                       name="password"
                       label="Contraseña"
@@ -183,7 +180,8 @@ export default function SignUp(): JSX.Element {
                         event: React.ChangeEvent<
                           HTMLTextAreaElement | HTMLInputElement
                         >
-                      ) => setErrPassConfirm(handleChange(event, isValidPassword))
+                      ) =>
+                        setErrPassConfirm(handleChange(event, isValidPassword))
                       }
                       data-testid="passConfirm"
                       name="confirmPassword"
@@ -206,14 +204,15 @@ export default function SignUp(): JSX.Element {
                   role="button"
                   fullWidth
                   variant="contained"
-                  sx={
-                    { 
-                      mt: 3,
-                      mb: 2, 
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    backgroundColor: "#43B647",
+                    "&:hover": {
                       backgroundColor: "#43B647",
-                      "&:hover": { backgroundColor: "#43B647", boxShadow: "0rem 0.1rem 0.5rem #0d8f11" }
-                    }
-                  }
+                      boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+                    },
+                  }}
                 >
                   Sign Up
                 </Button>

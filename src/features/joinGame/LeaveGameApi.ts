@@ -1,26 +1,31 @@
 import axios from "../../api/axios";
 import swal from "sweetalert2";
-import { Player } from "./JoinGame";
+export type newGameInfo = {
+  rounds?: number;
+  games?: number;
+  name: string;
+  max_players?: number;
+  min_players?: number;
+  password?: string;
+  robot?: string;
+};
 
-export function JoinGameApi(player: Player, access_token: string, handleClose : Function): Promise<string> {
-  return new Promise((resolve, reject) => {
+export function leaveMatchApi(roomId: string, access_token: string | null) {
   axios
-    .post(`game/${player.game_id}/join`, player, {
+    .post(`game/${roomId}/leave`, {}, {
       headers: {
         Authorization: `Bearer ${access_token}`,
         "Content-Type": "application/json",
       },
     })
     .then((response) => {
-      handleClose();
-      swal.fire("Se ha unido con éxito", "", "success");
-      return resolve("Not Error");
+      swal.fire({
+        title: response.data.msg,
+        icon: "success",
+        confirmButtonColor: "#43B647",
+      });
     })
-    .catch(function (error: any) {
-      if(error.status === 403){
-        return resolve(error.response.data.detail);
-      }
-      handleClose();
+    .catch(function (error) {
       swal.fire({
         title: "Error",
         text: error.response.data.detail,
@@ -34,5 +39,4 @@ export function JoinGameApi(player: Player, access_token: string, handleClose : 
         }, 2000);
       }
     });
-  });
 }
