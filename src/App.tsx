@@ -1,7 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React from "react";
 import "./App.css";
-import Board from "./features/board/board";
 import SignUp from "./features/register/SignUp";
 import NewGame from "./features/newGame/NewGame";
 import SignIn from "./features/login/SignIn";
@@ -9,12 +7,11 @@ import NotFound from "./features/NotFound";
 import RequiereAuth from "./features/RequiereAuth";
 import PersistLogin from "./features/PersistLogin";
 import Home from "./features/directories/Home";
-import CreateRobot from './features/newrobot/CreateRobot';
+import CreateRobot from "./features/newrobot/CreateRobot";
 import ListMatches from "./features/listMatches/ListMatches";
-
+import NewSimulation from "./features/board/NewSimulation";
 
 function App(): JSX.Element {
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -26,16 +23,15 @@ function App(): JSX.Element {
           {/* protected routes */}
           <Route element={<PersistLogin />}>
             <Route element={<RequiereAuth />}>
-              <Route path="/tableroDePrueba/" element={<Board />} />
-              <Route path="/createRobot" element= {<CreateRobot />} />
+              <Route path="/Simulation/" element={<NewSimulation />} />
+              <Route path="/createRobot" element={<CreateRobot />} />
               <Route path="/" element={<Home />} />
-              <Route path="/listMatches" element={<ListMatches/>}/>
-              <Route path="/newGame" element={<NewGame/>}/>
+              <Route path="/listMatches" element={<ListMatches />} />
+              <Route path="/newGame" element={<NewGame />} />
             </Route>
           </Route>
-          
-          <Route path="*" element={<NotFound />} />
 
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

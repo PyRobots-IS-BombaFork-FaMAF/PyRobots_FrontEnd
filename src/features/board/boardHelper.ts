@@ -61,7 +61,9 @@ export function simulationResult_to_animationInfo(
     // Calculate missiles positions in each round
     const missile_velocity = simulationResult.missile_velocity;
 
-    type missilesInSimulation = missileInFrameConfig & { distance_left: number };
+    type missilesInSimulation = missileInFrameConfig & {
+      distance_left: number;
+    };
 
     let actual_missiles: Array<missilesInSimulation> = [];
 
@@ -80,9 +82,11 @@ export function simulationResult_to_animationInfo(
       });
 
       // Remove from `actual_missiles` missiles that have reached their destination
-      actual_missiles = actual_missiles.filter((missile: missilesInSimulation) => {
-        return missile.distance_left > 0;
-      });
+      actual_missiles = actual_missiles.filter(
+        (missile: missilesInSimulation) => {
+          return missile.distance_left > 0;
+        }
+      );
 
       // Add new missiles to `actual_missiles`
       actual_missiles.push(

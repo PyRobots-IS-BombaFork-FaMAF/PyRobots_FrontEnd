@@ -16,7 +16,6 @@ import { simulationResult } from "./SimulationAPI";
 import { Animate } from "./Animation";
 
 import "./board.css";
-import NavBar from "../directories/NavBar";
 
 function BackGround(board: boardConfig): JSX.Element {
   return (
@@ -143,7 +142,7 @@ function MainBoard({
     window.innerWidth,
     window.innerHeight
   );
-  const margin_percentage: number = 0.025;
+  const margin_percentage: number = 0;
   const margin: number = window_min_size * margin_percentage;
 
   const board: boardConfig = {
@@ -237,54 +236,19 @@ export function renderFrame(
   );
 }
 
-export function Board(): JSX.Element {
-  const simulation: simulationResult = {
-    board_size: 1000,
-    missile_velocity: 4,
-    robots: [
-      {
-        name: "Robot 1",
-        rounds: [
-          { coords: { x: 0, y: 0 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 10, y: 0 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 10, y: 10 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 20, y: 10 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 20, y: 20 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 30, y: 20 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 30, y: 30 }, direction: 20, speed: 10, damage: 0 },
-          {
-            coords: { x: 40, y: 30 },
-            direction: 20,
-            speed: 10,
-            damage: 0,
-            missile: { direction: 135, distance: 60 },
-          },
-          { coords: { x: 40, y: 40 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 50, y: 40 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 50, y: 50 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 60, y: 50 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 60, y: 60 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 70, y: 60 }, direction: 20, speed: 10, damage: 0.5 },
-          { coords: { x: 70, y: 70 }, direction: 20, speed: 10, damage: 0.5 },
-          { coords: { x: 80, y: 70 }, direction: 20, speed: 10, damage: 0.5 },
-        ],
-      },
-    ],
-  };
-
+export function Board({
+  simulation,
+}: {
+  simulation: simulationResult;
+}): JSX.Element {
   const animation: animationInfo =
     simulationResult_to_animationInfo(simulation);
 
   return (
-    <div>
-      <div>
-        <NavBar />
-      </div>
-      <div className="Board" data-testid="Board">
-        {Animate(animation.rounds_amount - 1, (frame: number) =>
-          renderFrame(animation, frame)
-        )}
-      </div>
+    <div className="Board" data-testid="Board">
+      {Animate(animation.rounds_amount - 1, 50, 5, (frame: number) =>
+        renderFrame(animation, frame)
+      )}
     </div>
   );
 }
