@@ -14,7 +14,7 @@ export default function NavBar(): JSX.Element {
     navigate("/createRobot", { replace: true });
   };
   const executeSimulation = () => {
-    navigate("/tableroDePrueba", { replace: true });
+    navigate("/Simulation", { replace: true });
   };
   const listMatches = () => {
     navigate("/listMatches", { replace: true });

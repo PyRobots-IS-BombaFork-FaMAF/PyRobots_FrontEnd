@@ -3,7 +3,11 @@ import {
   GridColDef,
   GridToolbarFilterButton,
   GridToolbarContainer,
+  DataGrid,
+  gridClasses,
 } from "@mui/x-data-grid";
+import { joinGame, Robot } from "../joinGame/JoinGame";
+import { ListMatch } from "./ListMatchesApi";
 
 export const columns: GridColDef[] = [
   {
@@ -117,5 +121,84 @@ export const CustomToolBar = (): JSX.Element => {
         Refresh
       </Button>
     </GridToolbarContainer>
+  );
+};
+
+type DataGridProps = {
+  matches: ListMatch;
+  setRow: Function;
+  handleOpen: Function;
+  arrRobot: Robot[];
+  robotIndex: string;
+  setActualMatch: Function;
+  setIsCreator: Function;
+  setMatches: Function;
+  setShowLobby: Function;
+  setSocket: Function;
+};
+export const MatchesDataGrid = ({
+  matches,
+  setRow,
+  arrRobot,
+  robotIndex,
+  setActualMatch,
+  setIsCreator,
+  setMatches,
+  setShowLobby,
+  setSocket,
+  handleOpen,
+}: DataGridProps) => {
+  return (
+    <DataGrid
+      sx={{
+        [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]: {
+          outline: "none",
+        },
+        [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
+          {
+            outline: "none",
+          },
+        border: "none",
+      }}
+      rows={matches
+        .filter((elem, index) => elem._gameStatus === 0)
+        .map((elem, index) => ({
+          id: elem._id,
+          _name: elem._name,
+          _rounds: elem._rounds,
+          _games: elem._games,
+          _max_players: elem._max_players,
+          _min_players: elem._min_players,
+          _creator: elem._creator,
+          _current_players: elem._current_players,
+          _private: elem._private,
+          _status: elem._status,
+        }))}
+      columns={columns}
+      pageSize={5}
+      rowsPerPageOptions={[5]}
+      disableColumnSelector
+      experimentalFeatures={{ newEditingApi: true }}
+      getRowClassName={(params) => `${params.row._status}`}
+      components={{ Toolbar: CustomToolBar }}
+      onRowClick={(row) => {
+        setRow(row);
+        if (row.row._status === "joined") {
+          joinGame(
+            row,
+            arrRobot[+robotIndex].name,
+            setActualMatch,
+            setIsCreator,
+            setMatches,
+            localStorage.getItem("username")?.toString()!,
+            setShowLobby,
+            setSocket,
+            matches
+          );
+        } else {
+          handleOpen();
+        }
+      }}
+    />
   );
 };

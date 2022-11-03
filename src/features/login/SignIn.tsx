@@ -12,8 +12,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import axios, { setToken } from "../../api/axios";
-import swal from 'sweetalert2';
-import {useState} from "react"
+import swal from "sweetalert2";
+import { useState } from "react";
 
 function Copyright(props: any): JSX.Element {
   return (
@@ -67,17 +67,18 @@ export default function SignIn(): JSX.Element {
         setError("Inicio de sesión fallido");
       }
       swal.fire({
-        title: "Error", 
-        text: error, 
+        title: "Error",
+        text: error,
         icon: "error",
-        confirmButtonColor: '#43B647'
+        confirmButtonColor: "#43B647",
       });
     }
   };
 
   return (
     <div>
-      {localStorage.getItem("isLoggedIn") && localStorage.getItem("access_token") ? (
+      {localStorage.getItem("isLoggedIn") &&
+      localStorage.getItem("access_token") ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
         <ThemeProvider theme={theme}>
@@ -130,12 +131,15 @@ export default function SignIn(): JSX.Element {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={
-                    { mt: 3, 
-                      mb: 2 , 
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    backgroundColor: "#43B647",
+                    "&:hover": {
                       backgroundColor: "#43B647",
-                      "&:hover": { backgroundColor: "#43B647", boxShadow: "0rem 0.1rem 0.5rem #0d8f11" }
-                    }}
+                      boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+                    },
+                  }}
                 >
                   Iniciar Sesión
                 </Button>

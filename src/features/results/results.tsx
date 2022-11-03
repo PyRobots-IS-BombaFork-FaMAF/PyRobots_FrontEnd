@@ -293,7 +293,7 @@ export const CardLose = (props: any) => {
   );
 };
 
-const HistoricalResults = () => {
+const HistoryResults = () => {
   const [modal, setModal] = useState<boolean>(false);
 
   const [results, setResults] = useState<Array<any>>([]);
@@ -420,4 +420,4 @@ const HistoricalResults = () => {
   );
 };
 
-export default HistoricalResults;
+export default HistoryResults;
