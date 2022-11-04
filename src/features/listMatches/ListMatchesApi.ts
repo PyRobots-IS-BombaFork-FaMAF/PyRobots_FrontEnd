@@ -1,6 +1,6 @@
 import axios from "../../api/axios";
 import swal from "sweetalert2";
-import { ListPlayer } from "../joinGame/Lobby";
+import { ListPlayer, Player } from "../joinGame/Lobby";
 
 export type ListMatchesFilter = {
   game_name?: string;
@@ -73,7 +73,7 @@ export function callApiListMatch(
       JSON.parse(value).map((match: Match) => {
         if (
           match._players
-            .map((elem: any) => {
+            .map((elem: Player) => {
               return (
                 elem.player === localStorage.getItem("username")?.toString()!
               );
