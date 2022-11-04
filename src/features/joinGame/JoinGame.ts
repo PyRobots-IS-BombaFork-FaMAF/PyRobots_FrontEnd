@@ -20,7 +20,14 @@ export type Robot = {
 };
 
 export const joinGame = (
-  data: any,
+  data: {
+    row: {
+      id: number;
+      _current_players: number;
+      _max_players: number;
+      _status: string;
+    };
+  },
   robot: string,
   setActualMatch: Function,
   setIsCreator: Function,
