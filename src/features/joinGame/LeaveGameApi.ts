@@ -1,5 +1,6 @@
 import axios from "../../api/axios";
 import swal from "sweetalert2";
+
 export type newGameInfo = {
   rounds?: number;
   games?: number;
@@ -12,12 +13,16 @@ export type newGameInfo = {
 
 export function leaveMatchApi(roomId: string, access_token: string | null) {
   axios
-    .post(`game/${roomId}/leave`, {}, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        "Content-Type": "application/json",
-      },
-    })
+    .post(
+      `game/${roomId}/leave`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
     .then((response) => {
       swal.fire({
         title: response.data.msg,

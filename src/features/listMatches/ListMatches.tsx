@@ -1,10 +1,7 @@
 import Box from "@mui/material/Box";
 import { Container } from "@mui/system";
 import { ListMatch, callApiListMatch } from "./ListMatchesApi";
-import {
-  CssBaseline,
-  SelectChangeEvent,
-} from "@mui/material";
+import { CssBaseline, SelectChangeEvent } from "@mui/material";
 import NavBar from "../directories/NavBar";
 import "../directories/Home.css";
 import { useEffect, useState } from "react";
@@ -160,15 +157,15 @@ export default function ListMatches(): JSX.Element {
                 handleOpen={handleOpen}
               ></MatchesDataGrid>
               <Container>
-                 <ModalList
-                    open={open}
-                    handleSubmitJoin={handleSubmitJoin}
-                    robotIndex={robotIndex}
-                    handleChange={handleChange}
-                    handleClose={handleClose}
-                    arrRobot={arrRobot}
-                 />
-                </Container>
+                <ModalList
+                  open={open}
+                  handleSubmitJoin={handleSubmitJoin}
+                  robotIndex={robotIndex}
+                  handleChange={handleChange}
+                  handleClose={handleClose}
+                  arrRobot={arrRobot}
+                />
+              </Container>
             </Box>
           ) : showLobby && actualMatch ? (
             <Lobby

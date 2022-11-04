@@ -8,6 +8,7 @@ import { useState } from "react";
 import { callApiLaunchApi } from "./LaunchGameApi";
 import { callApiListMatch } from "../listMatches/ListMatchesApi";
 import { leaveMatchApi } from "./LeaveGameApi";
+
 export type Player = {
   player: string;
   robot: string;
@@ -41,32 +42,33 @@ const Buttons = ({
   disableAbandone,
 }: PropsButtons) => {
   const abandoneGame = () => {
-    if(!disableAbandone){
-    Swal.fire({
-      title: "Estás seguro de querer abandonar la partida?",
-      showDenyButton: true,
-      confirmButtonText: "Aceptar",
-      denyButtonText: `Cancelar`,
-      icon: "warning",
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      
-        
+    if (!disableAbandone) {
+      Swal.fire({
+        title: "Estás seguro de querer abandonar la partida?",
+        showDenyButton: true,
+        confirmButtonText: "Aceptar",
+        denyButtonText: `Cancelar`,
+        icon: "warning",
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+
         if (result.isConfirmed) {
-          leaveMatchApi(roomId, localStorage.getItem("access_token")?.toString()!);
+          leaveMatchApi(
+            roomId,
+            localStorage.getItem("access_token")?.toString()!
+          );
           setShowLobby(false);
           setTimeout(() => {
             callApiListMatch({}, setMatches);
             socket?.close();
-          },3000)
+          }, 3000);
         }
-      })
-    }else{
+      });
+    } else {
       Swal.fire("Cuidado", "No se puede abandonar", "warning");
     }
   };
 
-  
   const launchGame = () => {
     callApiLaunchApi(roomId);
   };
@@ -151,7 +153,7 @@ export const Lobby = ({
     if (json.status === 0 || json.status === 1 || json.status === 4) {
       setPlayersSocket(json.players);
       setServerMessage(json.message);
-    } else if (json.status === 2 || json.status === 3){
+    } else if (json.status === 2 || json.status === 3) {
       setDisableAbandone(true);
       setServerMessage(json.message);
     }

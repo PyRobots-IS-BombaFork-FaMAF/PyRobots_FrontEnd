@@ -1,7 +1,8 @@
 import axios from "../../api/axios";
-import swal from "sweetalert2"
-export function launchGameApi(roomId : string, access_token: string) {
-    return new Promise((resolve, reject) => {
+import swal from "sweetalert2";
+
+export function launchGameApi(roomId: string, access_token: string) {
+  return new Promise((resolve, reject) => {
     axios
       .get(`game/${roomId.toString()}/start`, {
         headers: {
@@ -9,8 +10,7 @@ export function launchGameApi(roomId : string, access_token: string) {
           "Content-Type": "application/json",
         },
       })
-      .then((response) => {
-      })
+      .then((response) => {})
       .catch(function (error: any) {
         swal.fire({
           title: "Error",
@@ -25,11 +25,9 @@ export function launchGameApi(roomId : string, access_token: string) {
           }, 2000);
         }
       });
-    });
-  }
+  });
+}
 
-  export function callApiLaunchApi(
-    roomId: string
-  ): void {
-    launchGameApi(roomId, localStorage.getItem("access_token")?.toString()!)
-  }
+export function callApiLaunchApi(roomId: string): void {
+  launchGameApi(roomId, localStorage.getItem("access_token")?.toString()!);
+}

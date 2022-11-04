@@ -44,80 +44,80 @@ export const ModalList = ({
   arrRobot,
 }: ModalProps) => {
   return (
-      <Modal data-testid="modal" hideBackdrop open={open} onClose={handleClose}>
-        <Box
-          component="form"
-          onSubmit={handleSubmitJoin}
-          noValidate
-          sx={{...modalStyle, width:400}}
+    <Modal data-testid="modal" hideBackdrop open={open} onClose={handleClose}>
+      <Box
+        component="form"
+        onSubmit={handleSubmitJoin}
+        noValidate
+        sx={{ ...modalStyle, width: 400 }}
+      >
+        <TextField
+          margin="normal"
+          data-testid="passJoin"
+          required
+          fullWidth
+          name="password"
+          label="Contraseña"
+          type="password"
+          id="password"
+          autoComplete="off"
+          sx={{ width: 350 }}
+        ></TextField>
+        <Container sx={{ textAlign: "center" }}>
+          <h3> Elija el robot que quiera usar </h3>
+        </Container>
+        <Select
+          data-testid="selectJoin"
+          value={robotIndex}
+          label="Robots"
+          sx={{ width: 350 }}
+          onChange={handleChange}
         >
-          <TextField
-            margin="normal"
-            data-testid="passJoin"
-            required
-            fullWidth
-            name="password"
-            label="Contraseña"
-            type="password"
-            id="password"
-            autoComplete="off"
-            sx={{width:350}}
-          ></TextField>
-          <Container sx={{textAlign:"center"}}>
-            <h3> Elija el robot que quiera usar </h3>
-          </Container>
-          <Select
-            data-testid="selectJoin"
-            value={robotIndex}
-            label="Robots"
-            sx={{width:350}}
-            onChange={handleChange}
-          >
-            <MenuItem value=""></MenuItem>
-            {arrRobot.map((elem: Robot, key) => {
-              return (
-                <MenuItem key={key} value={`${key}`}>
-                  {elem.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-          <Button
-            fullWidth
-            variant="contained"
-            sx={{
-              mt: 3,
-              mb: 2,
-              width:350,
+          <MenuItem value=""></MenuItem>
+          {arrRobot.map((elem: Robot, key) => {
+            return (
+              <MenuItem key={key} value={`${key}`}>
+                {elem.name}
+              </MenuItem>
+            );
+          })}
+        </Select>
+        <Button
+          fullWidth
+          variant="contained"
+          sx={{
+            mt: 3,
+            mb: 2,
+            width: 350,
+            backgroundColor: "#43B647",
+            "&:hover": {
               backgroundColor: "#43B647",
-              "&:hover": {
-                backgroundColor: "#43B647",
-                boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-              },
-            }}
-            onClick={handleClose}
-          >
-            {" "}
-            Cancelar
-          </Button>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              mt: 3,
-              mb: 2,
-              width:350,
+              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+            },
+          }}
+          onClick={handleClose}
+        >
+          {" "}
+          Cancelar
+        </Button>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{
+            mt: 3,
+            mb: 2,
+            width: 350,
+            backgroundColor: "#43B647",
+            "&:hover": {
               backgroundColor: "#43B647",
-              "&:hover": {
-                backgroundColor: "#43B647",
-                boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-              },
-            }}
-          >
-            Unirse
-          </Button>
-        </Box>
-      </Modal>
+              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
+            },
+          }}
+        >
+          Unirse
+        </Button>
+      </Box>
+    </Modal>
   );
 };

@@ -28,7 +28,6 @@ export function newSimulationAPI(
   newSimulation: newSimulationInfo,
   access_token: string | null
 ): Promise<simulationResult> {
-
   return new Promise((resolve, reject) => {
     axios
       .post("simulation", newSimulation, {

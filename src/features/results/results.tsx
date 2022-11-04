@@ -33,7 +33,6 @@ const Stats = (props: any) => {
   const { setModal } = React.useContext(ModalState);
   const result = props.currentResult[props.idStats];
 
-
   const infoGame =
     props.currentResult.length > 0 ? (
       <div>
@@ -140,7 +139,11 @@ export const CardWin = (props: any) => {
       }}
     >
       <CardContent>
-        <Typography data-testid="text-win" variant="h4" sx={{ color: "#43B647" }} >
+        <Typography
+          data-testid="text-win"
+          variant="h4"
+          sx={{ color: "#43B647" }}
+        >
           GANASTE
         </Typography>
         <Typography>
@@ -198,7 +201,11 @@ export const CardDraw = (props: any) => {
       }}
     >
       <CardContent>
-        <Typography data-testid="text-draw" variant="h4" sx={{ color: "#B7992C" }}>
+        <Typography
+          data-testid="text-draw"
+          variant="h4"
+          sx={{ color: "#B7992C" }}
+        >
           EMPATE
         </Typography>
         <Typography>
@@ -256,7 +263,11 @@ export const CardLose = (props: any) => {
       }}
     >
       <CardContent>
-        <Typography data-testid="text-lose" variant="h4" sx={{ color: "#BF0F0F" }}>
+        <Typography
+          data-testid="text-lose"
+          variant="h4"
+          sx={{ color: "#BF0F0F" }}
+        >
           PERDISTE
         </Typography>
         <Typography>
@@ -370,12 +381,15 @@ const HistoryResults = () => {
           {currentResult.map((result: any, index: number) =>
             currentResult.length > 0 ? (
               <Grid key={index}>
-                {result.winners.length > 1 && 
-                  result.winners.find((element: any) => searchName(element)) ? (
+                {result.winners.length > 1 &&
+                result.winners.find((element: any) => searchName(element)) ? (
                   <CardDraw
                     index={index}
                     setIdStats={setIdStats}
-                    robotName={result.players.find((element: any) => searchName(element)).robot}
+                    robotName={
+                      result.players.find((element: any) => searchName(element))
+                        .robot
+                    }
                     gameDate={result.creation_date}
                     gameName={result.name}
                   />
@@ -384,7 +398,10 @@ const HistoryResults = () => {
                   <CardWin
                     index={index}
                     setIdStats={setIdStats}
-                    robotName={result.players.find((element: any) => searchName(element)).robot}
+                    robotName={
+                      result.players.find((element: any) => searchName(element))
+                        .robot
+                    }
                     gameDate={result.creation_date}
                     gameName={result.name}
                   />
@@ -392,7 +409,10 @@ const HistoryResults = () => {
                   <CardLose
                     index={index}
                     setIdStats={setIdStats}
-                    robotName={result.players.find((element: any) => searchName(element)).robot}
+                    robotName={
+                      result.players.find((element: any) => searchName(element))
+                        .robot
+                    }
                     gameDate={result.creation_date}
                     gameName={result.name}
                   />

@@ -72,10 +72,10 @@ describe("Cartas de resultados", () => {
         gameName=""
       />
     );
-    const robotName = screen.getByText('Roboto');
+    const robotName = screen.getByText("Roboto");
     expect(robotName).toBeInTheDocument();
   });
-  test("Se muestra el nombre de robot pasado como prop en CardWin" , () => {
+  test("Se muestra el nombre de robot pasado como prop en CardWin", () => {
     render(
       <CardWin
         index={0}
@@ -85,10 +85,10 @@ describe("Cartas de resultados", () => {
         gameName=""
       />
     );
-    const robotName = screen.getByText('Roboto');
+    const robotName = screen.getByText("Roboto");
     expect(robotName).toBeInTheDocument();
   });
-  test("Se muestra el nombre de robot pasado como prop en CardDraw" , () => {
+  test("Se muestra el nombre de robot pasado como prop en CardDraw", () => {
     render(
       <CardDraw
         index={0}
@@ -98,7 +98,7 @@ describe("Cartas de resultados", () => {
         gameName=""
       />
     );
-    const robotName = screen.getByText('Roboto');
+    const robotName = screen.getByText("Roboto");
     expect(robotName).toBeInTheDocument();
   });
   test("Se muestra el nombre de partida pasado como prop en CardLose", () => {
@@ -111,10 +111,10 @@ describe("Cartas de resultados", () => {
         gameName="assdasda"
       />
     );
-    const robotName = screen.getByText('assdasda');
+    const robotName = screen.getByText("assdasda");
     expect(robotName).toBeInTheDocument();
   });
-  test("Se muestra el nombre de partida pasado como prop en CardWin" , () => {
+  test("Se muestra el nombre de partida pasado como prop en CardWin", () => {
     render(
       <CardWin
         index={0}
@@ -124,10 +124,10 @@ describe("Cartas de resultados", () => {
         gameName="assdasda"
       />
     );
-    const robotName = screen.getByText('assdasda');
+    const robotName = screen.getByText("assdasda");
     expect(robotName).toBeInTheDocument();
   });
-  test("Se muestra el nombre de partida pasado como prop en CardDraw" , () => {
+  test("Se muestra el nombre de partida pasado como prop en CardDraw", () => {
     render(
       <CardDraw
         index={0}
@@ -137,7 +137,7 @@ describe("Cartas de resultados", () => {
         gameName="assdasda"
       />
     );
-    const robotName = screen.getByText('assdasda');
+    const robotName = screen.getByText("assdasda");
     expect(robotName).toBeInTheDocument();
   });
 });

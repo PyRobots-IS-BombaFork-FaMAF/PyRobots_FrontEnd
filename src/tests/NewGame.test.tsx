@@ -7,7 +7,7 @@ describe("Componente NewGame", () => {
     render(
       <BrowserRouter>
         <NewGame />
-      </BrowserRouter>  
+      </BrowserRouter>
     );
     const nombre = screen.getByTestId("game-name");
     expect(nombre).toBeInTheDocument();
@@ -72,5 +72,4 @@ describe("Componente NewGame", () => {
     const submit = screen.getByTestId("submit");
     expect(submit).toBeInTheDocument();
   });
-  
 });
