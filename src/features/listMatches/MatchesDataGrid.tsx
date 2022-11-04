@@ -5,6 +5,7 @@ import {
   GridToolbarContainer,
   DataGrid,
   gridClasses,
+  GridRowParams,
 } from "@mui/x-data-grid";
 import { joinGame, Robot } from "../joinGame/JoinGame";
 import { ListMatch } from "./ListMatchesApi";
@@ -126,7 +127,7 @@ export const CustomToolBar = (): JSX.Element => {
 
 type DataGridProps = {
   matches: ListMatch;
-  setRow: Function;
+  setRow: (row: GridRowParams<any>) => void;
   handleOpen: Function;
   arrRobot: Robot[];
   robotIndex: string;
@@ -181,7 +182,7 @@ export const MatchesDataGrid = ({
       experimentalFeatures={{ newEditingApi: true }}
       getRowClassName={(params) => `${params.row._status}`}
       components={{ Toolbar: CustomToolBar }}
-      onRowClick={(row) => {
+      onRowClick={(row: GridRowParams<any>) => {
         setRow(row);
         if (row.row._status === "joined") {
           joinGame(
