@@ -6,7 +6,7 @@ export default function Home(): JSX.Element {
       <div>
         <NavBar data-testid="NavBar" />
       </div>
-      <div className="bg-image"></div>
+      <div className="bg-image"/>
     </div>
   );
 }

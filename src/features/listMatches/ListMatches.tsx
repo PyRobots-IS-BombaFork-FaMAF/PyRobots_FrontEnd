@@ -155,7 +155,7 @@ export default function ListMatches(): JSX.Element {
                 setShowLobby={setShowLobby}
                 setSocket={setSocket}
                 handleOpen={handleOpen}
-              ></MatchesDataGrid>
+              />
               <Container>
                 <ModalList
                   open={open}
@@ -176,9 +176,9 @@ export default function ListMatches(): JSX.Element {
               isCreator={isCreator}
               setMatches={setMatches}
               socket={socket}
-            ></Lobby>
+            />
           ) : (
-            <div></div>
+            <div/>
           )}
         </Container>
       </div>

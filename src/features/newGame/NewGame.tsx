@@ -200,7 +200,7 @@ function GameForm(): JSX.Element {
                 label="Robots"
                 onChange={handleChange}
               >
-                <MenuItem value=""></MenuItem>
+                <MenuItem value=""/>
                 {arrRobot.map((elem: Robot, key) => {
                   return (
                     <MenuItem key={key} value={`${key}`}>
@@ -211,7 +211,7 @@ function GameForm(): JSX.Element {
               </Select>
             </div>
           ) : (
-            <div></div>
+            <div/>
           )}
         </Grid>
         <Button
