@@ -14,7 +14,7 @@ type ModalProps = {
   handleSubmitJoin: React.FormEventHandler<HTMLFormElement> | undefined;
   robotIndex: string;
   handleChange:
-    | ((event: SelectChangeEvent<any>, child: React.ReactNode) => void)
+    | ((event: SelectChangeEvent<string>, child: React.ReactNode) => void)
     | undefined;
   handleClose: React.MouseEventHandler<HTMLButtonElement> | undefined;
   arrRobot: Robot[];
