@@ -8,7 +8,7 @@ import {
   GridRowParams,
 } from "@mui/x-data-grid";
 import { joinGame, Robot } from "../joinGame/JoinGame";
-import { ListMatch } from "./ListMatchesApi";
+import { ListMatch, Match } from "./ListMatchesApi";
 
 export const columns: GridColDef[] = [
   {
@@ -128,14 +128,14 @@ export const CustomToolBar = (): JSX.Element => {
 type DataGridProps = {
   matches: ListMatch;
   setRow: (row: GridRowParams<any>) => void;
-  handleOpen: Function;
+  handleOpen: () => void;
   arrRobot: Robot[];
   robotIndex: string;
-  setActualMatch: Function;
-  setIsCreator: Function;
-  setMatches: Function;
-  setShowLobby: Function;
-  setSocket: Function;
+  setActualMatch: React.Dispatch<React.SetStateAction<Match | null>>;
+  setIsCreator: React.Dispatch<React.SetStateAction<boolean>>;
+  setMatches: React.Dispatch<React.SetStateAction<ListMatch>>;
+  setShowLobby: React.Dispatch<React.SetStateAction<boolean>>;
+  setSocket: React.Dispatch<React.SetStateAction<WebSocket | undefined>>;
 };
 export const MatchesDataGrid = ({
   matches,
