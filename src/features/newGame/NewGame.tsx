@@ -1,16 +1,18 @@
+import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import NavBar from "../directories/NavBar";
-import { createMatchApi, newGameInfo } from "./NewGameApi";
-import "../directories/Home.css";
 import { useEffect, useState } from "react";
-import { Robot } from "../joinGame/JoinGame";
-import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { callApiListRobot } from "../robotApi/ListRobotApi";
 import swal from "sweetalert2";
+
+import NavBar from "../directories/NavBar";
+import { Robot } from "../joinGame/JoinGame";
+import { createMatchApi, newGameInfo } from "./NewGameApi";
+import { callApiListRobot } from "../robotApi/ListRobotApi";
+
+import "../directories/Home.css";
 
 function onSubmit_newGame(
   event: React.FormEvent<HTMLFormElement>,

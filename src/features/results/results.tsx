@@ -1,10 +1,3 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import NavBar from "../directories/NavBar";
 import {
   Box,
   CircularProgress,
@@ -13,10 +6,18 @@ import {
   Modal,
   Stack,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import axios from "../../api/axios";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
 import Pagination from "@mui/material/Pagination";
+import Typography from "@mui/material/Typography";
+import React from "react";
+import { useState, useEffect } from "react";
 import swal from "sweetalert2";
+
+import axios from "../../api/axios";
+import NavBar from "../directories/NavBar";
 
 type modalState = {
   modal: boolean;

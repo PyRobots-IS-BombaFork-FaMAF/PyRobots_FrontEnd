@@ -1,5 +1,6 @@
-import axios from "../../api/axios";
 import swal from "sweetalert2";
+
+import axios from "../../api/axios";
 
 export type newGameInfo = {
   rounds?: number;

@@ -1,19 +1,18 @@
-import { Stage, Layer, Rect, Circle, Group, Line } from "react-konva";
+import { Circle, Group, Layer, Line, Rect, Stage } from "react-konva";
 
+import { Animate } from "./Animation";
 import {
+  animationInfo,
   boardConfig,
   gameCoords,
-  robotInFrameConfig,
   gameToBoard_coordinates,
-  animationInfo,
+  missileInFrameConfig,
+  robotInFrameConfig,
   robotInAnimationInfo,
   robotInSideTextConfig,
   simulationResult_to_animationInfo,
-  missileInFrameConfig,
 } from "./boardHelper";
-
 import { simulationResult } from "./SimulationAPI";
-import { Animate } from "./Animation";
 
 import "./board.css";
 

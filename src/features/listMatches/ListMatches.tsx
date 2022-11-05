@@ -1,18 +1,20 @@
 import Box from "@mui/material/Box";
 import { Container } from "@mui/system";
-import { ListMatch, callApiListMatch } from "./ListMatchesApi";
 import { CssBaseline, SelectChangeEvent } from "@mui/material";
-import NavBar from "../directories/NavBar";
-import "../directories/Home.css";
 import { useEffect, useState } from "react";
+import swal from "sweetalert2";
+
+import NavBar from "../directories/NavBar";
 import { Lobby } from "../joinGame/Lobby";
 import { joinGame, Player, Robot } from "../joinGame/JoinGame";
-import { callApiListRobot } from "../robotApi/ListRobotApi";
 import { JoinGameApi } from "../joinGame/JoinGameApi";
 import { Match } from "./ListMatchesApi";
-import swal from "sweetalert2";
 import { MatchesDataGrid } from "./MatchesDataGrid";
 import { ModalList } from "./ModalList";
+import { ListMatch, callApiListMatch } from "./ListMatchesApi";
+import { callApiListRobot } from "../robotApi/ListRobotApi";
+
+import "../directories/Home.css";
 
 export default function ListMatches(): JSX.Element {
   const [matches, setMatches] = useState<ListMatch>([]);

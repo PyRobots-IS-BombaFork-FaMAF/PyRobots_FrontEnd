@@ -1,12 +1,13 @@
 import { Button } from "@mui/material";
 import {
+  DataGrid,
   GridColDef,
   GridToolbarFilterButton,
   GridToolbarContainer,
-  DataGrid,
-  gridClasses,
   GridRowParams,
+  gridClasses,
 } from "@mui/x-data-grid";
+
 import { joinGame, Robot } from "../joinGame/JoinGame";
 import { ListMatch, Match } from "./ListMatchesApi";
 

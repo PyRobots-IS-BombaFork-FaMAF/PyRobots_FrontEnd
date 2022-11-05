@@ -1,20 +1,20 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
-import { signUpApi } from "./SignUpApi";
-import { Navigate, useLocation } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import swal from "sweetalert2";
+
+import { signUpApi } from "./SignUpApi";
+import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 
 function Copyright(props: any): JSX.Element {
   return (

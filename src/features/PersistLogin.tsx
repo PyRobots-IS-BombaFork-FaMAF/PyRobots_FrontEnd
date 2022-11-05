@@ -1,5 +1,5 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 function PersistLogin(): JSX.Element {
   const [isLocation, setIsLocation] = useState(true);

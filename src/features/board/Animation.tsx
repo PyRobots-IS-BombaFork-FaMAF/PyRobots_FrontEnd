@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /** Show `renderFrame(i - i % skipFrames)` in the `i`th frame.
  * Showing a new frame every `frameInterval` mili-seconds. */

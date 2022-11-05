@@ -1,5 +1,6 @@
-import axios from "../../api/axios";
 import swal, { SweetAlertResult } from "sweetalert2";
+
+import axios from "../../api/axios";
 
 export async function postRobot(
   data: FormData

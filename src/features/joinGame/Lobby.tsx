@@ -1,13 +1,14 @@
+import { Button, Container, Grid, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import { Button, Typography, Grid, Container } from "@mui/material";
+import { useState } from "react";
+import Swal from "sweetalert2";
+
 import defaultPlayer from "../../assets/img/defaultPlayer.jpg";
 import defaultRobot from "../../assets/img/defaultRobot.jpg";
-import Swal from "sweetalert2";
-import { useState } from "react";
 import { callApiLaunchApi } from "./LaunchGameApi";
-import { callApiListMatch } from "../listMatches/ListMatchesApi";
 import { leaveMatchApi } from "./LeaveGameApi";
+import { callApiListMatch } from "../listMatches/ListMatchesApi";
 
 export type Player = {
   player: string;
