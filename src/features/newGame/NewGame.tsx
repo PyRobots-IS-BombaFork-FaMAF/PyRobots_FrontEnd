@@ -10,6 +10,7 @@ import swal from "sweetalert2";
 import NavBar from "../directories/NavBar";
 import { Robot } from "../joinGame/JoinGame";
 import { createMatchApi, newGameInfo } from "./NewGameApi";
+import { ListOfRobots } from "../robotApi/ListOfRobots";
 import { callApiListRobot } from "../robotApi/ListRobotApi";
 
 import "../directories/Home.css";
@@ -50,7 +51,11 @@ function onSubmit_newGame(
   const robotId = data.get("select-robot");
   if (typeof robotId === "string") {
     if (robotId) {
-      newGameInfo.robot = arrRobot[parseInt(robotId)].name;
+      newGameInfo.robot = arrRobot.find(
+        (robot: Robot) => robot.id === parseInt(robotId)
+      )!.name;
+      // The should be a robot with that id, but they come from two different request,
+      // so it's not fully guaranteed // FIXME (needs changes in the backend)
     }
   }
 
@@ -190,32 +195,7 @@ function GameForm(): JSX.Element {
             sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
-        <Grid>
-          {arrRobot.length > 0 ? (
-            <div>
-              <h5>Elegir Robot</h5>
-              <Select
-                sx={{ mb: 1, backgroundColor: "#f2f2f2", width: "100%" }}
-                data-testid="selectJoin"
-                value={robotIndex}
-                name="select-robot"
-                label="Robots"
-                onChange={handleChange}
-              >
-                <MenuItem value=""/>
-                {arrRobot.map((elem: Robot, key) => {
-                  return (
-                    <MenuItem key={key} value={`${key}`}>
-                      {elem.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </div>
-          ) : (
-            <div/>
-          )}
-        </Grid>
+        <ListOfRobots name="select-robot" label="Robots" />
         <Button
           type="submit"
           role="button"
