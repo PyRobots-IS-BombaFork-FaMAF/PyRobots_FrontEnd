@@ -119,7 +119,14 @@ const Stats = ({ currentResult, idStats }: indexAndCurrentResult) => {
   );
 };
 
-export const ResultCard = ( {gameDate, gameName, index, resultOfGame, robotName, setIdStats} : resultForCards ) => {
+export const ResultCard = ({
+  gameDate,
+  gameName,
+  index,
+  resultOfGame,
+  robotName,
+  setIdStats,
+}: resultForCards) => {
   const { setModal } = React.useContext(ModalState);
 
   const handleClick = (
@@ -135,44 +142,43 @@ export const ResultCard = ( {gameDate, gameName, index, resultOfGame, robotName,
       : resultOfGame === "PERDISTE"
       ? "rgba(100,0,0,0.05)"
       : "rgba(243, 255, 53, 0.15)";
-  const shadowColor = resultOfGame === "GANASTE"
-  ? "#93D696"
-  : resultOfGame === "PERDISTE"
-  ? "#D38787"
-  : "#EAD99D";
-  const borderColor = resultOfGame === "GANASTE"
-  ? "#2EA52E"
-  : resultOfGame === "PERDISTE"
-  ? "#BF0F0F"
-  : "#C4CE00";
+  const shadowColor =
+    resultOfGame === "GANASTE"
+      ? "#93D696"
+      : resultOfGame === "PERDISTE"
+      ? "#D38787"
+      : "#EAD99D";
+  const borderColor =
+    resultOfGame === "GANASTE"
+      ? "#2EA52E"
+      : resultOfGame === "PERDISTE"
+      ? "#BF0F0F"
+      : "#C4CE00";
 
   return (
-    <Card variant="outlined"
-    sx={{
-      minWidth: 275,
+    <Card
+      variant="outlined"
+      sx={{
+        minWidth: 275,
         maxWidth: 300,
         margin: 3,
         background: backgroundColor,
         boxShadow: 6,
         border: "2px solid " + borderColor,
         "&:hover": { boxShadow: "0rem 0.5rem 1rem " + shadowColor },
-    }}>
+      }}
+    >
       <CardContent>
-        <Typography
-          variant="h4"
-          sx={{ color: borderColor }}
-        >
+        <Typography variant="h4" sx={{ color: borderColor }}>
           {resultOfGame}
         </Typography>
         <Typography>
           <strong>Robot usado:</strong> {robotName}
         </Typography>
         <Typography>
-          {" "}
           <strong>Nombre de partida:</strong> {gameName}
         </Typography>
         <Typography>
-          {" "}
           <strong>Fecha de creación:</strong> {gameDate}
         </Typography>
         <CardActions>
@@ -194,7 +200,7 @@ export const ResultCard = ( {gameDate, gameName, index, resultOfGame, robotName,
         </CardActions>
       </CardContent>
     </Card>
-  )
+  );
 };
 
 const HistoryResults = () => {
@@ -270,66 +276,77 @@ const HistoryResults = () => {
     <div>
       <NavBar />
       <ModalState.Provider value={{ modal, setModal }}>
-        <Grid container sx={{ display: "flex", justifyContent: "center" }}>
-          {currentResult.map((result: any, index: number) =>
-            currentResult.length > 0 ? (
-              <Grid key={index}>
-                {result.winners.length > 1 &&
-                result.winners.find((element: player) => searchName(element)) ? (
-                  <ResultCard
-                    resultOfGame="EMPATASTE"
-                    index={index}
-                    setIdStats={setIdStats}
-                    robotName={
-                      result.players.find((element: player) => searchName(element))
-                        .robot
-                    }
-                    gameDate={result.creation_date}
-                    gameName={result.name}
-                  />
-                ) : result.winners.length === 1 &&
-                  result.winners.find((element: player) => searchName(element)) ? (
-                  <ResultCard
-                    resultOfGame="GANASTE"
-                    index={index}
-                    setIdStats={setIdStats}
-                    robotName={
-                      result.players.find((element: player) => searchName(element))
-                        .robot
-                    }
-                    gameDate={result.creation_date}
-                    gameName={result.name}
-                  />
-                ) : (
-                  <ResultCard
-                    resultOfGame="PERDISTE"
-                    index={index}
-                    setIdStats={setIdStats}
-                    robotName={
-                      result.players.find((element: player) => searchName(element))
-                        .robot
-                    }
-                    gameDate={result.creation_date}
-                    gameName={result.name}
-                  />
-                )}
-              </Grid>
-            ) : (
-              <h1> No has jugado partidas aún. </h1>
-            )
-          )}
-        </Grid>
+        {currentResult.length > 0 ? (
+          <div>
+            <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+              {currentResult.map((result: any, index: number) => (
+                <Grid key={index}>
+                  {result.winners.length > 1 &&
+                  result.winners.find((element: player) =>
+                    searchName(element)
+                  ) ? (
+                    <ResultCard
+                      resultOfGame="EMPATASTE"
+                      index={index}
+                      setIdStats={setIdStats}
+                      robotName={
+                        result.players.find((element: player) =>
+                          searchName(element)
+                        ).robot
+                      }
+                      gameDate={result.creation_date}
+                      gameName={result.name}
+                    />
+                  ) : result.winners.length === 1 &&
+                    result.winners.find((element: player) =>
+                      searchName(element)
+                    ) ? (
+                    <ResultCard
+                      resultOfGame="GANASTE"
+                      index={index}
+                      setIdStats={setIdStats}
+                      robotName={
+                        result.players.find((element: player) =>
+                          searchName(element)
+                        ).robot
+                      }
+                      gameDate={result.creation_date}
+                      gameName={result.name}
+                    />
+                  ) : (
+                    <ResultCard
+                      resultOfGame="PERDISTE"
+                      index={index}
+                      setIdStats={setIdStats}
+                      robotName={
+                        result.players.find((element: player) =>
+                          searchName(element)
+                        ).robot
+                      }
+                      gameDate={result.creation_date}
+                      gameName={result.name}
+                    />
+                  )}
+                </Grid>
+              ))}
+            </Grid>
+            <Pagination
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+              variant="outlined"
+              onChange={handleChange}
+              count={Math.ceil(results.length / resultsPerPage)}
+            />
+          </div>
+        ) : (
+          <Typography variant="h5" sx={{ mt: "15px" }}>
+            No has jugado partidas aún.
+          </Typography>
+        )}
         <Stats idStats={idStats} currentResult={currentResult} />
       </ModalState.Provider>
-      <Pagination
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-        variant="outlined"
-        onChange={handleChange}
-        count={Math.ceil(results.length / resultsPerPage)}
-      />
     </div>
   );
 };
