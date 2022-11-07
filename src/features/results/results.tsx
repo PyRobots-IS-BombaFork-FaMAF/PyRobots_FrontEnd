@@ -133,7 +133,10 @@ export const ResultCard = ({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     setModal(true);
-    setIdStats((event.target as HTMLInputElement).getAttribute("id"));
+    const id = event.currentTarget.id;
+    if (typeof id === "string") {
+      setIdStats(parseInt(id));
+    }
   };
 
   const backgroundColor =
@@ -279,7 +282,7 @@ const HistoryResults = () => {
         {currentResult.length > 0 ? (
           <div>
             <Grid container sx={{ display: "flex", justifyContent: "center" }}>
-              {currentResult.map((result: any, index: number) => (
+              {currentResult.map((result: gameResults, index: number) => (
                 <Grid key={index}>
                   {result.winners.length > 1 &&
                   result.winners.find((element: player) =>
@@ -292,7 +295,7 @@ const HistoryResults = () => {
                       robotName={
                         result.players.find((element: player) =>
                           searchName(element)
-                        ).robot
+                        )!.robot
                       }
                       gameDate={result.creation_date}
                       gameName={result.name}
@@ -308,7 +311,7 @@ const HistoryResults = () => {
                       robotName={
                         result.players.find((element: player) =>
                           searchName(element)
-                        ).robot
+                        )!.robot
                       }
                       gameDate={result.creation_date}
                       gameName={result.name}
@@ -321,7 +324,7 @@ const HistoryResults = () => {
                       robotName={
                         result.players.find((element: player) =>
                           searchName(element)
-                        ).robot
+                        )!.robot
                       }
                       gameDate={result.creation_date}
                       gameName={result.name}
