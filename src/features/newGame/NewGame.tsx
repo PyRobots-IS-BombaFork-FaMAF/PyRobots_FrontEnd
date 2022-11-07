@@ -1,4 +1,3 @@
-import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -87,16 +86,12 @@ export const password_regex: string = "^.{8,16}$";
 
 function GameForm(): JSX.Element {
   const [arrRobot, setArrRobot] = useState<Robot[]>([]);
-  const [robotIndex, setRobotIndex] = useState("");
 
   useEffect(() => {
     callApiListRobot(setArrRobot);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleChange = (e: SelectChangeEvent) => {
-    setRobotIndex(e.target.value as string);
-  };
   return (
     <Container>
       <Box
