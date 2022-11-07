@@ -26,7 +26,12 @@ export function ListOfRobots(props: SelectProps<string>): JSX.Element {
     <Grid>
       <div>
         <h5>Elegir Robot</h5>
-        <Select value={robotIndex} onChange={handleChange} {...props}>
+        <Select
+          sx={{ width: "100%" }}
+          value={robotIndex}
+          onChange={handleChange}
+          {...props}
+        >
           <MenuItem value="" />
           {arrRobot.map((elem: Robot, key) => {
             return (
