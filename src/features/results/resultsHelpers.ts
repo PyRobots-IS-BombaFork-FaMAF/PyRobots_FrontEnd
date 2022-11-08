@@ -31,10 +31,13 @@ export type indexAndCurrentResult = {
 };
 
 export type resultForCards = {
-  gameDate: string;
-  gameName: string;
   index: number;
   resultOfGame: "GANASTE" | "EMPATASTE" | "PERDISTE";
-  robotName: string;
   setIdStats: React.Dispatch<React.SetStateAction<number>>;
+  result: gameResults;
 };
+
+// Functions
+
+export const searchName = (players: player) =>
+localStorage.getItem("username")?.toString() === players.player;

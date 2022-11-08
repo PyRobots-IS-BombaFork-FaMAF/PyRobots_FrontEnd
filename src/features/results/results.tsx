@@ -23,6 +23,7 @@ import {
   gameResults,
   player,
   resultForCards,
+  searchName,
 } from "./resultsHelpers";
 
 const ModalState = React.createContext<modalState>({
@@ -73,7 +74,6 @@ const Stats = ({ currentResult, idStats }: indexAndCurrentResult) => {
               <strong>Nombre del robot:</strong> {result.winners[0].robot}
             </Typography>
             <Typography>
-              {" "}
               <strong>Usuario:</strong> {result.winners[0].player}
             </Typography>
           </Stack>
@@ -120,11 +120,9 @@ const Stats = ({ currentResult, idStats }: indexAndCurrentResult) => {
 };
 
 export const ResultCard = ({
-  gameDate,
-  gameName,
-  index,
+  result,
   resultOfGame,
-  robotName,
+  index,
   setIdStats,
 }: resultForCards) => {
   const { setModal } = React.useContext(ModalState);
@@ -176,13 +174,14 @@ export const ResultCard = ({
           {resultOfGame}
         </Typography>
         <Typography>
-          <strong>Robot usado:</strong> {robotName}
+          <strong>Robot usado:</strong>{" "}
+          {result.players.find((element: player) => searchName(element))!.robot}
         </Typography>
         <Typography>
-          <strong>Nombre de partida:</strong> {gameName}
+          <strong>Nombre de partida:</strong> {result.name}
         </Typography>
         <Typography>
-          <strong>Fecha de creación:</strong> {gameDate}
+          <strong>Fecha de creación:</strong> {result.creation_date}
         </Typography>
         <CardActions>
           <Button
@@ -258,10 +257,6 @@ const HistoryResults = () => {
   const indexOfLastResult = currentPage * resultsPerPage;
   const indexOfFirstResult = indexOfLastResult - resultsPerPage;
   const currentResult = results.slice(indexOfFirstResult, indexOfLastResult);
-
-  const searchName = (players: player) =>
-    localStorage.getItem("username")?.toString() === players.player;
-
   return loading ? (
     <Grid
       container
@@ -292,13 +287,7 @@ const HistoryResults = () => {
                       resultOfGame="EMPATASTE"
                       index={index}
                       setIdStats={setIdStats}
-                      robotName={
-                        result.players.find((element: player) =>
-                          searchName(element)
-                        )!.robot
-                      }
-                      gameDate={result.creation_date}
-                      gameName={result.name}
+                      result={result}
                     />
                   ) : result.winners.length === 1 &&
                     result.winners.find((element: player) =>
@@ -308,26 +297,14 @@ const HistoryResults = () => {
                       resultOfGame="GANASTE"
                       index={index}
                       setIdStats={setIdStats}
-                      robotName={
-                        result.players.find((element: player) =>
-                          searchName(element)
-                        )!.robot
-                      }
-                      gameDate={result.creation_date}
-                      gameName={result.name}
+                      result={result}
                     />
                   ) : (
                     <ResultCard
                       resultOfGame="PERDISTE"
                       index={index}
                       setIdStats={setIdStats}
-                      robotName={
-                        result.players.find((element: player) =>
-                          searchName(element)
-                        )!.robot
-                      }
-                      gameDate={result.creation_date}
-                      gameName={result.name}
+                      result={result}
                     />
                   )}
                 </Grid>
