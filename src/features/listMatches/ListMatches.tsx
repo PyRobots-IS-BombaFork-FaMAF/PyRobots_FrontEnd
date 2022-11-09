@@ -18,7 +18,6 @@ import "../directories/Home.css";
 
 export default function ListMatches(): JSX.Element {
   const [matches, setMatches] = useState<ListMatch>([]);
-  const [socket, setSocket] = useState<WebSocket>();
   const [open, setOpen] = useState(false);
   const [showLobby, setShowLobby] = useState(false);
   const [actualMatch, setActualMatch] = useState<Match | null>(null);
@@ -71,7 +70,6 @@ export default function ListMatches(): JSX.Element {
         setMatches,
         localStorage.getItem("username")?.toString()!,
         setShowLobby,
-        setSocket,
         matches
       );
     }
@@ -155,7 +153,6 @@ export default function ListMatches(): JSX.Element {
                 setIsCreator={setIsCreator}
                 setMatches={setMatches}
                 setShowLobby={setShowLobby}
-                setSocket={setSocket}
                 handleOpen={handleOpen}
               />
               <Container>
@@ -177,7 +174,7 @@ export default function ListMatches(): JSX.Element {
               roomId={actualMatch?._id.toString()}
               isCreator={isCreator}
               setMatches={setMatches}
-              socket={socket}
+              roomUrl={actualMatch?._websocketurl}
             />
           ) : (
             <div/>

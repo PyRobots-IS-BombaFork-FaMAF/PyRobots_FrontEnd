@@ -136,7 +136,6 @@ type DataGridProps = {
   setIsCreator: React.Dispatch<React.SetStateAction<boolean>>;
   setMatches: React.Dispatch<React.SetStateAction<ListMatch>>;
   setShowLobby: React.Dispatch<React.SetStateAction<boolean>>;
-  setSocket: React.Dispatch<React.SetStateAction<WebSocket | undefined>>;
 };
 export const MatchesDataGrid = ({
   matches,
@@ -147,7 +146,6 @@ export const MatchesDataGrid = ({
   setIsCreator,
   setMatches,
   setShowLobby,
-  setSocket,
   handleOpen,
 }: DataGridProps) => {
   return (
@@ -194,7 +192,6 @@ export const MatchesDataGrid = ({
             setMatches,
             localStorage.getItem("username")?.toString()!,
             setShowLobby,
-            setSocket,
             matches
           );
         } else {

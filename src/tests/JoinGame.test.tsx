@@ -9,7 +9,6 @@ describe("Test a funcion joinGame", () => {
     let matches: ListMatch = [];
     const userName = "soyunuser";
     const robot = "nuevoRobot";
-    let setSocket = () => {};
     const setActualMatch = (match: Match) => {
       actualMatch = match;
     };
@@ -78,7 +77,6 @@ describe("Test a funcion joinGame", () => {
       setMatches,
       userName,
       setShowLobby,
-      setSocket,
       matches
     );
 
@@ -166,7 +164,6 @@ describe("Test a funcion joinGame", () => {
       setMatches,
       userName,
       setShowLobby,
-      setSocket,
       matches
     );
 

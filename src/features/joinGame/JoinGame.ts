@@ -1,5 +1,4 @@
 import { ListMatch } from "../listMatches/ListMatchesApi";
-import { initSocket } from "../../websocket/WebSocket";
 
 export type Player =
   | {
@@ -34,7 +33,6 @@ export const joinGame = (
   setMatches: Function,
   userName: string,
   setShowLobby: Function,
-  setSocket: Function,
   matches: ListMatch
 ) => {
   const match = matches?.find((element) => element._id === data.row.id);
@@ -67,8 +65,6 @@ export const joinGame = (
       setIsCreator(true);
     }
     setShowLobby(true);
-    const socket = initSocket(match?._websocketurl!);
-    setSocket(socket);
   } else {
     if (match && matches) {
       match._status = "full";

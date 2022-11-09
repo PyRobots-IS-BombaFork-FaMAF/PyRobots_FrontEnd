@@ -1,7 +1,7 @@
 import { Button, Container, Grid, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 
 import defaultPlayer from "../../assets/img/defaultPlayer.jpg";
@@ -21,25 +21,25 @@ type PropsLobby = {
   players: ListPlayer;
   isCreator: boolean;
   roomId: string;
+  roomUrl: string;
   setMatches: Function;
-  socket: WebSocket | undefined;
 };
 
 type PropsButtons = {
-  socket: WebSocket | undefined;
   setMatches: Function;
   setShowLobby: Function;
   roomId: string;
   isCreator: boolean;
+  socket: WebSocket | null;
   disableAbandone: boolean;
 };
 
 const Buttons = ({
-  socket,
   setMatches,
   setShowLobby,
   roomId,
   isCreator,
+  socket,
   disableAbandone,
 }: PropsButtons) => {
   const abandoneGame = () => {
@@ -57,12 +57,14 @@ const Buttons = ({
           leaveMatchApi(
             roomId,
             localStorage.getItem("access_token")?.toString()!
-          );
-          setShowLobby(false);
+          );          
           setTimeout(() => {
+            if(socket){
+              socket.close();
+            }
             callApiListMatch({}, setMatches);
-            socket?.close();
-          }, 3000);
+            setShowLobby(false);
+          }, 1000);
         }
       });
     } else {
@@ -79,9 +81,14 @@ const Buttons = ({
       <Grid item xs={4}>
         <Button
           onClick={(event) => {
-            socket?.close();
-            callApiListMatch({}, setMatches);
-            setShowLobby(false);
+            setTimeout(() => {
+              callApiListMatch({}, setMatches);
+              setShowLobby(false);
+            }, 1000);
+            if(socket){
+              socket.close();
+            }
+            
           }}
           variant="contained"
           sx={{
@@ -143,23 +150,40 @@ export const Lobby = ({
   setShowLobby,
   isCreator,
   roomId,
+  roomUrl,
   setMatches,
-  socket,
 }: PropsLobby) => {
   const [playersSocket, setPlayersSocket] = useState<ListPlayer>([]);
   const [serverMessage, setServerMessage] = useState("");
   const [disableAbandone, setDisableAbandone] = useState(false);
-  socket!.onmessage = (event) => {
-    const json = JSON.parse(event.data);
-    if (json.status === 0 || json.status === 1 || json.status === 4) {
-      setPlayersSocket(json.players);
-      setServerMessage(json.message);
-    } else if (json.status === 2 || json.status === 3) {
-      setDisableAbandone(true);
-      setServerMessage(json.message);
-    }
-  };
+  const ws = useRef<WebSocket | null>(null);
 
+  useEffect(() => {
+    ws.current = new WebSocket(`ws://127.0.0.1:8000${roomUrl}`);
+    ws.current.onopen = () => console.log("ws opened");
+    ws.current.onclose = () => console.log("ws closed");
+
+    const wsCurrent = ws.current;
+    return () => {
+      wsCurrent?.close()
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if(!ws.current) return;
+    ws.current.onmessage = (event) => {
+      const json = JSON.parse(event.data);
+      console.log(json);
+      if (json.status === 0 || json.status === 1 || json.status === 4) {
+        setPlayersSocket(json.players);
+        setServerMessage(json.message);
+      } else if (json.status === 2 || json.status === 3) {
+        setDisableAbandone(true);
+        setServerMessage(json.message);
+      }
+    };
+  }, [])
   return (
     <Grid
       key={myKey}
@@ -219,11 +243,11 @@ export const Lobby = ({
         </Container>
       </Grid>
       <Buttons
-        socket={socket}
         setMatches={setMatches}
         setShowLobby={setShowLobby}
         roomId={roomId}
         isCreator={isCreator}
+        socket={ws.current}
         disableAbandone={disableAbandone}
       ></Buttons>
     </Grid>
