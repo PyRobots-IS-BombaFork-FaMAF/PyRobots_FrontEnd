@@ -13,6 +13,7 @@ import RequiereAuth from "./features/RequiereAuth";
 import HistoryResults from "./features/results/results";
 
 import "./App.css";
+import { RobotLibrary } from "./features/listRobotsAndStats/RobotLibrary";
 
 function App(): JSX.Element {
   return (
@@ -26,6 +27,7 @@ function App(): JSX.Element {
           {/* protected routes */}
           <Route element={<PersistLogin />}>
             <Route element={<RequiereAuth />}>
+              <Route path="/robotLibrary" element={<RobotLibrary/>}/>
               <Route path="/Simulation/" element={<NewSimulation />} />
               <Route path="/createRobot" element={<CreateRobot />} />
               <Route path="/" element={<Home />} />
