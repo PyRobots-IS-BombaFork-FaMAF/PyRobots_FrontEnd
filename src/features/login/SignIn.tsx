@@ -147,7 +147,7 @@ export default function SignIn(): JSX.Element {
                 <Grid container>
                   <Grid item xs>
                     <Link
-                      href="#"
+                      href="/recoverPassword"
                       variant="body2"
                       data-testid="goToChangePassword"
                     >

@@ -11,8 +11,8 @@ import PersistLogin from "./features/PersistLogin";
 import SignUp from "./features/register/SignUp";
 import RequiereAuth from "./features/RequiereAuth";
 import HistoryResults from "./features/results/results";
-
 import "./App.css";
+import PassRecover from "./features/passwordRecovery/PassRecover";
 
 function App(): JSX.Element {
   return (
@@ -22,6 +22,7 @@ function App(): JSX.Element {
           {/* public routes */}
           <Route path="/register" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
+          <Route path="/recoverPassword" element={<PassRecover/>} />
 
           {/* protected routes */}
           <Route element={<PersistLogin />}>
