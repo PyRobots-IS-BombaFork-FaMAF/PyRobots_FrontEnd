@@ -86,7 +86,6 @@ export const password_regex: string = "^.{8,16}$";
 
 function GameForm(): JSX.Element {
   const [arrRobot, setArrRobot] = useState<Robot[]>([]);
-
   useEffect(() => {
     callApiListRobot(setArrRobot);
     // eslint-disable-next-line react-hooks/exhaustive-deps

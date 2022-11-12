@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import swal from "sweetalert2";
 
 import { signUpApi } from "./SignUpApi";
@@ -41,6 +41,7 @@ export default function SignUp(): JSX.Element {
   const [errUser, setErrUser] = useState(true);
   const [errPass, setErrPass] = useState(true);
   const [errPassConfirm, setErrPassConfirm] = useState(true);
+  const navigate = useNavigate();
   const location = useLocation();
 
   const handleChange = (
@@ -63,7 +64,7 @@ export default function SignUp(): JSX.Element {
       isValidEmail(data.get("email")?.toString()!)
     ) {
       if (data.get("confirmPassword") === data.get("password")) {
-        signUpApi(data);
+        signUpApi(data, navigate);
       } else {
         swal.fire({
           title: "Error",
