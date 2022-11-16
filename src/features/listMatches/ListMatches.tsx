@@ -127,7 +127,7 @@ export default function ListMatches(): JSX.Element {
                 width: 1250,
                 maxWidth: "90vw",
                 bgcolor: "background.paper",
-                borderRadius: "5%",
+                borderRadius: "5px",
                 border: "solid 2px",
                 borderColor: "#43B647",
                 "& .columnClass": {

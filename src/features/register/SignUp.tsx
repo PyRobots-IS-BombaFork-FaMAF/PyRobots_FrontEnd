@@ -6,7 +6,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
@@ -34,7 +33,6 @@ function Copyright(props: any): JSX.Element {
   );
 }
 
-const theme = createTheme();
 
 export default function SignUp(): JSX.Element {
   const [errEmail, setErrEmail] = useState(true);
@@ -82,7 +80,6 @@ export default function SignUp(): JSX.Element {
       localStorage.getItem("access_token") ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
-        <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
@@ -228,7 +225,6 @@ export default function SignUp(): JSX.Element {
             </Box>
             <Copyright sx={{ mt: 5 }} />
           </Container>
-        </ThemeProvider>
       )}
     </div>
   );
