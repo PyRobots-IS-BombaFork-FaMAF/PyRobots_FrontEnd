@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /** Show `renderFrame(i - i % skipFrames)` in the `i`th frame.
  * Showing a new frame every `frameInterval` mili-seconds. */
@@ -19,16 +19,16 @@ export function Animate(
 
   const getInterval = () => {
     const progressInterval: NodeJS.Timer = setInterval(() => {
-      if (frame < amountFrames / skipFrames) {
-        setFrame((frame) => frame + skipFrames);
+      if (frame < amountFrames) {
+        setFrame(frame + skipFrames > amountFrames ? amountFrames : frame + skipFrames);
       }
     }, frameInterval * skipFrames);
     return progressInterval;
   };
 
   const animation = () => {
-    if (frame < amountFrames / skipFrames) {
-      setFrame(frame + skipFrames);
+    if (frame < amountFrames) {
+      setFrame(frame + skipFrames > amountFrames ? amountFrames : frame + skipFrames);
     }
   };
 

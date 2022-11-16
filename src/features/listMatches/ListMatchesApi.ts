@@ -1,6 +1,8 @@
-import axios from "../../api/axios";
 import swal from "sweetalert2";
-import { ListPlayer } from "../joinGame/Lobby";
+
+import axios from "../../api/axios";
+import { ListPlayer, Player } from "../joinGame/Lobby";
+
 export type ListMatchesFilter = {
   game_name?: string;
   game_creation_date?: string; // Formato "año-mes-díaT__:__:__Z" donde los __ son de hora, minuto y segundo, pero no se usan
@@ -72,7 +74,7 @@ export function callApiListMatch(
       JSON.parse(value).map((match: Match) => {
         if (
           match._players
-            .map((elem: any) => {
+            .map((elem: Player) => {
               return (
                 elem.player === localStorage.getItem("username")?.toString()!
               );

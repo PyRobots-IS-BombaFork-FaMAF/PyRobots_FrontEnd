@@ -3,14 +3,15 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import NavBar from "../directories/NavBar";
+import { useState } from "react";
+
+import Board from "./board";
 import {
   newSimulationAPI,
   newSimulationInfo,
   simulationResult,
 } from "./SimulationAPI";
-import { useState } from "react";
-import Board from "./board";
+import NavBar from "../directories/NavBar";
 import { ListOfRobots } from "../robotApi/ListOfRobots";
 
 function onSubmit_newSimulation(

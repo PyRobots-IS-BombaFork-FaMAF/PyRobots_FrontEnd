@@ -1,7 +1,8 @@
-import axios from "../../api/axios";
 import swal from "sweetalert2";
 
-export function signUpApi(formData: FormData): void {
+import axios from "../../api/axios";
+
+export function signUpApi(formData: FormData, navigate : Function): void {
   axios
     .post("users/register", formData)
     .then((res) => {
@@ -11,6 +12,7 @@ export function signUpApi(formData: FormData): void {
           icon: "success",
           confirmButtonColor: "#43B647",
         });
+        navigate("/login", { replace: true });
       }
     })
     .catch((err) => {

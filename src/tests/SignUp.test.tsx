@@ -7,7 +7,6 @@ import {
   isValidPassword,
 } from "../features/register/SignUpUtils";
 
-
 describe("funciones dentro del componente SignUp", () => {
   describe("isValidUserName", () => {
     test("Debe retornar un booleano", () => {
@@ -98,44 +97,44 @@ describe("funciones dentro del componente SignUp", () => {
   });
 });
 
-  describe("Componente SignUp", () => {
-    test("El textfield username esta en el componente", () => {
-      render(
-        <BrowserRouter>
-            <SignUp />
-        </BrowserRouter>  
-      );
-      const user = screen.getByTestId("user");
-      expect(user).toBeInTheDocument();
-    });
-  
-    test("El textfield password esta en el componente", () => {
-      render(
-        <BrowserRouter>
-            <SignUp />
-        </BrowserRouter>  
-      );
-      const pass = screen.getByTestId("pass");
-      expect(pass).toBeInTheDocument();
-    });
-
-    test("El textfield confirm password esta en el componente", () => {
-      render(
-        <BrowserRouter>
-            <SignUp />
-        </BrowserRouter>  
-      );
-      const passConfirm = screen.getByTestId("passConfirm");
-      expect(passConfirm).toBeInTheDocument();
-    });
-  
-    test("El textfield email esta en el componente", () => {
-      render(
-        <BrowserRouter>
-          <SignUp />
-        </BrowserRouter>  
-      );
-      const email = screen.getByTestId("email");
-      expect(email).toBeInTheDocument();
-    });
+describe("Componente SignUp", () => {
+  test("El textfield username esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <SignUp />
+      </BrowserRouter>
+    );
+    const user = screen.getByTestId("user");
+    expect(user).toBeInTheDocument();
   });
+
+  test("El textfield password esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <SignUp />
+      </BrowserRouter>
+    );
+    const pass = screen.getByTestId("pass");
+    expect(pass).toBeInTheDocument();
+  });
+
+  test("El textfield confirm password esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <SignUp />
+      </BrowserRouter>
+    );
+    const passConfirm = screen.getByTestId("passConfirm");
+    expect(passConfirm).toBeInTheDocument();
+  });
+
+  test("El textfield email esta en el componente", () => {
+    render(
+      <BrowserRouter>
+        <SignUp />
+      </BrowserRouter>
+    );
+    const email = screen.getByTestId("email");
+    expect(email).toBeInTheDocument();
+  });
+});

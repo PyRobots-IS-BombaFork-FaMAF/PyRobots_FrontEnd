@@ -1,13 +1,15 @@
 import { Button } from "@mui/material";
 import {
+  DataGrid,
   GridColDef,
   GridToolbarFilterButton,
   GridToolbarContainer,
-  DataGrid,
+  GridRowParams,
   gridClasses,
 } from "@mui/x-data-grid";
+
 import { joinGame, Robot } from "../joinGame/JoinGame";
-import { ListMatch } from "./ListMatchesApi";
+import { ListMatch, Match } from "./ListMatchesApi";
 
 export const columns: GridColDef[] = [
   {
@@ -126,15 +128,14 @@ export const CustomToolBar = (): JSX.Element => {
 
 type DataGridProps = {
   matches: ListMatch;
-  setRow: Function;
-  handleOpen: Function;
+  setRow: (row: GridRowParams<any>) => void;
+  handleOpen: () => void;
   arrRobot: Robot[];
   robotIndex: string;
-  setActualMatch: Function;
-  setIsCreator: Function;
-  setMatches: Function;
-  setShowLobby: Function;
-  setSocket: Function;
+  setActualMatch: React.Dispatch<React.SetStateAction<Match | null>>;
+  setIsCreator: React.Dispatch<React.SetStateAction<boolean>>;
+  setMatches: React.Dispatch<React.SetStateAction<ListMatch>>;
+  setShowLobby: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export const MatchesDataGrid = ({
   matches,
@@ -145,7 +146,6 @@ export const MatchesDataGrid = ({
   setIsCreator,
   setMatches,
   setShowLobby,
-  setSocket,
   handleOpen,
 }: DataGridProps) => {
   return (
@@ -181,7 +181,7 @@ export const MatchesDataGrid = ({
       experimentalFeatures={{ newEditingApi: true }}
       getRowClassName={(params) => `${params.row._status}`}
       components={{ Toolbar: CustomToolBar }}
-      onRowClick={(row) => {
+      onRowClick={(row: GridRowParams<any>) => {
         setRow(row);
         if (row.row._status === "joined") {
           joinGame(
@@ -192,7 +192,6 @@ export const MatchesDataGrid = ({
             setMatches,
             localStorage.getItem("username")?.toString()!,
             setShowLobby,
-            setSocket,
             matches
           );
         } else {

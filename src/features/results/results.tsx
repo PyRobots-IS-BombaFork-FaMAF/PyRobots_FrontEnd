@@ -1,10 +1,3 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import NavBar from "../directories/NavBar";
 import {
   Box,
   CircularProgress,
@@ -13,29 +6,38 @@ import {
   Modal,
   Stack,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import axios from "../../api/axios";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
 import Pagination from "@mui/material/Pagination";
+import Typography from "@mui/material/Typography";
+import React from "react";
+import { useState, useEffect } from "react";
 import swal from "sweetalert2";
-
-type modalState = {
-  modal: boolean;
-  setModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import axios from "../../api/axios";
+import NavBar from "../directories/NavBar";
+import {
+  modalState,
+  indexAndCurrentResult,
+  gameResults,
+  player,
+  resultForCards,
+  searchName,
+} from "./resultsHelpers";
 
 const ModalState = React.createContext<modalState>({
   modal: false,
   setModal: () => {},
 });
 
-const Stats = (props: any) => {
+const Stats = ({ currentResult, idStats }: indexAndCurrentResult) => {
   const { modal } = React.useContext(ModalState);
   const { setModal } = React.useContext(ModalState);
-  const result = props.currentResult[props.idStats];
-
+  const result = currentResult[idStats];
 
   const infoGame =
-    props.currentResult.length > 0 ? (
+    currentResult.length > 0 ? (
       <div>
         <Typography variant="h5">Configuración de partida </Typography>
         <Stack divider={<Divider />}>
@@ -61,7 +63,7 @@ const Stats = (props: any) => {
     );
 
   const winner =
-    props.currentResult.length > 0 ? (
+    currentResult.length > 0 ? (
       result.winners.length > 1 ? (
         <div> </div>
       ) : (
@@ -72,7 +74,6 @@ const Stats = (props: any) => {
               <strong>Nombre del robot:</strong> {result.winners[0].robot}
             </Typography>
             <Typography>
-              {" "}
               <strong>Usuario:</strong> {result.winners[0].player}
             </Typography>
           </Stack>
@@ -118,13 +119,42 @@ const Stats = (props: any) => {
   );
 };
 
-export const CardWin = (props: any) => {
+export const ResultCard = ({
+  result,
+  resultOfGame,
+  index,
+  setIdStats,
+}: resultForCards) => {
   const { setModal } = React.useContext(ModalState);
 
-  const handleClick = (e: any) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     setModal(true);
-    props.setIdStats(e.target.getAttribute("id"));
+    const id = event.currentTarget.id;
+    if (typeof id === "string") {
+      setIdStats(parseInt(id));
+    }
   };
+
+  const backgroundColor =
+    resultOfGame === "GANASTE"
+      ? "rgb(46, 165, 46, 0.1)"
+      : resultOfGame === "PERDISTE"
+      ? "rgba(100,0,0,0.05)"
+      : "rgba(243, 255, 53, 0.15)";
+  const shadowColor =
+    resultOfGame === "GANASTE"
+      ? "#93D696"
+      : resultOfGame === "PERDISTE"
+      ? "#D38787"
+      : "#EAD99D";
+  const borderColor =
+    resultOfGame === "GANASTE"
+      ? "#2EA52E"
+      : resultOfGame === "PERDISTE"
+      ? "#BF0F0F"
+      : "#C4CE00";
 
   return (
     <Card
@@ -133,26 +163,25 @@ export const CardWin = (props: any) => {
         minWidth: 275,
         maxWidth: 300,
         margin: 3,
-        background: "rgba(0,80,0,0.001)",
+        background: backgroundColor,
         boxShadow: 6,
-        border: "2px solid #2EA52E",
-        "&:hover": { boxShadow: "0rem 0.5rem 1rem #93D696" },
+        border: "2px solid " + borderColor,
+        "&:hover": { boxShadow: "0rem 0.5rem 1rem " + shadowColor },
       }}
     >
       <CardContent>
-        <Typography data-testid="text-win" variant="h4" sx={{ color: "#43B647" }} >
-          GANASTE
+        <Typography variant="h4" sx={{ color: borderColor }}>
+          {resultOfGame}
         </Typography>
         <Typography>
-          <strong>Robot usado:</strong> {props.robotName}
+          <strong>Robot usado:</strong>{" "}
+          {result.players.find((element: player) => searchName(element))!.robot}
         </Typography>
         <Typography>
-          {" "}
-          <strong>Nombre de partida:</strong> {props.gameName}
+          <strong>Nombre de partida:</strong> {result.name}
         </Typography>
         <Typography>
-          {" "}
-          <strong>Fecha de creación:</strong> {props.gameDate}
+          <strong>Fecha de creación:</strong> {result.creation_date}
         </Typography>
         <CardActions>
           <Button
@@ -161,131 +190,14 @@ export const CardWin = (props: any) => {
             role="button"
             variant="contained"
             data-testid="submit-robot"
-            id={props.index}
+            id={index.toString()}
             sx={{
               width: "100%",
-              backgroundColor: "#43B647",
-              "&:hover": { backgroundColor: "#43B647" },
+              backgroundColor: borderColor,
+              "&:hover": { backgroundColor: borderColor },
             }}
           >
             Estadísticas
-          </Button>
-        </CardActions>
-      </CardContent>
-    </Card>
-  );
-};
-
-export const CardDraw = (props: any) => {
-  const { setModal } = React.useContext(ModalState);
-
-  const handleClick = (e: any) => {
-    setModal(true);
-    props.setIdStats(e.target.getAttribute("id"));
-  };
-
-  return (
-    <Card
-      variant="outlined"
-      sx={{
-        minWidth: 275,
-        maxWidth: 300,
-        margin: 3,
-        background: "#EAD99D",
-        boxShadow: 6,
-        border: "2px solid #B7992C",
-        "&:hover": { boxShadow: "0rem 0.5rem 1rem #EAD99D" },
-      }}
-    >
-      <CardContent>
-        <Typography data-testid="text-draw" variant="h4" sx={{ color: "#B7992C" }}>
-          EMPATE
-        </Typography>
-        <Typography>
-          <strong>Robot usado:</strong> {props.robotName}
-        </Typography>
-        <Typography>
-          {" "}
-          <strong>Nombre de partida:</strong> {props.gameName}
-        </Typography>
-        <Typography>
-          {" "}
-          <strong>Fecha de creación:</strong> {props.gameDate}
-        </Typography>
-        <CardActions>
-          <Button
-            onClick={handleClick}
-            type="submit"
-            role="button"
-            variant="contained"
-            data-testid="submit-robot"
-            id={props.index}
-            sx={{
-              width: "100%",
-              backgroundColor: "#D1C51D",
-              "&:hover": { backgroundColor: "#D1C51D" },
-            }}
-          >
-            Estadísticas
-          </Button>
-        </CardActions>
-      </CardContent>
-    </Card>
-  );
-};
-
-export const CardLose = (props: any) => {
-  const { setModal } = React.useContext(ModalState);
-
-  const handleClick = (e: any) => {
-    setModal(true);
-    props.setIdStats(e.target.getAttribute("id"));
-  };
-
-  return (
-    <Card
-      variant="outlined"
-      sx={{
-        minWidth: 275,
-        maxWidth: 300,
-        margin: 3,
-        boxShadow: 6,
-        background: "rgba(100,0,0,0.05)",
-        border: "2px solid #BF0F0F",
-        "&:hover": { boxShadow: "0rem 0.5rem 1rem #D38787" },
-      }}
-    >
-      <CardContent>
-        <Typography data-testid="text-lose" variant="h4" sx={{ color: "#BF0F0F" }}>
-          PERDISTE
-        </Typography>
-        <Typography>
-          <strong>Robot usado:</strong> {props.robotName}
-        </Typography>
-        <Typography>
-          {" "}
-          <strong>Nombre de partida:</strong> {props.gameName}
-        </Typography>
-        <Typography>
-          {" "}
-          <strong>Fecha de creación:</strong> {props.gameDate}
-        </Typography>
-        <CardActions>
-          <Button
-            onClick={handleClick}
-            type="submit"
-            role="button"
-            variant="contained"
-            data-testid="submit-robot"
-            id={props.index}
-            sx={{
-              width: "100%",
-              backgroundColor: "#BF0F0F",
-              "&:hover": { backgroundColor: "#BF0F0F" },
-            }}
-          >
-            {" "}
-            Estadísticas{" "}
           </Button>
         </CardActions>
       </CardContent>
@@ -296,7 +208,7 @@ export const CardLose = (props: any) => {
 const HistoryResults = () => {
   const [modal, setModal] = useState<boolean>(false);
 
-  const [results, setResults] = useState<Array<any>>([]);
+  const [results, setResults] = useState<Array<gameResults>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [resultsPerPage] = useState<number>(25);
@@ -345,10 +257,6 @@ const HistoryResults = () => {
   const indexOfLastResult = currentPage * resultsPerPage;
   const indexOfFirstResult = indexOfLastResult - resultsPerPage;
   const currentResult = results.slice(indexOfFirstResult, indexOfLastResult);
-
-  const searchName = (players: any) =>
-    localStorage.getItem("username")?.toString() === players.player;
-
   return loading ? (
     <Grid
       container
@@ -366,54 +274,59 @@ const HistoryResults = () => {
     <div>
       <NavBar />
       <ModalState.Provider value={{ modal, setModal }}>
-        <Grid container sx={{ display: "flex", justifyContent: "center" }}>
-          {currentResult.map((result: any, index: number) =>
-            currentResult.length > 0 ? (
-              <Grid key={index}>
-                {result.winners.length > 1 && 
-                  result.winners.find((element: any) => searchName(element)) ? (
-                  <CardDraw
-                    index={index}
-                    setIdStats={setIdStats}
-                    robotName={result.players.find((element: any) => searchName(element)).robot}
-                    gameDate={result.creation_date}
-                    gameName={result.name}
-                  />
-                ) : result.winners.length === 1 &&
-                  result.winners.find((element: any) => searchName(element)) ? (
-                  <CardWin
-                    index={index}
-                    setIdStats={setIdStats}
-                    robotName={result.players.find((element: any) => searchName(element)).robot}
-                    gameDate={result.creation_date}
-                    gameName={result.name}
-                  />
-                ) : (
-                  <CardLose
-                    index={index}
-                    setIdStats={setIdStats}
-                    robotName={result.players.find((element: any) => searchName(element)).robot}
-                    gameDate={result.creation_date}
-                    gameName={result.name}
-                  />
-                )}
-              </Grid>
-            ) : (
-              <h1> No has jugado partidas aún. </h1>
-            )
-          )}
-        </Grid>
+        {currentResult.length > 0 ? (
+          <div>
+            <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+              {currentResult.map((result: gameResults, index: number) => (
+                <Grid key={index}>
+                  {result.winners.length > 1 &&
+                  result.winners.find((element: player) =>
+                    searchName(element)
+                  ) ? (
+                    <ResultCard
+                      resultOfGame="EMPATASTE"
+                      index={index}
+                      setIdStats={setIdStats}
+                      result={result}
+                    />
+                  ) : result.winners.length === 1 &&
+                    result.winners.find((element: player) =>
+                      searchName(element)
+                    ) ? (
+                    <ResultCard
+                      resultOfGame="GANASTE"
+                      index={index}
+                      setIdStats={setIdStats}
+                      result={result}
+                    />
+                  ) : (
+                    <ResultCard
+                      resultOfGame="PERDISTE"
+                      index={index}
+                      setIdStats={setIdStats}
+                      result={result}
+                    />
+                  )}
+                </Grid>
+              ))}
+            </Grid>
+            <Pagination
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+              variant="outlined"
+              onChange={handleChange}
+              count={Math.ceil(results.length / resultsPerPage)}
+            />
+          </div>
+        ) : (
+          <Typography variant="h5" sx={{ mt: "15px" }}>
+            No has jugado partidas aún.
+          </Typography>
+        )}
         <Stats idStats={idStats} currentResult={currentResult} />
       </ModalState.Provider>
-      <Pagination
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-        variant="outlined"
-        onChange={handleChange}
-        count={Math.ceil(results.length / resultsPerPage)}
-      />
     </div>
   );
 };

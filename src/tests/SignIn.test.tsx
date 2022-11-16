@@ -8,7 +8,7 @@ describe("Componente SignIn", () => {
     render(
       <BrowserRouter>
         <SignIn />
-      </BrowserRouter>  
+      </BrowserRouter>
     );
     const user = screen.getByTestId("user");
     expect(user).toBeInTheDocument();
@@ -43,12 +43,4 @@ describe("Componente SignIn", () => {
     const link = screen.getByTestId("goToChangePassword");
     expect(link).toBeInTheDocument();
   });
-
 });
-
-
-
-
-
-
-

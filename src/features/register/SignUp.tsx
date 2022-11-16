@@ -1,20 +1,19 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
-import { signUpApi } from "./SignUpApi";
-import { Navigate, useLocation } from "react-router-dom";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useState } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import swal from "sweetalert2";
+
+import { signUpApi } from "./SignUpApi";
+import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
 
 function Copyright(props: any): JSX.Element {
   return (
@@ -34,13 +33,13 @@ function Copyright(props: any): JSX.Element {
   );
 }
 
-const theme = createTheme();
 
 export default function SignUp(): JSX.Element {
   const [errEmail, setErrEmail] = useState(true);
   const [errUser, setErrUser] = useState(true);
   const [errPass, setErrPass] = useState(true);
   const [errPassConfirm, setErrPassConfirm] = useState(true);
+  const navigate = useNavigate();
   const location = useLocation();
 
   const handleChange = (
@@ -63,7 +62,7 @@ export default function SignUp(): JSX.Element {
       isValidEmail(data.get("email")?.toString()!)
     ) {
       if (data.get("confirmPassword") === data.get("password")) {
-        signUpApi(data);
+        signUpApi(data, navigate);
       } else {
         swal.fire({
           title: "Error",
@@ -81,7 +80,6 @@ export default function SignUp(): JSX.Element {
       localStorage.getItem("access_token") ? (
         <Navigate to="/" state={{ from: location }} replace />
       ) : (
-        <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
@@ -227,7 +225,6 @@ export default function SignUp(): JSX.Element {
             </Box>
             <Copyright sx={{ mt: 5 }} />
           </Container>
-        </ThemeProvider>
       )}
     </div>
   );

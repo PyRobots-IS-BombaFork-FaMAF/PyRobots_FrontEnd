@@ -10,6 +10,7 @@ import {
 } from "../features/board/boardHelper";
 import { simulationResult } from "../features/board/SimulationAPI";
 import { toMatchCloseTo } from "jest-matcher-deep-close-to";
+
 expect.extend({ toMatchCloseTo });
 
 describe("Componente Board", () => {
@@ -81,7 +82,6 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 50%");
   });
-
 
   test("Campos de texto de `renderFrame`", () => {
     render(renderFrame(animation, 10));

@@ -3,14 +3,16 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import NavBar from "../directories/NavBar";
-import { createMatchApi, newGameInfo } from "./NewGameApi";
-import "../directories/Home.css";
 import { useEffect, useState } from "react";
-import { Robot } from "../joinGame/JoinGame";
-import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { callApiListRobot } from "../robotApi/ListRobotApi";
 import swal from "sweetalert2";
+
+import NavBar from "../directories/NavBar";
+import { Robot } from "../joinGame/JoinGame";
+import { createMatchApi, newGameInfo } from "./NewGameApi";
+import { ListOfRobots } from "../robotApi/ListOfRobots";
+import { callApiListRobot } from "../robotApi/ListRobotApi";
+
+import "../directories/Home.css";
 
 function onSubmit_newGame(
   event: React.FormEvent<HTMLFormElement>,
@@ -48,7 +50,11 @@ function onSubmit_newGame(
   const robotId = data.get("select-robot");
   if (typeof robotId === "string") {
     if (robotId) {
-      newGameInfo.robot = arrRobot[parseInt(robotId)].name;
+      newGameInfo.robot = arrRobot.find(
+        (robot: Robot) => robot.id === parseInt(robotId)
+      )!.name;
+      // The should be a robot with that id, but they come from two different request,
+      // so it's not fully guaranteed // FIXME (needs changes in the backend)
     }
   }
 
@@ -80,16 +86,11 @@ export const password_regex: string = "^.{8,16}$";
 
 function GameForm(): JSX.Element {
   const [arrRobot, setArrRobot] = useState<Robot[]>([]);
-  const [robotIndex, setRobotIndex] = useState("");
-
   useEffect(() => {
     callApiListRobot(setArrRobot);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleChange = (e: SelectChangeEvent) => {
-    setRobotIndex(e.target.value as string);
-  };
   return (
     <Container>
       <Box
@@ -188,32 +189,7 @@ function GameForm(): JSX.Element {
             sx={{ backgroundColor: "#f2f2f2" }}
           />
         </Grid>
-        <Grid>
-          {arrRobot.length > 0 ? (
-            <div>
-              <h5>Elegir Robot</h5>
-              <Select
-                sx={{ mb: 1, backgroundColor: "#f2f2f2", width: "100%" }}
-                data-testid="selectJoin"
-                value={robotIndex}
-                name="select-robot"
-                label="Robots"
-                onChange={handleChange}
-              >
-                <MenuItem value=""></MenuItem>
-                {arrRobot.map((elem: Robot, key) => {
-                  return (
-                    <MenuItem key={key} value={`${key}`}>
-                      {elem.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </div>
-          ) : (
-            <div></div>
-          )}
-        </Grid>
+        <ListOfRobots name="select-robot" label="Robots" />
         <Button
           type="submit"
           role="button"

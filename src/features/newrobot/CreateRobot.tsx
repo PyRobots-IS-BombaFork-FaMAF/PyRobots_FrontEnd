@@ -1,9 +1,11 @@
-import TextField from "@mui/material/TextField";
-import { postRobot } from "./CreateRobotApi";
-import "./CreateRobot.css";
-import { isValidRobotName } from "./CreateRobotUtils";
-import NavBar from "../directories/NavBar";
 import { Button } from "@mui/material";
+import TextField from "@mui/material/TextField";
+
+import NavBar from "../directories/NavBar";
+import { postRobot } from "./CreateRobotApi";
+import { isValidRobotName } from "./CreateRobotUtils";
+
+import "./CreateRobot.css";
 
 function InputFile({ label }: { label: string }): JSX.Element {
   return (

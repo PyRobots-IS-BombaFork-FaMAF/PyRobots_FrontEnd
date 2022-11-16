@@ -1,25 +1,23 @@
 import Box from "@mui/material/Box";
 import { Container } from "@mui/system";
-import { ListMatch, callApiListMatch } from "./ListMatchesApi";
-import {
-  CssBaseline,
-  SelectChangeEvent,
-} from "@mui/material";
-import NavBar from "../directories/NavBar";
-import "../directories/Home.css";
+import { CssBaseline, SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
+import swal from "sweetalert2";
+
+import NavBar from "../directories/NavBar";
 import { Lobby } from "../joinGame/Lobby";
 import { joinGame, Player, Robot } from "../joinGame/JoinGame";
-import { callApiListRobot } from "../robotApi/ListRobotApi";
 import { JoinGameApi } from "../joinGame/JoinGameApi";
 import { Match } from "./ListMatchesApi";
-import swal from "sweetalert2";
 import { MatchesDataGrid } from "./MatchesDataGrid";
 import { ModalList } from "./ModalList";
+import { ListMatch, callApiListMatch } from "./ListMatchesApi";
+import { callApiListRobot } from "../robotApi/ListRobotApi";
+
+import "../directories/Home.css";
 
 export default function ListMatches(): JSX.Element {
   const [matches, setMatches] = useState<ListMatch>([]);
-  const [socket, setSocket] = useState<WebSocket>();
   const [open, setOpen] = useState(false);
   const [showLobby, setShowLobby] = useState(false);
   const [actualMatch, setActualMatch] = useState<Match | null>(null);
@@ -72,7 +70,6 @@ export default function ListMatches(): JSX.Element {
         setMatches,
         localStorage.getItem("username")?.toString()!,
         setShowLobby,
-        setSocket,
         matches
       );
     }
@@ -130,7 +127,7 @@ export default function ListMatches(): JSX.Element {
                 width: 1250,
                 maxWidth: "90vw",
                 bgcolor: "background.paper",
-                borderRadius: "5%",
+                borderRadius: "5px",
                 border: "solid 2px",
                 borderColor: "#43B647",
                 "& .columnClass": {
@@ -156,19 +153,18 @@ export default function ListMatches(): JSX.Element {
                 setIsCreator={setIsCreator}
                 setMatches={setMatches}
                 setShowLobby={setShowLobby}
-                setSocket={setSocket}
                 handleOpen={handleOpen}
-              ></MatchesDataGrid>
+              />
               <Container>
-                 <ModalList
-                    open={open}
-                    handleSubmitJoin={handleSubmitJoin}
-                    robotIndex={robotIndex}
-                    handleChange={handleChange}
-                    handleClose={handleClose}
-                    arrRobot={arrRobot}
-                 />
-                </Container>
+                <ModalList
+                  open={open}
+                  handleSubmitJoin={handleSubmitJoin}
+                  robotIndex={robotIndex}
+                  handleChange={handleChange}
+                  handleClose={handleClose}
+                  arrRobot={arrRobot}
+                />
+              </Container>
             </Box>
           ) : showLobby && actualMatch ? (
             <Lobby
@@ -178,10 +174,10 @@ export default function ListMatches(): JSX.Element {
               roomId={actualMatch?._id.toString()}
               isCreator={isCreator}
               setMatches={setMatches}
-              socket={socket}
-            ></Lobby>
+              roomUrl={actualMatch?._websocketurl}
+            />
           ) : (
-            <div></div>
+            <div/>
           )}
         </Container>
       </div>

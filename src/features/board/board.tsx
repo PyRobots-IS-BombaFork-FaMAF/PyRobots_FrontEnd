@@ -1,21 +1,19 @@
-import { Stage, Layer, Rect, Circle, Group, Line } from "react-konva";
+import { Grid } from "@mui/material";
+import { Circle, Group, Layer, Line, Rect, Stage } from "react-konva";
 
+import { Animate } from "./Animation";
 import {
+  animationInfo,
   boardConfig,
   gameCoords,
-  robotInFrameConfig,
   gameToBoard_coordinates,
-  animationInfo,
+  missileInFrameConfig,
+  robotInFrameConfig,
   robotInAnimationInfo,
   robotInSideTextConfig,
   simulationResult_to_animationInfo,
-  missileInFrameConfig,
 } from "./boardHelper";
-
 import { simulationResult } from "./SimulationAPI";
-import { Animate } from "./Animation";
-
-import "./board.css";
 
 function BackGround(board: boardConfig): JSX.Element {
   return (
@@ -221,18 +219,14 @@ export function renderFrame(
   );
 
   return (
-    <div className="Board" data-testid="Board">
-      <div className="MainBoard">
-        <MainBoard
-          board_size={animation.board_size}
-          robots={robotsInGame}
-          missiles={animation.missiles[frame] ?? []}
-        />
-      </div>
-      <div className="SideText">
-        <SideText robots={robotsInSideText} />
-      </div>
-    </div>
+    <Grid container data-testid="Board">
+      <MainBoard
+        board_size={animation.board_size}
+        robots={robotsInGame}
+        missiles={animation.missiles[frame] ?? []}
+      />
+      <SideText robots={robotsInSideText} />
+    </Grid>
   );
 }
 
@@ -245,7 +239,7 @@ export function Board({
     simulationResult_to_animationInfo(simulation);
 
   return (
-    <div className="Board" data-testid="Board">
+    <div data-testid="Board">
       {Animate(animation.rounds_amount - 1, 50, 5, (frame: number) =>
         renderFrame(animation, frame)
       )}
