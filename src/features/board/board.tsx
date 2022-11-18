@@ -172,7 +172,7 @@ export function RobotInfo(robot: robotInSideTextConfig): JSX.Element {
         <span style={{ color: robot.color }}>{"• "}</span>
         {robot.name}
       </h3>
-      <p>{`Vida: ${robot.life * 100}%`}</p>
+      <p>{`Vida: ${Math.round(robot.life * 100)}%`}</p>
     </div>
   );
 }
