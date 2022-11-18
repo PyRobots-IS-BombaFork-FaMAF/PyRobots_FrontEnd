@@ -19,7 +19,10 @@ export type missileInFrameConfig = {
   direction: number;
   color: string;
 };
-export type robotInAnimationInfo = robotInSimulationResult & { color: string };
+export type robotInAnimationInfo = robotInSimulationResult & {
+  color: string;
+  winner: boolean;
+};
 export type animationInfo = {
   board_size: number;
   rounds_amount: number;
@@ -52,6 +55,7 @@ export function simulationResult_to_animationInfo(
       return {
         ...robot,
         color: ["red", "blue", "green", "yellow"][key], // There are no more than four robots in a game, so key < 4
+        winner: robot.rounds.length === rounds_amount,
       };
     }
   );

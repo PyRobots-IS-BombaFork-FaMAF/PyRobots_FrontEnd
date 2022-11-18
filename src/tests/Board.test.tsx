@@ -398,6 +398,7 @@ describe("Funciones dentro del componente `Board`", () => {
                 },
               ],
               color: "red",
+              winner: true,
             },
           ],
           missiles: [[]],
@@ -473,6 +474,7 @@ describe("Funciones dentro del componente `Board`", () => {
                 },
               ],
               color: "red",
+              winner: false,
             },
             {
               name: "хай живе україна",
@@ -510,6 +512,7 @@ describe("Funciones dentro del componente `Board`", () => {
                 },
               ],
               color: "blue",
+              winner: true,
             },
           ],
           missiles: [
@@ -619,6 +622,7 @@ describe("Funciones dentro del componente `Board`", () => {
                   damage: 0,
                 },
               ],
+              winner: true,
             },
           ],
           missiles: [
