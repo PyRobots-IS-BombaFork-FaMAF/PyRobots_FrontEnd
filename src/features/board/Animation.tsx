@@ -37,5 +37,16 @@ export function Animate(
     return () => clearInterval(interval);
   });
 
-  return renderFrame(frame);
+  function restart(): void {
+    clearInterval(intervalRef.current);
+    setFrame(0);
+    intervalRef.current = getInterval();
+  }
+
+  return (
+    <div>
+      <button onClick={restart}>Reiniciar</button>
+      {renderFrame(frame)}
+    </div>
+  )
 }
