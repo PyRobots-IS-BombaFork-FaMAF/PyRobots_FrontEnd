@@ -11,8 +11,7 @@ function InputFile({ label }: { label: string }): JSX.Element {
   return (
     <div>
       <label className="label-file" htmlFor="robot-code">
-        {" "}
-        {label}{" "}
+        {label}
       </label>
       <input
         required
@@ -20,6 +19,7 @@ function InputFile({ label }: { label: string }): JSX.Element {
         id="robot-code"
         name="code"
         type="file"
+        accept=".py"
       />
     </div>
   );
@@ -99,10 +99,9 @@ function CreateRobot(): JSX.Element {
             backgroundColor: "#f2f2f2",
           }}
         />
-        <InputFile label="Archivo .py para el robot" />
+        <InputFile label="Archivo .py para el robot *" />
         <Button
           type="submit"
-          role="button"
           variant="contained"
           data-testid="submit-robot"
           sx={{

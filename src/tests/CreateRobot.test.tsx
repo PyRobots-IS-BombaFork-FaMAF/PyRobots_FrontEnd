@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import CreateRobot from "../features/newrobot/CreateRobot";
 import { isValidRobotName } from "../features/newrobot/CreateRobotUtils";
@@ -30,6 +30,46 @@ describe("Funciones dentro del componente", () => {
       expect(result).toBeFalsy();
     });
   });
+});
+
+describe("Requerimientos del componente", () => {
+  test("El nombre del robot debe ser obligatorio", () => {
+    const inputName = screen.getByRole("textbox", {
+      name: "Nombre del Robot",
+    });
+    expect(inputName).toBeRequired();
+  });
+
+  test("El archivo .py del robot debe ser obligatorio", () => {
+    const inputFile = screen.getByTestId("robotCode");
+    expect(inputFile).toBeRequired();
+  });
+});
+
+describe("Estado inicial del formulario", () => {
+  test("El avatar posee la imagen por defecto", () => {
+    const avatar = screen.getByAltText(
+      "Avatar del robot"
+    ) as HTMLImageElement | null;
+    expect(avatar?.src).toContain("https://robohash.org/user1");
+  });
+
+  test("No debe haber una archivo para la imagen de avatar precargado", () => {
+    const inputFile = screen.getByTestId("robotAvatar");
+    expect(inputFile).toHaveValue("");
+  })
+
+  test("El nombre del robot está vacío", () => {
+    const inputName = screen.getByRole("textbox", {
+      name: "Nombre del Robot",
+    });
+    expect(inputName).toHaveValue("");
+  });
+
+  test("No debe haber un archivo .py precargado", () => {
+    const inputFile = screen.getByTestId("robotCode");
+    expect(inputFile).toHaveValue("");
+  })
 });
 
 describe("Compontente formulario de robot", () => {
