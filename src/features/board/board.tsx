@@ -183,7 +183,7 @@ function SideText({
   robots: robotInSideTextConfig[];
 }): JSX.Element {
   return (
-    <div style={{ textAlign: "left" }}>
+    <div>
       <h1>Simulación</h1>
       {robots.map(RobotInfo)}
     </div>
@@ -265,8 +265,10 @@ export function renderFrame(
         robots={robotsInGame}
         missiles={animation.missiles[frame] ?? []}
       />
-      <SideText robots={robotsInSideText} />
-      {after_end ? ShowWinners({ winners: winners }) : <div />}
+      <div style={{ textAlign: "left", paddingLeft: 5 }}>
+        <SideText robots={robotsInSideText} />
+        {after_end ? ShowWinners({ winners: winners }) : <div />}
+      </div>
     </Grid>
   );
 }
