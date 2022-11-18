@@ -194,15 +194,23 @@ export function renderFrame(
   animation: animationInfo,
   frame: number
 ): JSX.Element {
+  const after_end: boolean = frame >= animation.rounds_amount;
+
   const robotsInGame: robotInFrameConfig[] = animation.robots.flatMap(
     (robot: robotInAnimationInfo) => {
-      return robot.rounds.length <= frame
+      const robot_frame: number | null =
+        after_end && robot.winner
+          ? animation.rounds_amount - 1
+          : frame < robot.rounds.length
+          ? frame
+          : null;
+      return robot_frame === null
         ? []
         : [
             {
               name: robot.name,
               color: robot.color,
-              coords: robot.rounds[frame].coords,
+              coords: robot.rounds[robot_frame].coords,
             },
           ];
     }
@@ -210,10 +218,16 @@ export function renderFrame(
 
   const robotsInSideText: robotInSideTextConfig[] = animation.robots.map(
     (robot: robotInAnimationInfo) => {
+      const robot_frame: number | null =
+        after_end && robot.winner
+          ? animation.rounds_amount - 1
+          : frame < robot.rounds.length
+          ? frame
+          : null;
       return {
         name: robot.name,
         color: robot.color,
-        life: 1 - (robot.rounds[frame]?.damage ?? 1),
+        life: 1 - (robot.rounds[robot_frame!]?.damage ?? 1),
       };
     }
   );
@@ -240,7 +254,7 @@ export function Board({
 
   return (
     <div data-testid="Board">
-      {Animate(animation.rounds_amount - 1, 50, 5, (frame: number) =>
+      {Animate(animation.rounds_amount, 50, 5, (frame: number) =>
         renderFrame(animation, frame)
       )}
     </div>
