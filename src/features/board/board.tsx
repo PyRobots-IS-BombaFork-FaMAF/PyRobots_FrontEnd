@@ -183,7 +183,7 @@ function SideText({
   robots: robotInSideTextConfig[];
 }): JSX.Element {
   return (
-    <div>
+    <div style={{ textAlign: "left" }}>
       <h1>Simulación</h1>
       {robots.map(RobotInfo)}
     </div>
@@ -196,11 +196,17 @@ function ShowWinners({ winners }: { winners: Array<string> }): JSX.Element {
   ) : winners.length === 1 ? (
     <div>El ganador es {winners[0]}</div>
   ) : winners.length === 2 ? (
-    <div>Empate entre {winners[0]} y {winners[1]}</div>
+    <div>
+      Empate entre {winners[0]} y {winners[1]}
+    </div>
   ) : winners.length === 3 ? (
-    <div>Empate entre {winners[0]}, {winners[1]} y {winners[2]}</div>
+    <div>
+      Empate entre {winners[0]}, {winners[1]} y {winners[2]}
+    </div>
   ) : (
-    <div>Empate entre {winners[0]}, {winners[1]}, {winners[2]} y {winners[3]}</div>
+    <div>
+      Empate entre {winners[0]}, {winners[1]}, {winners[2]} y {winners[3]}
+    </div>
   );
 }
 
