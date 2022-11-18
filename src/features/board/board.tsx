@@ -196,18 +196,24 @@ function ShowWinners({ winners }: { winners: Array<string> }): JSX.Element {
       {winners.length === 0 ? (
         <div>No hay ganadores</div>
       ) : winners.length === 1 ? (
-        <div>El ganador es {winners[0]}</div>
+        <div>
+          El ganador es <strong>{winners[0]}</strong>{" "}
+        </div>
       ) : winners.length === 2 ? (
         <div>
-          Empate entre {winners[0]} y {winners[1]}
+          Empate entre <strong>{winners[0]}</strong> y{" "}
+          <strong>{winners[1]}</strong>
         </div>
       ) : winners.length === 3 ? (
         <div>
-          Empate entre {winners[0]}, {winners[1]} y {winners[2]}
+          Empate entre <strong>{winners[0]}</strong>,{" "}
+          <strong>{winners[1]}</strong> y <strong>{winners[2]}</strong>
         </div>
       ) : (
         <div>
-          Empate entre {winners[0]}, {winners[1]}, {winners[2]} y {winners[3]}
+          Empate entre <strong>{winners[0]}</strong>,{" "}
+          <strong>{winners[1]}</strong>, <strong>{winners[2]}</strong> y{" "}
+          <strong>{winners[3]}</strong>
         </div>
       )}
     </div>
