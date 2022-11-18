@@ -263,7 +263,7 @@ export function renderFrame(
   );
 
   return (
-    <Grid container data-testid="Board">
+    <Grid container data-testid="Board" sx={{ paddingTop: 1 }}>
       <MainBoard
         board_size={animation.board_size}
         robots={robotsInGame}
