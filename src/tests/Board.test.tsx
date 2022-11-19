@@ -62,52 +62,54 @@ describe("Componente Board", () => {
   const animation: animationInfo =
     simulationResult_to_animationInfo(simulation);
 
-  test("Campos de texto de `renderFrame`", () => {
+  test("Campos de texto de `renderFrame` en el frame 0", () => {
     render(renderFrame(animation, 0));
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
-    expect(board).toHaveTextContent("fork bomb");
-    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("• fork bomb");
+    expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
   });
 
-  test("Campos de texto de `renderFrame`", () => {
+  test("Campos de texto de `renderFrame` en el frame 1", () => {
     render(renderFrame(animation, 1));
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
-    expect(board).toHaveTextContent("fork bomb");
-    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("• fork bomb");
+    expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 50%");
   });
 
-  test("Campos de texto de `renderFrame`", () => {
+  test("Campos de texto de `renderFrame` en el frame 10", () => {
     render(renderFrame(animation, 10));
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
-    expect(board).toHaveTextContent("fork bomb");
-    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("• fork bomb");
+    expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 0%");
   });
 
-  test("Campos de texto de `renderFrame`", () => {
+  test("Campos de texto de `renderFrame` en mas frames que los que dura ", () => {
     render(renderFrame(animation, 100000000));
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
-    expect(board).toHaveTextContent("fork bomb");
-    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("• fork bomb");
+    expect(board).toHaveTextContent("• teipysgrif");
+    expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 0%");
+    expect(board).toHaveTextContent("El ganador es:");
   });
 
   test("Componente `RobotInfo`", () => {
     render(<RobotInfo name="Robot de prueba" color="Red" life={1} />);
     const board: HTMLElement = screen.getByTestId("RobotInfo Robot de prueba");
-    expect(board).toHaveTextContent("Robot de prueba");
+    expect(board).toHaveTextContent("• Robot de prueba");
     expect(board).toHaveTextContent("Vida: 100%");
   });
 });
