@@ -30,6 +30,11 @@ export type animationInfo = {
   missiles: Array<Array<missileInFrameConfig>>;
 };
 
+export type robotNameInfo = {
+  name: string;
+  color: string;
+};
+
 // functions
 export function gameToBoard_coordinates(
   board: boardConfig,

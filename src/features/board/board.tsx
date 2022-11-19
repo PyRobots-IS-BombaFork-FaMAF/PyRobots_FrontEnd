@@ -12,6 +12,7 @@ import {
   robotInAnimationInfo,
   robotInSideTextConfig,
   simulationResult_to_animationInfo,
+  robotNameInfo,
 } from "./boardHelper";
 import { simulationResult } from "./SimulationAPI";
 
@@ -162,15 +163,25 @@ function MainBoard({
   );
 }
 
+export function RobotName({ name, color }: robotNameInfo): JSX.Element {
+  return (
+    <div>
+      <strong>
+        <span style={{ color: color }}>{"• "}</span>
+        {name}
+      </strong>
+    </div>
+  );
+}
+
 export function RobotInfo(robot: robotInSideTextConfig): JSX.Element {
   return (
     <div
       data-testid={"RobotInfo " + robot.name}
       key={"Robot in board" + robot.name}
     >
-      <h3>
-        <span style={{ color: robot.color }}>{"• "}</span>
-        {robot.name}
+      <h3 style={{ fontWeight: "normal" }}>
+        <RobotName name={robot.name} color={robot.color} />
       </h3>
       <p>{`Vida: ${Math.round(robot.life * 100)}%`}</p>
     </div>
@@ -190,15 +201,11 @@ function SideText({
   );
 }
 
-function ShowWinners({ winners }: { winners: Array<string> }): JSX.Element {
-  function ShowName(name: string): JSX.Element {
-    return (
-      <div>
-        <strong>{name}</strong>
-      </div>
-    );
-  }
-
+function ShowWinners({
+  winners,
+}: {
+  winners: Array<robotNameInfo>;
+}): JSX.Element {
   return (
     <div style={{ paddingTop: 10 }}>
       {winners.length === 0 ? (
@@ -206,12 +213,12 @@ function ShowWinners({ winners }: { winners: Array<string> }): JSX.Element {
       ) : winners.length === 1 ? (
         <div>
           El ganador es:
-          {ShowName(winners[0])}
+          {RobotName(winners[0])}
         </div>
       ) : (
         <div>
           Empate entre los robots:
-          {winners.map(ShowName)}
+          {winners.map(RobotName)}
         </div>
       )}
     </div>
@@ -260,9 +267,9 @@ export function renderFrame(
     }
   );
 
-  const winners: Array<string> = animation.robots.flatMap(
+  const winners: Array<robotNameInfo> = animation.robots.flatMap(
     (robot: robotInAnimationInfo) => {
-      return robot.winner ? [robot.name] : [];
+      return robot.winner ? [{ name: robot.name, color: robot.color }] : [];
     }
   );
 
