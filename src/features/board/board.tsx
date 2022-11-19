@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { Circle, Group, Layer, Line, Rect, Stage } from "react-konva";
 
-import { Animate } from "./Animation";
+import { Animate, ControlProps } from "./Animation";
 import {
   animationInfo,
   boardConfig,
@@ -225,9 +225,18 @@ function ShowWinners({
   );
 }
 
+function controls(control: ControlProps): JSX.Element {
+  return (
+    <div>
+      <button onClick={control.restart}> Reiniciar </button>
+    </div>
+  );
+}
+
 export function renderFrame(
   animation: animationInfo,
-  frame: number
+  frame: number,
+  control: ControlProps
 ): JSX.Element {
   const after_end: boolean = frame >= animation.rounds_amount;
 
@@ -280,9 +289,12 @@ export function renderFrame(
         robots={robotsInGame}
         missiles={animation.missiles[frame] ?? []}
       />
-      <div style={{ textAlign: "left", paddingLeft: 5 }}>
-        <SideText robots={robotsInSideText} />
-        {after_end ? ShowWinners({ winners: winners }) : <div />}
+      <div>
+        <div style={{ textAlign: "left", paddingLeft: 5 }}>
+          <SideText robots={robotsInSideText} />
+          {after_end ? ShowWinners({ winners: winners }) : <div />}
+        </div>
+        {controls(control)}
       </div>
     </Grid>
   );
@@ -298,8 +310,12 @@ export function Board({
 
   return (
     <div data-testid="Board">
-      {Animate(animation.rounds_amount, 50, 5, (frame: number) =>
-        renderFrame(animation, frame)
+      {Animate(
+        animation.rounds_amount,
+        50,
+        5,
+        (frame: number, control: ControlProps) =>
+          renderFrame(animation, frame, control)
       )}
     </div>
   );
