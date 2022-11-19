@@ -43,6 +43,13 @@ export default function PassRecover(): JSX.Element {
     if(usern !== ""){
       callApiGetCode(usern, setEmailSent);
       setUsername(usern);
+    }else{
+      swal.fire({
+        title: "Error",
+        text: "El campo para el Usuario no puede estar vacio",
+        icon: "error",
+        confirmButtonColor: "#43B647",
+      });
     }
   } else {
     if (data.get("confirmPassword") === data.get("password")) {
