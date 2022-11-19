@@ -59,12 +59,13 @@ const Buttons = ({
             localStorage.getItem("access_token")?.toString()!
           );          
           setTimeout(() => {
+            callApiListMatch({}, setMatches);
+            setShowLobby(false);
             if(socket){
               socket.close();
             }
-            callApiListMatch({}, setMatches);
-            setShowLobby(false);
           }, 1000);
+          
         }
       });
     } else {
@@ -84,10 +85,11 @@ const Buttons = ({
             setTimeout(() => {
               callApiListMatch({}, setMatches);
               setShowLobby(false);
+              if(socket){
+                socket.close();
+              }
             }, 1000);
-            if(socket){
-              socket.close();
-            }
+            
             
           }}
           variant="contained"
@@ -157,33 +159,32 @@ export const Lobby = ({
   const [serverMessage, setServerMessage] = useState("");
   const [disableAbandone, setDisableAbandone] = useState(false);
   const ws = useRef<WebSocket | null>(null);
-
-  useEffect(() => {
-    ws.current = new WebSocket(`ws://127.0.0.1:8000${roomUrl}`);
-    ws.current.onopen = () => console.log("ws opened");
-    ws.current.onclose = () => console.log("ws closed");
-
-    const wsCurrent = ws.current;
-    return () => {
-      wsCurrent?.close()
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
+  const socket = new WebSocket(`ws://127.0.0.1:8000${roomUrl}`);
+  ws.current = socket;
+  useEffect(() => {    
     if(!ws.current) return;
-    ws.current.onmessage = (event) => {
-      const json = JSON.parse(event.data);
-      console.log(json);
-      if (json.status === 0 || json.status === 1 || json.status === 4) {
-        setPlayersSocket(json.players);
-        setServerMessage(json.message);
-      } else if (json.status === 2 || json.status === 3) {
-        setDisableAbandone(true);
-        setServerMessage(json.message);
-      }
+    const wsCurrent = ws.current;
+    wsCurrent.onopen = () => {
+      console.log("ws open");
+      wsCurrent.onmessage = (event) => {
+        const json = JSON.parse(event.data);
+        console.log(json);
+        if (json.status === 0 || json.status === 1 || json.status === 4) {
+          setPlayersSocket(json.players);
+          setServerMessage(json.message);
+        } else if (json.status === 2 || json.status === 3) {
+          setDisableAbandone(true);
+          setServerMessage(json.message);
+        }
+      };
     };
-  }, [])
+    wsCurrent.onclose = () => console.log("ws closed");
+    
+
+    return  () => wsCurrent.close();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ws])
+
   return (
     <Grid
       key={myKey}

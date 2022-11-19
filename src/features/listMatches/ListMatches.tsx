@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { Container } from "@mui/system";
 import { CssBaseline, SelectChangeEvent } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import swal from "sweetalert2";
 
 import NavBar from "../directories/NavBar";
@@ -26,7 +26,6 @@ export default function ListMatches(): JSX.Element {
   const [arrRobot, setArrRobot] = useState<Robot[]>([]);
   const [row, setRow] = useState<any>({});
   const [error, setError] = useState("");
-
   const handleSubmitJoin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -127,7 +126,7 @@ export default function ListMatches(): JSX.Element {
                 width: 1250,
                 maxWidth: "90vw",
                 bgcolor: "background.paper",
-                borderRadius: "5%",
+                borderRadius: "10px",
                 border: "solid 2px",
                 borderColor: "#43B647",
                 "& .columnClass": {

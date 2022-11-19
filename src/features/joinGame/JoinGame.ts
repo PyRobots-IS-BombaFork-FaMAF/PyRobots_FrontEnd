@@ -41,7 +41,7 @@ export const joinGame = (
     data.row._current_players < data.row._max_players ||
     data.row._status === "joined"
   ) {
-    if (match?._creator !== userName) {
+    if (match?._creator !== userName.toLowerCase()) {
       setIsCreator(false);
       const players = match?._players;
       if (
