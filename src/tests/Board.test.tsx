@@ -26,7 +26,16 @@ describe("Componente Board", () => {
           { coords: { x: 10, y: 10 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 20, y: 10 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 20, y: 20 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 30, y: 20 }, direction: 20, speed: 10, damage: 0 },
+          {
+            coords: { x: 30, y: 20 },
+            direction: 20,
+            speed: 10,
+            damage: 0,
+            missile: {
+              direction: 20,
+              distance: 100,
+            },
+          },
           { coords: { x: 30, y: 30 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 40, y: 30 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 40, y: 40 }, direction: 20, speed: 10, damage: 0 },
