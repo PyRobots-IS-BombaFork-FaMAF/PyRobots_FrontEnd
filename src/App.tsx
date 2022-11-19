@@ -11,6 +11,7 @@ import PersistLogin from "./features/PersistLogin";
 import SignUp from "./features/register/SignUp";
 import RequiereAuth from "./features/RequiereAuth";
 import HistoryResults from "./features/results/results";
+import Profile from "./features/profile/profile";
 
 import "./App.css";
 
@@ -32,6 +33,7 @@ function App(): JSX.Element {
               <Route path="/results" element={<HistoryResults />} />
               <Route path="/listMatches" element={<ListMatches />} />
               <Route path="/newGame" element={<NewGame />} />
+              <Route path="/profile" element={<Profile />} />
             </Route>
           </Route>
 

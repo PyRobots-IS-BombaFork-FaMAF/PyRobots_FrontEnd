@@ -38,7 +38,7 @@ export function AvatarRobot(): JSX.Element {
   );
 }
 
-function ButtonChangeAvatar(): JSX.Element {
+export function ButtonChangeAvatar(): JSX.Element {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: File | null | undefined = e.target.files?.item(0);
     if (file !== null && file !== undefined) {
