@@ -228,8 +228,12 @@ function ShowWinners({
 function controls(control: ControlProps): JSX.Element {
   return (
     <div>
-      <button onClick={control.restart}> Reiniciar </button>
-      <button onClick={control.pause}> Pausar </button>
+      <div>
+        <button onClick={control.restart}> Reiniciar </button>
+      </div>
+      <div style={{paddingTop: 4}}>
+        <button onClick={control.pause}> Pausar </button>
+      </div>
     </div>
   );
 }
@@ -290,12 +294,14 @@ export function renderFrame(
         robots={robotsInGame}
         missiles={animation.missiles[frame] ?? []}
       />
-      <div>
-        <div style={{ textAlign: "left", paddingLeft: 5 }}>
+      <div style={{ textAlign: "left", paddingLeft: 5 }}>
+        <div>
           <SideText robots={robotsInSideText} />
           {after_end ? ShowWinners({ winners: winners }) : <div />}
         </div>
-        {controls(control)}
+        <div style={{ paddingTop: 10 }}>
+          {controls(control)}
+        </div>
       </div>
     </Grid>
   );
