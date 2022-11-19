@@ -72,7 +72,9 @@ describe("Componente Board", () => {
     simulationResult_to_animationInfo(simulation);
 
   test("Campos de texto de `renderFrame` en el frame 0", () => {
-    render(renderFrame(animation, 0, { restart: () => null }));
+    render(
+      renderFrame(animation, 0, { restart: () => null, pause: () => null })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
@@ -82,7 +84,9 @@ describe("Componente Board", () => {
   });
 
   test("Campos de texto de `renderFrame` en el frame 1", () => {
-    render(renderFrame(animation, 1, { restart: () => null }));
+    render(
+      renderFrame(animation, 1, { restart: () => null, pause: () => null })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
@@ -93,7 +97,9 @@ describe("Componente Board", () => {
   });
 
   test("Campos de texto de `renderFrame` en el frame 10", () => {
-    render(renderFrame(animation, 10, { restart: () => null }));
+    render(
+      renderFrame(animation, 10, { restart: () => null, pause: () => null })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
@@ -104,7 +110,12 @@ describe("Componente Board", () => {
   });
 
   test("Campos de texto de `renderFrame` en mas frames que los que dura ", () => {
-    render(renderFrame(animation, 100000000, { restart: () => null }));
+    render(
+      renderFrame(animation, 100000000, {
+        restart: () => null,
+        pause: () => null,
+      })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");

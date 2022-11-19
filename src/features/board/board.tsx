@@ -229,6 +229,7 @@ function controls(control: ControlProps): JSX.Element {
   return (
     <div>
       <button onClick={control.restart}> Reiniciar </button>
+      <button onClick={control.pause}> Pausar </button>
     </div>
   );
 }

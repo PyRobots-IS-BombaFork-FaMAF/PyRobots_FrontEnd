@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 export type ControlProps = {
   restart: React.MouseEventHandler<HTMLButtonElement>;
+  pause: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 /** Show `renderFrame(i - i % skipFrames)` in the `i`th frame.
@@ -13,6 +14,7 @@ export function Animate(
   renderFrame: (frame: number, control: ControlProps) => JSX.Element
 ): JSX.Element {
   const [frame, setFrame] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   const intervalRef = useRef<NodeJS.Timer>();
 
@@ -23,7 +25,7 @@ export function Animate(
 
   const getInterval = () => {
     const progressInterval: NodeJS.Timer = setInterval(() => {
-      if (frame < amountFrames) {
+      if (frame < amountFrames && !paused) {
         setFrame(
           frame + skipFrames > amountFrames ? amountFrames : frame + skipFrames
         );
@@ -33,7 +35,7 @@ export function Animate(
   };
 
   const animation = () => {
-    if (frame < amountFrames) {
+    if (frame < amountFrames && !paused) {
       setFrame(
         frame + skipFrames > amountFrames ? amountFrames : frame + skipFrames
       );
@@ -51,5 +53,10 @@ export function Animate(
     intervalRef.current = getInterval();
   }
 
-  return <div>{renderFrame(frame, { restart: restart })}</div>;
+  function pause(): void {
+    clearInterval(intervalRef.current);
+    setPaused(!paused);
+  }
+
+  return <div>{renderFrame(frame, { restart: restart, pause: pause })}</div>;
 }
