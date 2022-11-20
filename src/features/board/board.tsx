@@ -166,7 +166,7 @@ function MainBoard({
 
 export function RobotName({ name, color }: robotNameInfo): JSX.Element {
   return (
-    <div>
+    <div key={"RobotName" + color}>
       <strong>
         <span style={{ color: color }}>{"• "}</span>
         {name}
@@ -179,7 +179,7 @@ export function RobotInfo(robot: robotInSideTextConfig): JSX.Element {
   return (
     <div
       data-testid={"RobotInfo " + robot.name}
-      key={"Robot in board" + robot.name}
+      key={"RobotInfo" + robot.color}
     >
       <h3 style={{ fontWeight: "normal" }}>
         <RobotName name={robot.name} color={robot.color} />
