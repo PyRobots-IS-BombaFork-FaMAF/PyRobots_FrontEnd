@@ -16,6 +16,8 @@ import {
 } from "./boardHelper";
 import { simulationResult } from "./SimulationAPI";
 
+import { Button_sx } from "../Style";
+
 function BackGround(board: boardConfig): JSX.Element {
   return (
     <Rect
@@ -229,10 +231,14 @@ function controls(control: ControlProps): JSX.Element {
   return (
     <div>
       <div>
-        <Button onClick={control.restart}> Reiniciar </Button>
+        <Button sx={Button_sx} onClick={control.restart}>
+          Reiniciar
+        </Button>
       </div>
-      <div style={{paddingTop: 4}}>
-        <Button onClick={control.pause}> Pausar </Button>
+      <div>
+        <Button sx={{ ...Button_sx, mt: 1 }} onClick={control.pause}>
+          Pausar
+        </Button>
       </div>
     </div>
   );
@@ -299,9 +305,7 @@ export function renderFrame(
           <SideText robots={robotsInSideText} />
           {after_end ? ShowWinners({ winners: winners }) : <div />}
         </div>
-        <div style={{ paddingTop: 10 }}>
-          {controls(control)}
-        </div>
+        <div style={{ paddingTop: 10 }}>{controls(control)}</div>
       </div>
     </Grid>
   );
