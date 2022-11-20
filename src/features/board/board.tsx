@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { Circle, Group, Layer, Line, Rect, Stage } from "react-konva";
 
 import { Animate, ControlProps } from "./Animation";
@@ -229,10 +229,10 @@ function controls(control: ControlProps): JSX.Element {
   return (
     <div>
       <div>
-        <button onClick={control.restart}> Reiniciar </button>
+        <Button onClick={control.restart}> Reiniciar </Button>
       </div>
       <div style={{paddingTop: 4}}>
-        <button onClick={control.pause}> Pausar </button>
+        <Button onClick={control.pause}> Pausar </Button>
       </div>
     </div>
   );
