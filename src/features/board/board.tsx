@@ -289,19 +289,28 @@ export function renderFrame(
   );
 
   return (
-    <Grid container data-testid="Board" sx={{ paddingTop: 1 }}>
-      <MainBoard
-        board_size={animation.board_size}
-        robots={robotsInGame}
-        missiles={animation.missiles[frame] ?? []}
-      />
-      <Grid style={{ textAlign: "left", paddingLeft: 5 }}>
-        <div style={{paddingTop: 5 }}>{controls(control)}</div>
+    <Grid
+      container
+      data-testid="Board"
+      sx={{ paddingTop: 1, position: "absolute" }}
+    >
+      <Grid item xs="auto">
+        <MainBoard
+          board_size={animation.board_size}
+          robots={robotsInGame}
+          missiles={animation.missiles[frame] ?? []}
+        />
+      </Grid>
+      <Grid item xs="auto" style={{ textAlign: "left", paddingLeft: 5 }}>
         <div>
           <SideText robots={robotsInSideText} />
           {after_end ? ShowWinners({ winners: winners }) : <div />}
         </div>
+        <div style={{ position: "absolute", bottom: 0, paddingBottom: "5px" }}>
+          {controls(control)}
+        </div>
       </Grid>
+      <Grid></Grid>
     </Grid>
   );
 }
