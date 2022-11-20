@@ -8,6 +8,7 @@ import NewGame from "./features/newGame/NewGame";
 import NotFound from "./features/NotFound";
 import Home from "./features/directories/Home";
 import PersistLogin from "./features/PersistLogin";
+import EmailValidationPage from "./features/register/emailValidation";
 import SignUp from "./features/register/SignUp";
 import RequiereAuth from "./features/RequiereAuth";
 import HistoryResults from "./features/results/results";
@@ -22,6 +23,7 @@ function App(): JSX.Element {
           {/* public routes */}
           <Route path="/register" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
+          <Route path="/validate" element={<EmailValidationPage />} />
 
           {/* protected routes */}
           <Route element={<PersistLogin />}>
