@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import {
   Navigate,
@@ -8,7 +9,7 @@ import {
 } from "react-router-dom";
 import swal from "sweetalert2";
 
-import { emailValidationAPI } from "./emailValidationAPI";
+import { emailValidationAPI, errorResponse } from "./emailValidationAPI";
 
 function GoBackButtons(): JSX.Element {
   const navigate: NavigateFunction = useNavigate();
@@ -29,17 +30,19 @@ function InvalidArgumentsPage(): JSX.Element {
   );
 }
 
-function SuccessPage(): JSX.Element {
+function SuccessPage({ res }: { res: string }): JSX.Element {
   swal.fire({
     title: "Cuenta validada correctamente",
+    text: res,
   });
   return <Navigate to="/login" />;
 }
 
-function ErrorPage(): JSX.Element {
+function ErrorPage({ res }: { res: string }): JSX.Element {
+  console.log(res);
   return (
     <div>
-      <h1>Email o código incorrectos</h1>
+      <h1>{res}</h1>
       <GoBackButtons />
     </div>
   );
@@ -48,37 +51,41 @@ function ErrorPage(): JSX.Element {
 function EmailValidationPage(): JSX.Element {
   const [searchParams, _] = useSearchParams();
   const [state, setState] = useState<
-    null | "invalid arguments" | "success" | "error"
+    | null
+    | { state: "invalid arguments" }
+    | { state: "success"; res: string }
+    | { state: "error"; error: string }
   >(null);
 
   const email: string | null = searchParams.get("email");
   const code: string | null = searchParams.get("code");
 
   if (email === null || code === null) {
-    if (state !== "invalid arguments") {
-      setState("invalid arguments");
+    if (state?.state !== "invalid arguments") {
+      setState({ state: "invalid arguments" });
     }
   } else if (state === null) {
-    const validation: Promise<void> = emailValidationAPI({
+    const validation: Promise<AxiosResponse<string>> = emailValidationAPI({
       email: email,
       code: code,
     });
 
     validation
-      .then(() => {
-        setState("success");
+      .then((res) => {
+        setState({ state: "success", res: res.data });
       })
-      .catch(() => {
-        setState("error");
+      .catch((error: AxiosError<errorResponse>) => {
+        console.log(error);
+        setState({ state: "error", error: error.response?.data?.detail ?? "" });
       });
   }
 
-  return state === "invalid arguments" ? (
+  return state?.state === "invalid arguments" ? (
     <InvalidArgumentsPage />
-  ) : state === "success" ? (
-    <SuccessPage />
-  ) : state === "error" ? (
-    <ErrorPage />
+  ) : state?.state === "success" ? (
+    <SuccessPage res={state.res} />
+  ) : state?.state === "error" ? (
+    <ErrorPage res={state.error} />
   ) : (
     <div />
   );

@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import axios from "../../api/axios";
 
 export type emailValidationInfo = {
@@ -5,9 +6,13 @@ export type emailValidationInfo = {
   code: string;
 };
 
+export type errorResponse = {
+  detail: string;
+}
+
 export function emailValidationAPI({
   email,
   code,
-}: emailValidationInfo): Promise<void> {
+}: emailValidationInfo): Promise<AxiosResponse<string>> {
   return axios.get(`/validate?email=${email}&code=${code}`);
 }
