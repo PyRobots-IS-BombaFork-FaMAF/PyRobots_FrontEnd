@@ -159,14 +159,12 @@ export const Lobby = ({
   const [serverMessage, setServerMessage] = useState("");
   const [disableAbandone, setDisableAbandone] = useState(false);
   const ws = useRef<WebSocket | null>(null);
-  const socket = new WebSocket(`ws://127.0.0.1:8000${roomUrl}`);
-  ws.current = socket;
-  useEffect(() => {    
-    if(!ws.current) return;
-    const wsCurrent = ws.current;
-    wsCurrent.onopen = () => {
+  useEffect(() => {
+    const socket = new WebSocket(`ws://127.0.0.1:8000${roomUrl}`);
+    ws.current = socket;
+    socket.onopen = () => {
       console.log("ws open");
-      wsCurrent.onmessage = (event) => {
+      socket.onmessage = async (event) => {
         const json = JSON.parse(event.data);
         console.log(json);
         if (json.status === 0 || json.status === 1 || json.status === 4) {
@@ -178,10 +176,8 @@ export const Lobby = ({
         }
       };
     };
-    wsCurrent.onclose = () => console.log("ws closed");
-    
-
-    return  () => wsCurrent.close();
+    socket.onclose = () => console.log("ws closed");
+    return  () => socket.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ws])
 
