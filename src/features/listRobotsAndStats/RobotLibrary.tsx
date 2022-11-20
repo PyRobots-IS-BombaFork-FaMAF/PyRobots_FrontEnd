@@ -1,7 +1,7 @@
 import { CircularProgress, Grid, Pagination, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import NavBar from "../directories/NavBar";
-import { ListRobots, Robot, RobotsStatsApi } from "./RobotsStatsApi";
+import { callApiRobotsStats, ListRobots, Robot } from "./RobotsStatsApi";
 import { RobotsAndStats } from "./RobotsAndStats";
 
 
@@ -9,17 +9,17 @@ import { RobotsAndStats } from "./RobotsAndStats";
 export const RobotLibrary = () => {
   
     const [robots, setRobots] = useState<ListRobots>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [robotsPerPage] = useState<number>(12);
-    const access_token = localStorage.getItem("access_token")?.toString();
     
     const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
       setCurrentPage(value);
     };
 
+  
     useEffect(() => {
-        setRobots(RobotsStatsApi(access_token!, setLoading));
+        callApiRobotsStats(setRobots, setLoading);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   

@@ -3,22 +3,22 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
-
-import defaultPlayer from "../../assets/img/defaultPlayer.jpg";
-import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import { callApiLaunchApi } from "./LaunchGameApi";
 import { leaveMatchApi } from "./LeaveGameApi";
 import { callApiListMatch } from "../listMatches/ListMatchesApi";
 
-export type Player = {
+export type PlayerLobby = {
   player: string;
-  robot: number;
+  robot: string;
+  avatar_robot_image: string;
+  avatar_robot_name : string;
+  avatar_user_image: string;
+  avatar_user_name: string;
 };
-export type ListPlayer = Player[];
+export type ListPlayerLobby = PlayerLobby[];
 type PropsLobby = {
   myKey: number;
   setShowLobby: Function;
-  players: ListPlayer;
   isCreator: boolean;
   roomId: string;
   roomUrl: string;
@@ -148,14 +148,13 @@ const Buttons = ({
 
 export const Lobby = ({
   myKey,
-  players,
   setShowLobby,
   isCreator,
   roomId,
   roomUrl,
   setMatches,
 }: PropsLobby) => {
-  const [playersSocket, setPlayersSocket] = useState<ListPlayer>([]);
+  const [playersSocket, setPlayersSocket] = useState<ListPlayerLobby>([]);
   const [serverMessage, setServerMessage] = useState("");
   const [disableAbandone, setDisableAbandone] = useState(false);
   const ws = useRef<WebSocket | null>(null);
@@ -193,50 +192,53 @@ export const Lobby = ({
         alignItems: "center",
         justifyContent: "center",
         border: "2px groove #43B647",
-        borderRadius: 10,
+        borderRadius: "10px",
       }}
     >
       <Grid>
         <Container>
           <Stack spacing={3}>
-            {playersSocket.map((player: Player, key: number): JSX.Element => {
+            {playersSocket.map((player: PlayerLobby, key: number): JSX.Element => {
               return (
                 <Stack
                   direction="row"
                   key={key}
                   sx={{
-                    width: "30vw",
+                    width: "40vw",
                     mt: 5,
                     borderStyle: "double",
-                    borderRadius: 60,
+                    borderRadius: "10px",
                     borderColor: "#43B647",
                   }}
                 >
-                  <Grid item xs={2}>
+                  <Grid item xs={3}>
                     <Avatar
                       alt="Player"
-                      src={defaultPlayer}
-                      sx={{ height: "50px", width: "50px" }}
+                      src={`data:image/${player.avatar_user_name.split('.')[1]};base64,${player.avatar_user_image.split("'")[1].split("'")[0]}`}
+                      sx={{ height: "100px", width: "100px", border: "10px solid transparent"}}
                     />
                   </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="h6"> {player.player} </Typography>
+                  <Grid item xs={3}>
+                    <Typography variant="h6" sx={{mt: 4}}> {player.player} </Typography>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={3}>
                     <Avatar
                       alt="Robot"
-                      src={defaultRobot}
-                      sx={{ height: "50px", width: "50px" }}
+                      src={`data:image/${player.avatar_robot_name.split('.')[1]};base64,${player.avatar_robot_image.split("'")[1].split("'")[0]}`}
+                      sx={{ height: "100px", width: "100px" , mt: -1, ml: 3}}
                     />
                   </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="h6">{player.robot} </Typography>
+                  <Grid item xs={3}>
+                    <Typography variant="h6" sx={{mt: 4, ml:3}}>{player.robot} </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    
                   </Grid>
                 </Stack>
               );
             })}
           </Stack>
-          <h6>{serverMessage}</h6>
+          <h4>{serverMessage}</h4>
         </Container>
       </Grid>
       <Buttons

@@ -1,6 +1,11 @@
 import { ListMatch } from "../listMatches/ListMatchesApi";
 
-export type Player =
+export type ListPlayerMatch = PlayerMatch[];
+export type PlayerMatch = {
+  player: string;
+  robot : string;
+}
+export type PlayerJoinMatch =
   | {
       game_id: number;
       robot: number;
@@ -8,7 +13,7 @@ export type Player =
     }
   | {
       game_id: number;
-      robot: number;
+      robot: string;
     };
 
 export type Robot = {
@@ -27,7 +32,6 @@ export const joinGame = (
       _status: string;
     };
   },
-  robot: number,
   setActualMatch: Function,
   setIsCreator: Function,
   setMatches: Function,
@@ -45,14 +49,10 @@ export const joinGame = (
       setIsCreator(false);
       const players = match?._players;
       if (
-        !players?.find((elem) => {
+        !players?.find((elem : any) => {
           return elem.player === userName;
         })
       ) {
-        players?.push({
-          player: userName,
-          robot: robot,
-        });
         if (players) {
           match._players = players;
           match._current_players = match._current_players + 1;

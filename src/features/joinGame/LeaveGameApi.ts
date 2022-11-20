@@ -2,15 +2,7 @@ import swal from "sweetalert2";
 
 import axios from "../../api/axios";
 
-export type newGameInfo = {
-  rounds?: number;
-  games?: number;
-  name: string;
-  max_players?: number;
-  min_players?: number;
-  password?: string;
-  robot?: string;
-};
+
 
 export function leaveMatchApi(roomId: string, access_token: string | null) {
   axios

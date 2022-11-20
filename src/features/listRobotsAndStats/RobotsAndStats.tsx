@@ -1,5 +1,4 @@
 import { Card, CardContent, Typography, Avatar, Box } from "@mui/material";
-import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import { Robot } from "./RobotsStatsApi";
 
 type StatsProps = {
@@ -22,25 +21,25 @@ export const RobotsAndStats = ({ robot }: StatsProps): JSX.Element => {
       <Box display="flex" justifyContent="center" alignItems="center" p={2} >
         <Avatar
             alt="Robot"
-            src={defaultRobot}
+            src={`data:image/${robot.avatar_name.split('.')[1]};base64,${robot.avatar_img.split("'")[1].split("'")[0]}`}
             sx={{ height: "150px", width: "150px", border:"1px solid lightgray"}}
             />
       </Box>
         <Typography>
-          <strong>Robot:</strong> {robot.name}
+          <strong>Robot:</strong> {robot.robot_name}
         </Typography>
         <Typography>
           <strong>Partidas Ganadas:</strong> {robot.wins}
         </Typography>
         <Typography>
-          <strong>Partidas Perdidas:</strong> {robot.loses}
+          <strong>Partidas Perdidas:</strong> {robot.losses}
         </Typography>
         <Typography>
-          <strong>Partidas Totales:</strong> {robot.loses + robot.wins}
+          <strong>Partidas Totales:</strong> {robot.losses + robot.wins}
         </Typography>
         <Typography>
           <strong>Porcentaje Victorias:</strong>{" "}
-          {(robot.wins * 100) / (robot.wins + robot.loses)}
+          {(robot.wins * 100) / (robot.gamesPlayed)}
         </Typography>
       </CardContent>
     </Card>
