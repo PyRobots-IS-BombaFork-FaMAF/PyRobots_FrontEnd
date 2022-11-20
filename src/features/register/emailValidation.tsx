@@ -52,7 +52,7 @@ function ErrorPage(): JSX.Element {
 function EmailValidationPage(): JSX.Element {
   const [searchParams, _] = useSearchParams();
   const [state, setState] = useState<
-    null | "invalid arguments" | "waiting" | "success" | "error"
+    null | "invalid arguments" | "success" | "error"
   >(null);
 
   const email: string | null = searchParams.get("email");
@@ -67,7 +67,6 @@ function EmailValidationPage(): JSX.Element {
       email: email,
       code: code,
     });
-    setState("waiting");
 
     validation
       .then(() => {
