@@ -81,6 +81,8 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("• fork bomb");
     expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
   test("Campos de texto de `renderFrame` en el frame 1", () => {
@@ -94,6 +96,8 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 50%");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
   test("Campos de texto de `renderFrame` en el frame 10", () => {
@@ -107,6 +111,8 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 0%");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
   test("Campos de texto de `renderFrame` en mas frames que los que dura ", () => {
@@ -124,6 +130,8 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 0%");
     expect(board).toHaveTextContent("El ganador es:");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
   test("Componente `RobotInfo`", () => {
