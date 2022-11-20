@@ -13,7 +13,7 @@ function GoBackButtons(): JSX.Element {
   return (
     <div>
       <Button onClick={() => navigate("/login", { replace: true })}>
-        Iniciar sección
+        Iniciar sesión
       </Button>
       <Button onClick={() => navigate("/register", { replace: true })}>
         Registrarse
