@@ -68,7 +68,7 @@ function EmailValidationPage(): JSX.Element {
       .then(() => {
         setState("success");
       })
-      .catch((error) => {
+      .catch(() => {
         setState("error");
       });
   }
