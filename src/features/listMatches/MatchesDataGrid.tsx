@@ -186,7 +186,7 @@ export const MatchesDataGrid = ({
         if (row.row._status === "joined") {
           joinGame(
             row,
-            arrRobot[+robotIndex].name,
+            arrRobot[+robotIndex].id,
             setActualMatch,
             setIsCreator,
             setMatches,

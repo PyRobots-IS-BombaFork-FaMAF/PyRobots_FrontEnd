@@ -12,7 +12,7 @@ import { callApiListMatch } from "../listMatches/ListMatchesApi";
 
 export type Player = {
   player: string;
-  robot: string;
+  robot: number;
 };
 export type ListPlayer = Player[];
 type PropsLobby = {

@@ -35,7 +35,7 @@ export default function ListMatches(): JSX.Element {
         if (arrRobot[+robotIndex]) {
           const player: Player = {
             game_id: row.id,
-            robot: arrRobot[+robotIndex].name,
+            robot: arrRobot[+robotIndex].id,
             password: data.get("password")?.toString()!,
           };
           setError(
@@ -63,7 +63,7 @@ export default function ListMatches(): JSX.Element {
       setError("");
       joinGame(
         row,
-        arrRobot[+robotIndex].name,
+        arrRobot[+robotIndex].id,
         setActualMatch,
         setIsCreator,
         setMatches,

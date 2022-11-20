@@ -3,12 +3,12 @@ import { ListMatch } from "../listMatches/ListMatchesApi";
 export type Player =
   | {
       game_id: number;
-      robot: string;
+      robot: number;
       password: string;
     }
   | {
       game_id: number;
-      robot: string;
+      robot: number;
     };
 
 export type Robot = {
@@ -27,7 +27,7 @@ export const joinGame = (
       _status: string;
     };
   },
-  robot: string,
+  robot: number,
   setActualMatch: Function,
   setIsCreator: Function,
   setMatches: Function,
