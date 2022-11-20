@@ -15,7 +15,6 @@ import {
   robotNameInfo,
 } from "./boardHelper";
 import { simulationResult } from "./SimulationAPI";
-
 import { Button_sx } from "../Style";
 
 function BackGround(board: boardConfig): JSX.Element {
