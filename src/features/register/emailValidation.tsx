@@ -1,10 +1,12 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import {
+  Navigate,
   NavigateFunction,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
+import swal from "sweetalert2";
 
 import { emailValidationAPI } from "./emailValidationAPI";
 
@@ -12,12 +14,8 @@ function GoBackButtons(): JSX.Element {
   const navigate: NavigateFunction = useNavigate();
   return (
     <div>
-      <Button onClick={() => navigate("/login", { replace: true })}>
-        Iniciar sesión
-      </Button>
-      <Button onClick={() => navigate("/register", { replace: true })}>
-        Registrarse
-      </Button>
+      <Button onClick={() => navigate("/login")}>Iniciar sesión</Button>
+      <Button onClick={() => navigate("/register")}>Registrarse</Button>
     </div>
   );
 }
@@ -32,12 +30,10 @@ function InvalidArgumentsPage(): JSX.Element {
 }
 
 function SuccessPage(): JSX.Element {
-  return (
-    <div>
-      <h1>Cuenta validada correctamente</h1>
-      <GoBackButtons />
-    </div>
-  );
+  swal.fire({
+    title: "Cuenta validada correctamente",
+  });
+  return <Navigate to="/login" />;
 }
 
 function ErrorPage(): JSX.Element {
