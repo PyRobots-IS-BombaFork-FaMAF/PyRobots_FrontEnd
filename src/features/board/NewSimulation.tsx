@@ -69,13 +69,13 @@ function onSubmit_newSimulation(
 // Regex of input validation (in string because `pattern` requires a string)
 export const rounds_amount_regex: string = "^([1-9][0-9]{0,3}|10000)$";
 
-function SimulationForm(
+export function SimulationForm(
   setSimulationResult: React.Dispatch<
     React.SetStateAction<simulationResult | null>
   >
 ): JSX.Element {
   return (
-    <Container>
+    <Container data-testid="newSimulation">
       <Box
         component="form"
         onSubmit={(event: React.FormEvent<HTMLFormElement>) => {

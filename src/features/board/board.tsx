@@ -12,6 +12,7 @@ import {
   robotInAnimationInfo,
   robotInSideTextConfig,
   simulationResult_to_animationInfo,
+  robotNameInfo,
 } from "./boardHelper";
 import { simulationResult } from "./SimulationAPI";
 
@@ -162,17 +163,27 @@ function MainBoard({
   );
 }
 
+export function RobotName({ name, color }: robotNameInfo): JSX.Element {
+  return (
+    <div>
+      <strong>
+        <span style={{ color: color }}>{"• "}</span>
+        {name}
+      </strong>
+    </div>
+  );
+}
+
 export function RobotInfo(robot: robotInSideTextConfig): JSX.Element {
   return (
     <div
       data-testid={"RobotInfo " + robot.name}
       key={"Robot in board" + robot.name}
     >
-      <h3>
-        <span style={{ color: robot.color }}>{"• "}</span>
-        {robot.name}
+      <h3 style={{ fontWeight: "normal" }}>
+        <RobotName name={robot.name} color={robot.color} />
       </h3>
-      <p>{`Vida: ${robot.life * 100}%`}</p>
+      <p>{`Vida: ${Math.round(robot.life * 100)}%`}</p>
     </div>
   );
 }
@@ -190,19 +201,51 @@ function SideText({
   );
 }
 
+function ShowWinners({
+  winners,
+}: {
+  winners: Array<robotNameInfo>;
+}): JSX.Element {
+  return (
+    <div style={{ paddingTop: 10 }}>
+      {winners.length === 0 ? (
+        <div>No hay ganadores</div>
+      ) : winners.length === 1 ? (
+        <div>
+          El ganador es:
+          {RobotName(winners[0])}
+        </div>
+      ) : (
+        <div>
+          Empate entre los robots:
+          {winners.map(RobotName)}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function renderFrame(
   animation: animationInfo,
   frame: number
 ): JSX.Element {
+  const after_end: boolean = frame >= animation.rounds_amount;
+
   const robotsInGame: robotInFrameConfig[] = animation.robots.flatMap(
     (robot: robotInAnimationInfo) => {
-      return robot.rounds.length <= frame
+      const robot_frame: number | null =
+        after_end && robot.winner
+          ? animation.rounds_amount - 1
+          : frame < robot.rounds.length
+          ? frame
+          : null;
+      return robot_frame === null
         ? []
         : [
             {
               name: robot.name,
               color: robot.color,
-              coords: robot.rounds[frame].coords,
+              coords: robot.rounds[robot_frame].coords,
             },
           ];
     }
@@ -210,22 +253,37 @@ export function renderFrame(
 
   const robotsInSideText: robotInSideTextConfig[] = animation.robots.map(
     (robot: robotInAnimationInfo) => {
+      const robot_frame: number | null =
+        after_end && robot.winner
+          ? animation.rounds_amount - 1
+          : frame < robot.rounds.length
+          ? frame
+          : null;
       return {
         name: robot.name,
         color: robot.color,
-        life: 1 - (robot.rounds[frame]?.damage ?? 1),
+        life: 1 - (robot.rounds[robot_frame!]?.damage ?? 1),
       };
     }
   );
 
+  const winners: Array<robotNameInfo> = animation.robots.flatMap(
+    (robot: robotInAnimationInfo) => {
+      return robot.winner ? [{ name: robot.name, color: robot.color }] : [];
+    }
+  );
+
   return (
-    <Grid container data-testid="Board">
+    <Grid container data-testid="Board" sx={{ paddingTop: 1 }}>
       <MainBoard
         board_size={animation.board_size}
         robots={robotsInGame}
         missiles={animation.missiles[frame] ?? []}
       />
-      <SideText robots={robotsInSideText} />
+      <div style={{ textAlign: "left", paddingLeft: 5 }}>
+        <SideText robots={robotsInSideText} />
+        {after_end ? ShowWinners({ winners: winners }) : <div />}
+      </div>
     </Grid>
   );
 }
@@ -240,7 +298,7 @@ export function Board({
 
   return (
     <div data-testid="Board">
-      {Animate(animation.rounds_amount - 1, 50, 5, (frame: number) =>
+      {Animate(animation.rounds_amount, 50, 5, (frame: number) =>
         renderFrame(animation, frame)
       )}
     </div>
