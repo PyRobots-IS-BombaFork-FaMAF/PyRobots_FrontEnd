@@ -1,40 +1,86 @@
-import { Divider, Grid, Stack, Typography } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
+import {
+  Avatar,
+  createTheme,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import NavBar from "../directories/NavBar";
-import { AvatarRobot, ButtonChangeAvatar } from "../newrobot/CreateRobot";
+
+const theme = createTheme({
+  components: {
+    MuiGrid: {
+      styleOverrides: {
+        root: {
+          textAlign: "left",
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          width: "120px",
+          height: "120px",
+          margin: "40px",
+        },
+      },
+    },
+  },
+});
 
 const Profile = () => {
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <NavBar />
-      <Grid container sx={{ paddingTop: "20px" }}>
+      <Grid container>
         <Grid item xs></Grid>
         <Grid
           item
-          xs={4}
-          sx={{ backgroundColor: "#f2f2f2", borderRadius: "5px" }}
+          xs={6}
+          sx={{
+            backgroundColor: "#f2f2f2",
+            borderRadius: "5px",
+          }}
         >
-          <AvatarRobot />
-          <ButtonChangeAvatar />
           {/* <ButtonLoadAvatar /> */}
           <Grid container>
-            <Grid item xs={3}>
-              <h3>Mi perfil</h3>
+            <Grid item xs="auto">
+              <Avatar variant="rounded" alt="User Avatar" />
             </Grid>
-            <Grid item xs={9}></Grid>
+            <Grid item xs="auto" sx={{ margin: "auto" }}>
+              <Typography variant="h3" sx={{ margin: "auto" }}>
+                {" "}
+                Hola Usuario!{" "}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                variant="h6"
+                sx={{ marginLeft: "50px", color: "#737373" }}
+              >
+                INFORMACIÓN DE CUENTA
+              </Typography>
+              <Divider />
+            </Grid>
+            <Grid item xs={7}></Grid>
             <Grid item xs={12}>
               <Stack
                 spacing={1}
-                divider={<Divider />}
+                divider={<Divider variant="middle" />}
+                sx={{ margin: "20px 50px 0 50px" }}
               >
-                <p> Nombre: </p>
-                <p> Dirección de correo: </p>
+                <Typography> Nombre de usuario: </Typography>
+                <Typography> Dirección de correo: </Typography>
+                <Typography> Constraseña: </Typography>
               </Stack>
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs></Grid>
       </Grid>
-    </div>
+    </ThemeProvider>
   );
 };
 
