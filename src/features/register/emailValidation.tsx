@@ -49,6 +49,7 @@ export function InvalidArgumentsPage(): JSX.Element {
 }
 
 function EmailValidationPage(): JSX.Element {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, _] = useSearchParams();
   const [state, setState] = useState<
     | null
