@@ -46,7 +46,6 @@ const FormChangePassword = () => {
     if (isValidPassword(passwords.get("new_password")?.toString()!)) {
       if (passwords.get("new_password") === passwords.get("confirmPassword")) {
         passwords.delete("confirmPassword");
-        passwords.delete("actualPassword");
         const passwordObject = Object.fromEntries(passwords.entries()) as passwordInfo;
         changePasswordApi(passwordObject);
       } else {
@@ -80,7 +79,7 @@ const FormChangePassword = () => {
           Cambiar contraseña
         </Typography>
         <TextField
-          name="actualPassword"
+          name="old_password"
           label="Contraseña actual"
           type="password"
           required
