@@ -43,7 +43,7 @@ export const RobotsAndStats = ({ robot }: StatsProps): JSX.Element => {
           <strong>Partidas Totales: {robot.losses + robot.wins + robot.tied}</strong> 
         </Typography>
         <Typography>
-          <strong>Porcentaje Victorias: {(robot.wins * 100) / (robot.gamesPlayed)}</strong>
+          <strong>Porcentaje Victorias: {(robot.wins * 100) / (robot.gamesPlayed)}%</strong>
         </Typography>
       </CardContent>
     </Card>
