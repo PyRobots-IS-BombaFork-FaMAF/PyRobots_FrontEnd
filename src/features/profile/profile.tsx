@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import NavBar from "../directories/NavBar";
 import { callApiFetchInfo } from "./profileApi";
+import { userInfo } from "./profileBoardHelper";
 
 const theme = createTheme({
   components: {
@@ -36,7 +37,7 @@ const theme = createTheme({
 const Profile = () => {
   const access_token = localStorage.getItem("access_token")?.toString();
   const [loading, setLoading] = useState<boolean>(true);
-  const [info, setInfo] = useState<any>(null);
+  const [info, setInfo] = useState<userInfo | null>(null);
 
   useEffect(() => {
     callApiFetchInfo(access_token, setInfo, setLoading);
@@ -74,14 +75,14 @@ const Profile = () => {
               <Avatar
                 variant="rounded"
                 alt="User Avatar"
-                src={`data:image/${info.avatar_name.split(".")[1]};base64,${
-                  info.avatar_img.split("'")[1].split("'")[0]
+                src={`data:image/${info!.avatar_name.split(".")[1]};base64,${
+                  info!.avatar_img.split("'")[1].split("'")[0]
                 }`}
               />
             </Grid>
             <Grid item xs="auto" sx={{ margin: "auto" }}>
               <Typography variant="h3" sx={{ margin: "auto" }}>
-                Hola {info.name}!
+                Hola {info!.name}!
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -101,12 +102,10 @@ const Profile = () => {
                 sx={{ margin: "20px 50px 0 50px" }}
               >
                 <Typography>
-                  {" "}
-                  Nombre de usuario: <strong>{info.name}</strong>
+                  Nombre de usuario: <strong>{info!.name}</strong>
                 </Typography>
                 <Typography>
-                  {" "}
-                  Dirección de correo: <strong>{info.email}</strong>
+                  Dirección de correo: <strong>{info!.email}</strong>
                 </Typography>
               </Stack>
             </Grid>
