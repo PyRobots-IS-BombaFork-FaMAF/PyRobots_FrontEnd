@@ -6,7 +6,7 @@ import swal from "sweetalert2";
 
 import NavBar from "../directories/NavBar";
 import { Lobby } from "../joinGame/Lobby";
-import { joinGame, Player, Robot } from "../joinGame/JoinGame";
+import { joinGame, PlayerJoinMatch, Robot } from "../joinGame/JoinGame";
 import { JoinGameApi } from "../joinGame/JoinGameApi";
 import { Match } from "./ListMatchesApi";
 import { MatchesDataGrid } from "./MatchesDataGrid";
@@ -26,7 +26,6 @@ export default function ListMatches(): JSX.Element {
   const [arrRobot, setArrRobot] = useState<Robot[]>([]);
   const [row, setRow] = useState<any>({});
   const [error, setError] = useState("");
-
   const handleSubmitJoin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -34,9 +33,9 @@ export default function ListMatches(): JSX.Element {
     if (row.status !== "joined") {
       if (robotIndex !== "") {
         if (arrRobot[+robotIndex]) {
-          const player: Player = {
+          const player: PlayerJoinMatch = {
             game_id: row.id,
-            robot: arrRobot[+robotIndex].name,
+            robot: arrRobot[+robotIndex].id,
             password: data.get("password")?.toString()!,
           };
           setError(
@@ -64,7 +63,6 @@ export default function ListMatches(): JSX.Element {
       setError("");
       joinGame(
         row,
-        arrRobot[+robotIndex].name,
         setActualMatch,
         setIsCreator,
         setMatches,
@@ -127,7 +125,7 @@ export default function ListMatches(): JSX.Element {
                 width: 1250,
                 maxWidth: "90vw",
                 bgcolor: "background.paper",
-                borderRadius: "5px",
+                borderRadius: "10px",
                 border: "solid 2px",
                 borderColor: "#43B647",
                 "& .columnClass": {
@@ -169,7 +167,6 @@ export default function ListMatches(): JSX.Element {
           ) : showLobby && actualMatch ? (
             <Lobby
               myKey={0}
-              players={actualMatch?._players!}
               setShowLobby={setShowLobby}
               roomId={actualMatch?._id.toString()}
               isCreator={isCreator}
@@ -177,7 +174,7 @@ export default function ListMatches(): JSX.Element {
               roomUrl={actualMatch?._websocketurl}
             />
           ) : (
-            <div/>
+            <div />
           )}
         </Container>
       </div>

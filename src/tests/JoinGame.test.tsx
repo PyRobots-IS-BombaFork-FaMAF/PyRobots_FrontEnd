@@ -8,7 +8,6 @@ describe("Test a funcion joinGame", () => {
     let showLobby: boolean = false;
     let matches: ListMatch = [];
     const userName = "soyunuser";
-    const robot = "nuevoRobot";
     const setActualMatch = (match: Match) => {
       actualMatch = match;
     };
@@ -39,7 +38,7 @@ describe("Test a funcion joinGame", () => {
       _websocketurl: "/game/lobby/1",
       _current_players: 1,
       _creator: "test",
-      _players: [{ player: "test", robot: "robotTest" }],
+      _players: [{ player: "test", robot: "hola" }],
       _creation_date: "",
       _password: "",
       _private: false,
@@ -57,10 +56,7 @@ describe("Test a funcion joinGame", () => {
       _websocketurl: "/game/lobby/1",
       _current_players: 2,
       _creator: "test",
-      _players: [
-        { player: "test", robot: "robotTest" },
-        { player: "soyunuser", robot: "nuevoRobot" },
-      ],
+      _players: [{ player: "test", robot: "hola" }],
       _creation_date: "",
       _password: "",
       _private: false,
@@ -71,7 +67,6 @@ describe("Test a funcion joinGame", () => {
 
     joinGame(
       data,
-      robot,
       setActualMatch,
       setIsCreator,
       setMatches,
@@ -91,7 +86,6 @@ describe("Test a funcion joinGame", () => {
     let showLobby: boolean = false;
     let matches: ListMatch = [];
     const userName = "soyunuser";
-    const robot = "nuevoRobot";
     const setActualMatch = (match: Match) => {
       actualMatch = match;
     };
@@ -123,8 +117,8 @@ describe("Test a funcion joinGame", () => {
       _current_players: 2,
       _creator: "test",
       _players: [
-        { player: "test", robot: "robotTest" },
-        { player: "hola", robot: "test1" },
+        { player: "test", robot: "soyunrobot" },
+        { player: "hola", robot: "soyunrobot" },
       ],
       _creation_date: "",
       _password: "",
@@ -144,8 +138,8 @@ describe("Test a funcion joinGame", () => {
       _current_players: 2,
       _creator: "test",
       _players: [
-        { player: "test", robot: "robotTest" },
-        { player: "hola", robot: "test1" },
+        { player: "test", robot: "soyunrobot" },
+        { player: "hola", robot: "soyunrobot" },
       ],
       _creation_date: "",
       _password: "",
@@ -157,7 +151,6 @@ describe("Test a funcion joinGame", () => {
 
     joinGame(
       data,
-      robot,
       setActualMatch,
       setIsCreator,
       setMatches,

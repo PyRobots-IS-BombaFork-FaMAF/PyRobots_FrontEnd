@@ -9,7 +9,7 @@ export type newGameInfo = {
   max_players?: number;
   min_players?: number;
   password?: string;
-  robot?: string;
+  robot?: number;
 };
 
 export function createMatchApi(

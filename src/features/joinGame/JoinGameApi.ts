@@ -1,10 +1,10 @@
 import swal from "sweetalert2";
 
 import axios from "../../api/axios";
-import { Player } from "./JoinGame";
+import { PlayerJoinMatch } from "./JoinGame";
 
 export function JoinGameApi(
-  player: Player,
+  player: PlayerJoinMatch,
   access_token: string,
   handleClose: Function
 ): Promise<string> {

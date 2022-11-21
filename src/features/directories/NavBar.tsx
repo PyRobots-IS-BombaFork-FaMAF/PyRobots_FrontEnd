@@ -26,12 +26,19 @@ export default function NavBar(): JSX.Element {
     navigate("/login", { replace: true });
   };
   const historyResults = () => {
-    navigate("/results", {replace:true});
-  }
+    navigate("/results", { replace: true });
+  };
+  const robotLibrary = () => {
+    navigate("/robotLibrary", { replace: true });
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="relative" data-testid="AppBar" sx={{backgroundColor:"#43B647"}}>
+      <AppBar
+        position="relative"
+        data-testid="AppBar"
+        sx={{ backgroundColor: "#43B647" }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -64,7 +71,7 @@ export default function NavBar(): JSX.Element {
             onClick={(e) => executeSimulation()}
             data-testid="ejecutarSim"
           >
-            Ejecutar Simulacion
+            Simulación
           </Button>
           <Button
             sx={{ mr: 5 }}
@@ -86,8 +93,15 @@ export default function NavBar(): JSX.Element {
             sx={{ mr: 5 }}
             color="inherit"
             onClick={(e) => historyResults()}
-            >
+          >
             Historial de partidas
+          </Button>
+          <Button
+            sx={{ mr: 5 }}
+            color="inherit"
+            onClick={(e) => robotLibrary()}
+          >
+            Biblioteca de Robots
           </Button>
           <Button
             sx={{ mr: 5 }}
