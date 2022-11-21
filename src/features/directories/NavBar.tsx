@@ -16,7 +16,7 @@ export default function NavBar(): JSX.Element {
   const [info, setInfo] = useState<userInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const access_token = localStorage.getItem("access_token")?.toString();
-  const settings = ['Perfil', 'Logout'];
+  const settings = ["Perfil", "Logout"];
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -47,17 +47,19 @@ export default function NavBar(): JSX.Element {
     navigate("/results", { replace: true });
   };
   const profile = () => {
-    navigate("/profile", {replace: true})
-  }
+    navigate("/profile", { replace: true });
+  };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log(event)
-    if(event.currentTarget.innerHTML === "Perfil") {
-      profile()
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    console.log(event);
+    if (event.currentTarget.innerHTML === "Perfil") {
+      profile();
     } else if (event.currentTarget.innerHTML === "Logout") {
       logOut();
     }
-  }
+  };
 
   useEffect(() => {
     callApiFetchInfo(access_token, setInfo, setLoading);
@@ -148,34 +150,36 @@ export default function NavBar(): JSX.Element {
             data-testid="logOut"
           >
             <Avatar
-              sx={{ width: "50px", height: "50px", margin: "0"}}
+              sx={{ width: "50px", height: "50px", margin: "0" }}
               src={`data:image/${info!.avatar_name.split(".")[1]};base64,${
                 info!.avatar_img.split("'")[1].split("'")[0]
               }`}
             />
           </IconButton>
           <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" onClick={handleClick}>{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {settings.map((setting) => (
+              <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={handleClick}>
+                  {setting}
+                </Typography>
+              </MenuItem>
+            ))}
+          </Menu>
         </Toolbar>
       </AppBar>
     </Box>
