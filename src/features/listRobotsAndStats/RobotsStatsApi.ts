@@ -53,6 +53,8 @@ export const robotsStatsApi = (access_token: string, setLoading : Function) : Pr
     promise1.then((value) => {
       setLoading(false);
       setArrRobot(value);
+    }).catch((err) => { 
+      console.log(err);
     });
   }
   

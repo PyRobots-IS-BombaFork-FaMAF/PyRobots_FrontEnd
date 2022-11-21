@@ -8,6 +8,7 @@ export const RobotsAndStats = ({ robot }: StatsProps): JSX.Element => {
   return (
     <Card
       variant="outlined"
+      data-testid="card"
       sx={{
         minWidth: 275,
         maxWidth: 300,
@@ -21,25 +22,28 @@ export const RobotsAndStats = ({ robot }: StatsProps): JSX.Element => {
       <Box display="flex" justifyContent="center" alignItems="center" p={2} >
         <Avatar
             alt="Robot"
+            data-testid="avatar"
             src={`data:image/${robot.avatar_name.split('.')[1]};base64,${robot.avatar_img.split("'")[1].split("'")[0]}`}
             sx={{ height: "150px", width: "150px", border:"1px solid lightgray"}}
             />
       </Box>
         <Typography>
-          <strong>Robot:</strong> {robot.robot_name}
+          <strong>Robot: {robot.robot_name}</strong> 
         </Typography>
         <Typography>
-          <strong>Partidas Ganadas:</strong> {robot.wins}
+          <strong>Partidas Ganadas: {robot.wins}</strong> 
         </Typography>
         <Typography>
-          <strong>Partidas Perdidas:</strong> {robot.losses}
+          <strong>Partidas Perdidas: {robot.losses}</strong> 
         </Typography>
         <Typography>
-          <strong>Partidas Totales:</strong> {robot.losses + robot.wins}
+          <strong>Partidas Empatadas: {robot.tied}</strong> 
         </Typography>
         <Typography>
-          <strong>Porcentaje Victorias:</strong>{" "}
-          {(robot.wins * 100) / (robot.gamesPlayed)}
+          <strong>Partidas Totales: {robot.losses + robot.wins + robot.tied}</strong> 
+        </Typography>
+        <Typography>
+          <strong>Porcentaje Victorias: {(robot.wins * 100) / (robot.gamesPlayed)}</strong>
         </Typography>
       </CardContent>
     </Card>
