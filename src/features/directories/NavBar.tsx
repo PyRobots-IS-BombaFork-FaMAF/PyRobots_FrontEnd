@@ -22,9 +22,6 @@ export default function NavBar(): JSX.Element {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   const navigate = useNavigate();
   const createRobot = () => {
@@ -50,15 +47,14 @@ export default function NavBar(): JSX.Element {
     navigate("/profile", { replace: true });
   };
 
-  const handleClick = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    console.log(event);
-    if (event.currentTarget.innerHTML === "Perfil") {
+  const handleCloseUserMenu = (event : React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    console.log(event!.currentTarget!.innerText);
+    if (event.currentTarget.innerText === "Perfil") {
       profile();
-    } else if (event.currentTarget.innerHTML === "Logout") {
+    } else if (event.currentTarget.innerText === "Logout") {
       logOut();
     }
+    setAnchorElUser(null)
   };
 
   useEffect(() => {
@@ -173,10 +169,8 @@ export default function NavBar(): JSX.Element {
             onClose={handleCloseUserMenu}
           >
             {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" onClick={handleClick}>
-                  {setting}
-                </Typography>
+              <MenuItem key={setting} onClick={e => handleCloseUserMenu(e)}>
+                    {setting}
               </MenuItem>
             ))}
           </Menu>
