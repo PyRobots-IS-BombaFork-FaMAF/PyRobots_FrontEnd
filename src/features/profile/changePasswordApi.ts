@@ -3,7 +3,7 @@ import swal from "sweetalert2";
 import axios from "../../api/axios";
 import { passwordInfo } from "./passwordHelpers";
 
-export function changePasswordApi(passwordObject: passwordInfo): void {
+export function changePasswordApi(passwordObject: passwordInfo, navigate: Function): void {
   const access_token = localStorage.getItem("access_token");
   axios
     .put("user/password", passwordObject, {
@@ -19,6 +19,7 @@ export function changePasswordApi(passwordObject: passwordInfo): void {
           icon: "success",
           confirmButtonColor: "#43B647",
         });
+        navigate("/profile", { replace: true });
       }
     })
     .catch((err) => {

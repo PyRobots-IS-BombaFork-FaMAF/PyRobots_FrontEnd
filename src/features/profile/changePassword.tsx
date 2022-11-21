@@ -14,6 +14,8 @@ import { isValidPassword } from "../register/SignUpUtils";
 import swal from "sweetalert2";
 import changePasswordApi from "./changePasswordApi";
 import { passwordInfo } from "./passwordHelpers";
+import { useNavigate } from "react-router-dom";
+import NavBar from "../directories/NavBar";
 
 const theme = createTheme({
   components: {
@@ -38,6 +40,7 @@ const FormChangePassword = () => {
   const [errPass, setErrPass] = useState<boolean>(true);
   const [errNewPass, setErrNewPass] = useState<boolean>(true);
   const [errConfPass, setErrConfPass] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,8 +49,10 @@ const FormChangePassword = () => {
     if (isValidPassword(passwords.get("new_password")?.toString()!)) {
       if (passwords.get("new_password") === passwords.get("confirmPassword")) {
         passwords.delete("confirmPassword");
-        const passwordObject = Object.fromEntries(passwords.entries()) as passwordInfo;
-        changePasswordApi(passwordObject);
+        const passwordObject = Object.fromEntries(
+          passwords.entries()
+        ) as passwordInfo;
+        changePasswordApi(passwordObject, navigate);
       } else {
         swal.fire({
           title: "Error",
@@ -70,6 +75,7 @@ const FormChangePassword = () => {
       noValidate
       onSubmit={handleSubmit}
       sx={{ width: "25%" }}
+      mb={10}
     >
       <Stack spacing={1}>
         <Avatar>
@@ -127,8 +133,7 @@ const FormChangePassword = () => {
           }
         />
         <Button variant="contained" type="submit">
-          {" "}
-          Enviar{" "}
+          Enviar
         </Button>
       </Stack>
     </Box>
@@ -138,6 +143,7 @@ const FormChangePassword = () => {
 const ChangePassword = () => {
   return (
     <ThemeProvider theme={theme}>
+      <NavBar />
       <Box
         display="flex"
         justifyContent="center"

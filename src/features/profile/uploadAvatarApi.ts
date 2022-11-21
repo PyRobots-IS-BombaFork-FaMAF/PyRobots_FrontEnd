@@ -13,11 +13,7 @@ export function uploadAvatarApi(avatar: FormData): void {
     })
     .then((res) => {
       if (res.status === 200) {
-        swal.fire({
-          title: res.data,
-          icon: "success",
-          confirmButtonColor: "#43B647",
-        });
+        window.location.reload();
       }
     })
     .catch((err) => {
