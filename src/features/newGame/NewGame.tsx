@@ -50,11 +50,7 @@ function onSubmit_newGame(
   const robotId = data.get("select-robot");
   if (typeof robotId === "string") {
     if (robotId) {
-      newGameInfo.robot = arrRobot.find(
-        (robot: Robot) => robot.id === parseInt(robotId)
-      )!.name;
-      // The should be a robot with that id, but they come from two different request,
-      // so it's not fully guaranteed // FIXME (needs changes in the backend)
+      newGameInfo.robot = parseInt(robotId);
     }
   }
 
