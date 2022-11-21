@@ -72,17 +72,23 @@ describe("Componente Board", () => {
     simulationResult_to_animationInfo(simulation);
 
   test("Campos de texto de `renderFrame` en el frame 0", () => {
-    render(renderFrame(animation, 0));
+    render(
+      renderFrame(animation, 0, { restart: () => null, pause: () => null })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
     expect(board).toHaveTextContent("• fork bomb");
     expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
   test("Campos de texto de `renderFrame` en el frame 1", () => {
-    render(renderFrame(animation, 1));
+    render(
+      renderFrame(animation, 1, { restart: () => null, pause: () => null })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
@@ -90,10 +96,14 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 50%");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
   test("Campos de texto de `renderFrame` en el frame 10", () => {
-    render(renderFrame(animation, 10));
+    render(
+      renderFrame(animation, 10, { restart: () => null, pause: () => null })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
@@ -101,10 +111,17 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 0%");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
   test("Campos de texto de `renderFrame` en mas frames que los que dura ", () => {
-    render(renderFrame(animation, 100000000));
+    render(
+      renderFrame(animation, 100000000, {
+        restart: () => null,
+        pause: () => null,
+      })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
@@ -113,6 +130,8 @@ describe("Componente Board", () => {
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 0%");
     expect(board).toHaveTextContent("El ganador es:");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
   test("Componente `RobotInfo`", () => {
