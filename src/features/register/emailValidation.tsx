@@ -21,14 +21,14 @@ function GoBackButtons(): JSX.Element {
   );
 }
 
-function SuccessPage({ res }: { res: string }): JSX.Element {
+export function SuccessPage({ res }: { res: string }): JSX.Element {
   swal.fire({
     title: res,
   });
   return <Navigate to="/login" />;
 }
 
-function ErrorPage({ res }: { res: string }): JSX.Element {
+export function ErrorPage({ res }: { res: string }): JSX.Element {
   console.log(res);
   return (
     <div>
@@ -39,7 +39,7 @@ function ErrorPage({ res }: { res: string }): JSX.Element {
   );
 }
 
-function InvalidArgumentsPage(): JSX.Element {
+export function InvalidArgumentsPage(): JSX.Element {
   return ErrorPage({ res: "Argumentos inválidos" });
 }
 
