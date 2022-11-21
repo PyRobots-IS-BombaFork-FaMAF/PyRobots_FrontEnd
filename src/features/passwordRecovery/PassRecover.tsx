@@ -50,25 +50,25 @@ export default function PassRecover(): JSX.Element {
       } else {
         swal.fire({
           title: "Error",
-          text: "El campo para el Usuario no puede estar vacio",
+          text: "El campo para el Usuario no puede estar vacío",
           icon: "error",
           confirmButtonColor: "#43B647",
         });
       }
     } else {
       if (data.get("confirmPassword") === data.get("password")) {
-        const code = data.get("codigo") as string;
+        const code = data.get("code") as string;
         if (code !== "") {
           const user: userPassRecover = {
             username: username as string,
-            code: data.get("codigo") as string,
+            code: data.get("code") as string,
             password: data.get("password") as string,
           };
           sendCodeAndPasswordApi(user, navigate);
         } else {
           swal.fire({
             title: "Error",
-            text: "El campo para el codigo no puede estar vacio",
+            text: "El campo para el código no puede estar vacío",
             icon: "error",
             confirmButtonColor: "#43B647",
           });

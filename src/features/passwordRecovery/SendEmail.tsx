@@ -31,7 +31,7 @@ export const SendEmail = () => {
           },
         }}
       >
-        Enviar Codigo
+        Enviar Código
       </Button>
     </Container>
   );

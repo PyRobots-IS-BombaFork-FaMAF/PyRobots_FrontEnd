@@ -57,12 +57,12 @@ export const SendCode = () => {
       />
       <TextField
         margin="normal"
-        data-testid="codigo"
+        data-testid="code"
         required
         fullWidth
-        id="codigo"
-        label="Codigo"
-        name="codigo"
+        id="code"
+        label="Código"
+        name="code"
         autoComplete="off"
         autoFocus
       />

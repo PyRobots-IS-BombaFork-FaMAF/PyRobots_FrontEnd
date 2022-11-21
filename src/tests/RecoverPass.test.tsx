@@ -62,13 +62,13 @@ describe("Test al componente SendCode", () => {
     const pass = screen.getByTestId("passConfirm");
     expect(pass).toBeInTheDocument();
   });
-  test("Se renderiza el textfield codigo", () => {
+  test("Se renderiza el textfield código", () => {
     render(
       <BrowserRouter>
         <SendCode />
       </BrowserRouter>
     );
-    const code = screen.getByTestId("codigo");
+    const code = screen.getByTestId("code");
     expect(code).toBeInTheDocument();
   });
   test("Se renderiza el button submit", () => {
