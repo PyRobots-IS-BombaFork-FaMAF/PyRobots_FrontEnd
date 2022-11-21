@@ -7,6 +7,7 @@ import {
   InvalidArgumentsPage,
   SuccessPage,
 } from "../features/register/emailValidation";
+import { pageColor } from "../features/Style";
 
 jest.mock("sweetalert2", () => ({
   fire: jest.fn(),
@@ -24,6 +25,7 @@ describe("Email validation", () => {
     expect(swal.fire).toHaveBeenCalledWith({
       title: "Success",
       icon: "success",
+      confirmButtonColor: pageColor,
     });
   });
 
@@ -34,6 +36,7 @@ describe("Email validation", () => {
       title: "Error",
       text: "My massage",
       icon: "error",
+      confirmButtonColor: pageColor,
     });
   });
 
@@ -44,6 +47,7 @@ describe("Email validation", () => {
       title: "Error",
       text: "Argumentos inválidos",
       icon: "error",
+      confirmButtonColor: pageColor,
     });
   });
 });

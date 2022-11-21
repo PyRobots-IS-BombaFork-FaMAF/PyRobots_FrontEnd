@@ -10,6 +10,7 @@ export function SuccessPage({ res }: { res: string }): JSX.Element {
   swal.fire({
     title: res,
     icon: "success",
+    confirmButtonColor: pageColor,
   });
   return <Navigate to="/login" />;
 }
