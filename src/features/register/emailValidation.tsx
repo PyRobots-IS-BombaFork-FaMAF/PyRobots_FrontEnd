@@ -1,47 +1,28 @@
-import { Button, Grid } from "@mui/material";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import {
   Navigate,
-  NavigateFunction,
-  useNavigate,
   useSearchParams,
 } from "react-router-dom";
 import swal from "sweetalert2";
 
 import { emailValidationAPI, errorResponse } from "./emailValidationAPI";
-import { Button_sx } from "../Style";
-
-function GoBackButtons(): JSX.Element {
-  const navigate: NavigateFunction = useNavigate();
-  return (
-    <Grid>
-      <Button sx={{ ...Button_sx, m: 1 }} onClick={() => navigate("/login")}>
-        Iniciar sesión
-      </Button>
-      <Button sx={{ ...Button_sx, m: 1 }} onClick={() => navigate("/register")}>
-        Registrarse
-      </Button>
-    </Grid>
-  );
-}
 
 export function SuccessPage({ res }: { res: string }): JSX.Element {
   swal.fire({
     title: res,
+    icon: "success",
   });
   return <Navigate to="/login" />;
 }
 
 export function ErrorPage({ res }: { res: string }): JSX.Element {
-  console.log(res);
-  return (
-    <div>
-      <h1>Error</h1>
-      <h2>{res}</h2>
-      <GoBackButtons />
-    </div>
-  );
+  swal.fire({
+    title: "Error",
+    text: res,
+    icon: "error",
+  });
+  return <Navigate to="/login" />;
 }
 
 export function InvalidArgumentsPage(): JSX.Element {

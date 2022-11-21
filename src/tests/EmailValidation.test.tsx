@@ -21,18 +21,29 @@ describe("Email validation", () => {
   test("SuccessPage", () => {
     render(<SuccessPage res="Success" />, { wrapper: BrowserRouter });
     expect(Navigate).toHaveBeenCalledWith({ to: "/login" }, {});
-    expect(swal.fire).toHaveBeenCalledWith({ title: "Success" });
+    expect(swal.fire).toHaveBeenCalledWith({
+      title: "Success",
+      icon: "success",
+    });
   });
 
   test("ErrorPage", () => {
     render(<ErrorPage res="My massage" />, { wrapper: BrowserRouter });
-    expect(screen.getByText("Error")).toBeInTheDocument();
-    expect(screen.getByText("My massage")).toBeInTheDocument();
+    expect(Navigate).toHaveBeenCalledWith({ to: "/login" }, {});
+    expect(swal.fire).toHaveBeenCalledWith({
+      title: "Error",
+      text: "My massage",
+      icon: "error",
+    });
   });
 
   test("InvalidArgumentsPage", () => {
     render(<InvalidArgumentsPage />, { wrapper: BrowserRouter });
-    expect(screen.getByText("Error")).toBeInTheDocument();
-    expect(screen.getByText("Argumentos inválidos")).toBeInTheDocument();
+    expect(Navigate).toHaveBeenCalledWith({ to: "/login" }, {});
+    expect(swal.fire).toHaveBeenCalledWith({
+      title: "Error",
+      text: "Argumentos inválidos",
+      icon: "error",
+    });
   });
 });
