@@ -11,9 +11,10 @@ import PersistLogin from "./features/PersistLogin";
 import SignUp from "./features/register/SignUp";
 import RequiereAuth from "./features/RequiereAuth";
 import HistoryResults from "./features/results/results";
-import "./App.css";
 import PassRecover from "./features/passwordRecovery/PassRecover";
-import { RobotLibrary } from "./features/listRobotsAndStats/RobotLibrary";
+import RobotLibrary from "./features/listRobotsAndStats/RobotLibrary";
+import "./App.css";
+
 
 function App(): JSX.Element {
   return (
