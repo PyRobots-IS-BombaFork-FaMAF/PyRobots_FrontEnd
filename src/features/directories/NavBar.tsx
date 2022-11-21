@@ -16,7 +16,7 @@ export default function NavBar(): JSX.Element {
   const [info, setInfo] = useState<userInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const access_token = localStorage.getItem("access_token")?.toString();
-  const settings = ["Perfil", "Logout"];
+  const settings = ["Perfil", "Cambiar contraseña", "Logout"];
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -49,6 +49,9 @@ export default function NavBar(): JSX.Element {
   const profile = () => {
     navigate("/profile", { replace: true });
   };
+  const changePassword = () => {
+    navigate("/changePassword", { replace: true });
+  };
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -58,6 +61,8 @@ export default function NavBar(): JSX.Element {
       profile();
     } else if (event.currentTarget.innerHTML === "Logout") {
       logOut();
+    } else if (event.currentTarget.innerHTML === "Cambiar contraseña") {
+      changePassword();
     }
   };
 

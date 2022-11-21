@@ -43,8 +43,8 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/changePassword", { replace: true }); 
-  }
+    navigate("/changePassword", { replace: true });
+  };
 
   useEffect(() => {
     callApiFetchInfo(access_token, setInfo, setLoading);
