@@ -4,7 +4,7 @@ import NavBar from "../directories/NavBar";
 import { callApiRobotsStats, ListRobots, Robot } from "./RobotsStatsApi";
 import { RobotsAndStats } from "./RobotsAndStats";
 
-export const RobotLibrary = () => {
+export default function RobotLibrary() {
   const [robots, setRobots] = useState<ListRobots>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -69,4 +69,4 @@ export const RobotLibrary = () => {
       )}
     </div>
   );
-};
+}

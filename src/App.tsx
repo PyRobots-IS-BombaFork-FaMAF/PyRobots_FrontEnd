@@ -11,9 +11,8 @@ import PersistLogin from "./features/PersistLogin";
 import SignUp from "./features/register/SignUp";
 import RequiereAuth from "./features/RequiereAuth";
 import HistoryResults from "./features/results/results";
-
+import RobotLibrary from "./features/listRobotsAndStats/RobotLibrary";
 import "./App.css";
-import { RobotLibrary } from "./features/listRobotsAndStats/RobotLibrary";
 
 function App(): JSX.Element {
   return (
