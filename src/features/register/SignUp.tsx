@@ -14,6 +14,7 @@ import swal from "sweetalert2";
 
 import { signUpApi } from "./SignUpApi";
 import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
+import { Button_sx } from "../Style";
 
 function Copyright(props: any): JSX.Element {
   return (

@@ -9,6 +9,7 @@ import {
 import { Box, Container } from "@mui/system";
 
 import { Robot } from "../joinGame/JoinGame";
+import { Button_sx } from "../Style";
 
 type ModalProps = {
   open: boolean;
@@ -87,14 +88,10 @@ export const ModalList = ({
           fullWidth
           variant="contained"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
             width: 350,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-            },
           }}
           onClick={handleClose}
         >
@@ -106,14 +103,10 @@ export const ModalList = ({
           fullWidth
           variant="contained"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
             width: 350,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-            },
           }}
         >
           Unirse
