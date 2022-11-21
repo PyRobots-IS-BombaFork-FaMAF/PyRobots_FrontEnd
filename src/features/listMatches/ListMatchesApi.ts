@@ -1,6 +1,7 @@
 import swal from "sweetalert2";
 
 import axios from "../../api/axios";
+import { pageColor } from "../Style";
 import { ListPlayerMatch, PlayerMatch } from "../joinGame/JoinGame";
 
 export type ListMatchesFilter = {
@@ -50,7 +51,7 @@ async function listMatchesApi(
           title: "Error",
           text: error.response.data.detail,
           icon: "error",
-          confirmButtonColor: "#43B647",
+          confirmButtonColor: pageColor,
         });
         if (error.response.status === 401) {
           localStorage.clear();

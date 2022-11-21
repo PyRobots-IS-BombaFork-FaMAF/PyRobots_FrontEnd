@@ -7,6 +7,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 
+import { pageColor } from "../Style";
+
 export default function NavBar(): JSX.Element {
   const navigate = useNavigate();
   const createRobot = () => {
@@ -37,7 +39,7 @@ export default function NavBar(): JSX.Element {
       <AppBar
         position="relative"
         data-testid="AppBar"
-        sx={{ backgroundColor: "#43B647" }}
+        sx={{ backgroundColor: pageColor }}
       >
         <Toolbar>
           <IconButton

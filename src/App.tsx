@@ -1,18 +1,19 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import NewSimulation from "./features/board/NewSimulation";
 import CreateRobot from "./features/newrobot/CreateRobot";
-import ListMatches from "./features/listMatches/ListMatches";
-import SignIn from "./features/login/SignIn";
-import NewGame from "./features/newGame/NewGame";
-import NotFound from "./features/NotFound";
-import Home from "./features/directories/Home";
-import PersistLogin from "./features/PersistLogin";
-import SignUp from "./features/register/SignUp";
-import RequiereAuth from "./features/RequiereAuth";
+import EmailValidationPage from "./features/register/emailValidation";
 import HistoryResults from "./features/results/results";
-import PassRecover from "./features/passwordRecovery/PassRecover";
+import Home from "./features/directories/Home";
+import ListMatches from "./features/listMatches/ListMatches";
+import NewGame from "./features/newGame/NewGame";
+import NewSimulation from "./features/board/NewSimulation";
+import NotFound from "./features/NotFound";
+import PersistLogin from "./features/PersistLogin";
+import RequiereAuth from "./features/RequiereAuth";
 import RobotLibrary from "./features/listRobotsAndStats/RobotLibrary";
+import SignIn from "./features/login/SignIn";
+import SignUp from "./features/register/SignUp";
+import PassRecover from "./features/passwordRecovery/PassRecover";
 
 import "./App.css";
 
@@ -25,6 +26,7 @@ function App(): JSX.Element {
           {/* public routes */}
           <Route path="/register" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
+          <Route path="/validate" element={<EmailValidationPage />} />
           <Route path="/recoverPassword" element={<PassRecover/>} />
 
           {/* protected routes */}

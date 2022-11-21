@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { callApiLaunchApi } from "./LaunchGameApi";
 import { leaveMatchApi } from "./LeaveGameApi";
 import { callApiListMatch } from "../listMatches/ListMatchesApi";
-import { Button_sx } from "../Style";
+import { Button_sx, pageColor } from "../Style";
 
 export type PlayerLobby = {
   player: string;
@@ -185,7 +185,7 @@ export const Lobby = ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        border: "2px groove #43B647",
+        border: `2px groove ${pageColor}`,
         borderRadius: "10px",
       }}
     >
@@ -203,7 +203,7 @@ export const Lobby = ({
                       mt: 5,
                       borderStyle: "double",
                       borderRadius: "10px",
-                      borderColor: "#43B647",
+                      borderColor: pageColor,
                     }}
                   >
                     <Grid item xs={3}>

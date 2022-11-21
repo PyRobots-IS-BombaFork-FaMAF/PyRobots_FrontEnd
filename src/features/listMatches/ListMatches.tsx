@@ -13,6 +13,7 @@ import { MatchesDataGrid } from "./MatchesDataGrid";
 import { ModalList } from "./ModalList";
 import { ListMatch, callApiListMatch } from "./ListMatchesApi";
 import { callApiListRobot } from "../robotApi/ListRobotApi";
+import { pageColor } from "../Style";
 
 import "../directories/Home.css";
 
@@ -127,9 +128,9 @@ export default function ListMatches(): JSX.Element {
                 bgcolor: "background.paper",
                 borderRadius: "10px",
                 border: "solid 2px",
-                borderColor: "#43B647",
+                borderColor: pageColor,
                 "& .columnClass": {
-                  backgroundColor: "#43B647",
+                  backgroundColor: pageColor,
                 },
                 "& .joined": {
                   backgroundColor: "#9BD87A",

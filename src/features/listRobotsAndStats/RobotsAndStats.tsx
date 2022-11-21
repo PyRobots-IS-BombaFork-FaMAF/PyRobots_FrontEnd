@@ -1,4 +1,5 @@
 import { Card, CardContent, Typography, Avatar, Box } from "@mui/material";
+import { pageColor } from "../Style";
 import { Robot } from "./RobotsStatsApi";
 
 type StatsProps = {
@@ -14,7 +15,7 @@ export const RobotsAndStats = ({ robot }: StatsProps): JSX.Element => {
         maxWidth: 300,
         margin: 3,
         boxShadow: 6,
-        border: "2px solid #43B647",
+        border: `2px solid ${pageColor}`,
         "&:hover": { boxShadow: "0rem 0.5rem 1rem" },
       }}
     >

@@ -1,5 +1,7 @@
-import axios from "../../api/axios";
 import swal from "sweetalert2";
+
+import axios from "../../api/axios";
+import { pageColor } from "../Style";
 
 export type Robot = {
   robot_id: number;
@@ -36,7 +38,7 @@ export const robotsStatsApi = (
           title: "Error",
           text: error.response.data.detail,
           icon: "error",
-          confirmButtonColor: "#43B647",
+          confirmButtonColor: pageColor,
         });
         if (error.response.status === 401) {
           localStorage.clear();

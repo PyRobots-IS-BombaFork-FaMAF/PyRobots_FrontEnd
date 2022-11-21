@@ -25,6 +25,7 @@ import {
   resultForCards,
   searchName,
 } from "./resultsHelpers";
+import { pageColor } from "../Style";
 
 const ModalState = React.createContext<modalState>({
   modal: false,
@@ -238,7 +239,7 @@ const HistoryResults = () => {
             title: "Error",
             text: error.response.data.detail,
             icon: "error",
-            confirmButtonColor: "#43B647",
+            confirmButtonColor: pageColor,
           });
           if (error.response.status === 401) {
             localStorage.clear();
