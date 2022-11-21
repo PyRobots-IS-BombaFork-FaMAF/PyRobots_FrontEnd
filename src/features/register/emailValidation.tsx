@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import {
@@ -10,14 +10,19 @@ import {
 import swal from "sweetalert2";
 
 import { emailValidationAPI, errorResponse } from "./emailValidationAPI";
+import { Button_sx } from "../Style";
 
 function GoBackButtons(): JSX.Element {
   const navigate: NavigateFunction = useNavigate();
   return (
-    <div>
-      <Button onClick={() => navigate("/login")}>Iniciar sesión</Button>
-      <Button onClick={() => navigate("/register")}>Registrarse</Button>
-    </div>
+    <Grid>
+      <Button sx={{ ...Button_sx, m: 1 }} onClick={() => navigate("/login")}>
+        Iniciar sesión
+      </Button>
+      <Button sx={{ ...Button_sx, m: 1 }} onClick={() => navigate("/register")}>
+        Registrarse
+      </Button>
+    </Grid>
   );
 }
 
