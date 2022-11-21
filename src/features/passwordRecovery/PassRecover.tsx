@@ -1,20 +1,21 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import { useState } from "react";
-import { SendEmail } from "./SendEmail";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
-import { SendCode } from "./SendCode";
+import Typography from "@mui/material/Typography";
 import KeyIcon from "@mui/icons-material/Key";
-import swal from "sweetalert2";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert2";
+
 import {
   callApiGetCode,
   userPassRecover,
   sendCodeAndPasswordApi,
 } from "./passRecoverApi";
+import { SendCode } from "./SendCode";
+import { SendEmail } from "./SendEmail";
 
 function Copyright(props: any): JSX.Element {
   return (

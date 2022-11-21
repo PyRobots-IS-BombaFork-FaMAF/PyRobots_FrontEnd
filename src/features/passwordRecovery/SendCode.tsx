@@ -2,7 +2,9 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
+
 import { isValidPassword } from "../register/SignUpUtils";
+
 export const SendCode = () => {
   const [errPass, setErrPass] = useState(true);
   const [errPassConfirm, setErrPassConfirm] = useState(true);

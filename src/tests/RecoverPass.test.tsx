@@ -1,5 +1,6 @@
 import { screen, render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
+
 import PassRecover from "../features/passwordRecovery/PassRecover";
 import { SendCode } from "../features/passwordRecovery/SendCode";
 import { SendEmail } from "../features/passwordRecovery/SendEmail";
@@ -14,6 +15,7 @@ describe("Test al componente PassRecover", () => {
     const pass = screen.getByText(/Recuperar Contraseña/i);
     expect(pass).toBeInTheDocument();
   });
+
   test("Existe un componente form", () => {
     render(
       <BrowserRouter>
@@ -23,6 +25,7 @@ describe("Test al componente PassRecover", () => {
     const form = screen.getByTestId("form");
     expect(form).toBeInTheDocument();
   });
+
   test("Se renderiza el link al register", () => {
     render(
       <BrowserRouter>
@@ -32,6 +35,7 @@ describe("Test al componente PassRecover", () => {
     const reg = screen.getByTestId("goToRegister");
     expect(reg).toBeInTheDocument();
   });
+
   test("Se renderiza el link al login", () => {
     render(
       <BrowserRouter>
@@ -53,6 +57,7 @@ describe("Test al componente SendCode", () => {
     const pass = screen.getByTestId("pass");
     expect(pass).toBeInTheDocument();
   });
+
   test("Se renderiza el textfield confirmar contraseña", () => {
     render(
       <BrowserRouter>
@@ -62,6 +67,7 @@ describe("Test al componente SendCode", () => {
     const pass = screen.getByTestId("passConfirm");
     expect(pass).toBeInTheDocument();
   });
+
   test("Se renderiza el textfield código", () => {
     render(
       <BrowserRouter>
@@ -71,6 +77,7 @@ describe("Test al componente SendCode", () => {
     const code = screen.getByTestId("code");
     expect(code).toBeInTheDocument();
   });
+
   test("Se renderiza el button submit", () => {
     render(
       <BrowserRouter>
@@ -80,6 +87,7 @@ describe("Test al componente SendCode", () => {
     const submit = screen.getByTestId("submit");
     expect(submit).toBeInTheDocument();
   });
+
   describe("Test al componente SendEmail", () => {
     test("Se renderiza el textfield username", () => {
       render(
@@ -90,6 +98,7 @@ describe("Test al componente SendCode", () => {
       const user = screen.getByTestId("user");
       expect(user).toBeInTheDocument();
     });
+
     test("Se renderiza el button submit", () => {
       render(
         <BrowserRouter>
