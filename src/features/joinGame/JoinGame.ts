@@ -3,8 +3,8 @@ import { ListMatch } from "../listMatches/ListMatchesApi";
 export type ListPlayerMatch = PlayerMatch[];
 export type PlayerMatch = {
   player: string;
-  robot : string;
-}
+  robot: string;
+};
 export type PlayerJoinMatch =
   | {
       game_id: number;
@@ -49,7 +49,7 @@ export const joinGame = (
       setIsCreator(false);
       const players = match?._players;
       if (
-        !players?.find((elem : any) => {
+        !players?.find((elem: PlayerMatch) => {
           return elem.player === userName;
         })
       ) {

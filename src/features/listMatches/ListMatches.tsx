@@ -174,7 +174,7 @@ export default function ListMatches(): JSX.Element {
               roomUrl={actualMatch?._websocketurl}
             />
           ) : (
-            <div/>
+            <div />
           )}
         </Container>
       </div>

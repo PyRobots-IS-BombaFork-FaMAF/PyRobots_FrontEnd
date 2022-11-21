@@ -20,7 +20,9 @@ export function Animate(
   const getInterval = () => {
     const progressInterval: NodeJS.Timer = setInterval(() => {
       if (frame < amountFrames) {
-        setFrame(frame + skipFrames > amountFrames ? amountFrames : frame + skipFrames);
+        setFrame(
+          frame + skipFrames > amountFrames ? amountFrames : frame + skipFrames
+        );
       }
     }, frameInterval * skipFrames);
     return progressInterval;
@@ -28,7 +30,9 @@ export function Animate(
 
   const animation = () => {
     if (frame < amountFrames) {
-      setFrame(frame + skipFrames > amountFrames ? amountFrames : frame + skipFrames);
+      setFrame(
+        frame + skipFrames > amountFrames ? amountFrames : frame + skipFrames
+      );
     }
   };
 

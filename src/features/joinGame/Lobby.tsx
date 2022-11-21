@@ -11,7 +11,7 @@ export type PlayerLobby = {
   player: string;
   robot: string;
   avatar_robot_image: string;
-  avatar_robot_name : string;
+  avatar_robot_name: string;
   avatar_user_image: string;
   avatar_user_name: string;
 };
@@ -57,15 +57,14 @@ const Buttons = ({
           leaveMatchApi(
             roomId,
             localStorage.getItem("access_token")?.toString()!
-          );          
+          );
           setTimeout(() => {
             callApiListMatch({}, setMatches);
             setShowLobby(false);
-            if(socket){
+            if (socket) {
               socket.close();
             }
           }, 1000);
-          
         }
       });
     } else {
@@ -85,12 +84,10 @@ const Buttons = ({
             setTimeout(() => {
               callApiListMatch({}, setMatches);
               setShowLobby(false);
-              if(socket){
+              if (socket) {
                 socket.close();
               }
             }, 1000);
-            
-            
           }}
           variant="contained"
           sx={{
@@ -176,9 +173,9 @@ export const Lobby = ({
       };
     };
     socket.onclose = () => console.log("ws closed");
-    return  () => socket.close();
+    return () => socket.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ws])
+  }, [ws]);
 
   return (
     <Grid
@@ -198,45 +195,62 @@ export const Lobby = ({
       <Grid>
         <Container>
           <Stack spacing={3}>
-            {playersSocket.map((player: PlayerLobby, key: number): JSX.Element => {
-              return (
-                <Stack
-                  direction="row"
-                  key={key}
-                  sx={{
-                    width: "40vw",
-                    mt: 5,
-                    borderStyle: "double",
-                    borderRadius: "10px",
-                    borderColor: "#43B647",
-                  }}
-                >
-                  <Grid item xs={3}>
-                    <Avatar
-                      alt="Player"
-                      src={`data:image/${player.avatar_user_name.split('.')[1]};base64,${player.avatar_user_image.split("'")[1].split("'")[0]}`}
-                      sx={{ height: "100px", width: "100px", border: "10px solid transparent"}}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Typography variant="h6" sx={{mt: 4}}> {player.player} </Typography>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Avatar
-                      alt="Robot"
-                      src={`data:image/${player.avatar_robot_name.split('.')[1]};base64,${player.avatar_robot_image.split("'")[1].split("'")[0]}`}
-                      sx={{ height: "100px", width: "100px" , mt: -1, ml: 3}}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Typography variant="h6" sx={{mt: 4, ml:3}}>{player.robot} </Typography>
-                  </Grid>
-                  <Grid item xs={3}>
-                    
-                  </Grid>
-                </Stack>
-              );
-            })}
+            {playersSocket.map(
+              (player: PlayerLobby, key: number): JSX.Element => {
+                return (
+                  <Stack
+                    direction="row"
+                    key={key}
+                    sx={{
+                      width: "40vw",
+                      mt: 5,
+                      borderStyle: "double",
+                      borderRadius: "10px",
+                      borderColor: "#43B647",
+                    }}
+                  >
+                    <Grid item xs={3}>
+                      <Avatar
+                        alt="Player"
+                        src={`data:image/${
+                          player.avatar_user_name.split(".")[1]
+                        };base64,${
+                          player.avatar_user_image.split("'")[1].split("'")[0]
+                        }`}
+                        sx={{
+                          height: "100px",
+                          width: "100px",
+                          border: "10px solid transparent",
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography variant="h6" sx={{ mt: 4 }}>
+                        {" "}
+                        {player.player}{" "}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Avatar
+                        alt="Robot"
+                        src={`data:image/${
+                          player.avatar_robot_name.split(".")[1]
+                        };base64,${
+                          player.avatar_robot_image.split("'")[1].split("'")[0]
+                        }`}
+                        sx={{ height: "100px", width: "100px", mt: -1, ml: 3 }}
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography variant="h6" sx={{ mt: 4, ml: 3 }}>
+                        {player.robot}{" "}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={3}></Grid>
+                  </Stack>
+                );
+              }
+            )}
           </Stack>
           <h4>{serverMessage}</h4>
         </Container>
