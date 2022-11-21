@@ -21,19 +21,9 @@ function GoBackButtons(): JSX.Element {
   );
 }
 
-function InvalidArgumentsPage(): JSX.Element {
-  return (
-    <div>
-      <h1>Argumentos inválidos</h1>
-      <GoBackButtons />
-    </div>
-  );
-}
-
 function SuccessPage({ res }: { res: string }): JSX.Element {
   swal.fire({
-    title: "Cuenta validada correctamente",
-    text: res,
+    title: res,
   });
   return <Navigate to="/login" />;
 }
@@ -42,10 +32,15 @@ function ErrorPage({ res }: { res: string }): JSX.Element {
   console.log(res);
   return (
     <div>
-      <h1>{res}</h1>
+      <h1>Error</h1>
+      <h2>{res}</h2>
       <GoBackButtons />
     </div>
   );
+}
+
+function InvalidArgumentsPage(): JSX.Element {
+  return ErrorPage({ res: "Argumentos inválidos" });
 }
 
 function EmailValidationPage(): JSX.Element {
