@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
-import { RobotLibrary } from "../features/listRobotsAndStats/RobotLibrary";
+import RobotLibrary from "../features/listRobotsAndStats/RobotLibrary";
 import MockAdapter from "axios-mock-adapter";
 import { RobotsAndStats } from "../features/listRobotsAndStats/RobotsAndStats";
 
