@@ -63,7 +63,7 @@ export const SendCode = () => {
                     />
       <TextField
         margin="normal"
-        data-testid="pass"
+        data-testid="codigo"
         required
         fullWidth
         id="codigo"

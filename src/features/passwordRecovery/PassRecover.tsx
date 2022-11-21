@@ -100,6 +100,7 @@ export default function PassRecover(): JSX.Element {
           </Typography>
           <Box
             component="form"
+            data-testid="form"
             onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
