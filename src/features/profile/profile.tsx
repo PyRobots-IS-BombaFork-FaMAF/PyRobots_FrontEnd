@@ -5,10 +5,12 @@ import {
   createTheme,
   Divider,
   Grid,
+  Link,
   Stack,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavBar from "../directories/NavBar";
 import { callApiFetchInfo } from "./profileApi";
 import { userInfo } from "./profileBoardHelper";
@@ -38,6 +40,11 @@ const Profile = () => {
   const access_token = localStorage.getItem("access_token")?.toString();
   const [loading, setLoading] = useState<boolean>(true);
   const [info, setInfo] = useState<userInfo | null>(null);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/changePassword", { replace: true }); 
+  }
 
   useEffect(() => {
     callApiFetchInfo(access_token, setInfo, setLoading);
@@ -105,6 +112,29 @@ const Profile = () => {
                 </Typography>
                 <Typography>
                   Dirección de correo: <strong>{info!.email}</strong>
+                </Typography>
+              </Stack>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                variant="h6"
+                sx={{ marginTop: "20px", marginLeft: "50px", color: "#737373" }}
+              >
+                OPCIONES DE CONFIGURACIÓN
+              </Typography>
+              <Divider />
+            </Grid>
+            <Grid item xs={7}></Grid>
+            <Grid item xs={12}>
+              <Stack
+                spacing={1}
+                divider={<Divider variant="middle" />}
+                sx={{ margin: "10px 50px 0 50px" }}
+              >
+                <Typography>
+                  <Link onClick={handleClick} underline="hover">
+                    Cambiar contraseña
+                  </Link>
                 </Typography>
               </Stack>
             </Grid>
