@@ -30,7 +30,7 @@ export const modalStyle = {
   width: 400,
   bgcolor: "white !important",
   border: `2px solid ${pageColor}`,
-  borderRadius: 5,
+  borderRadius: "10px",
   boxShadow: 24,
   pt: 2,
   px: 4,

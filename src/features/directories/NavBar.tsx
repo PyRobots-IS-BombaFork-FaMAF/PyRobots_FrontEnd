@@ -30,6 +30,9 @@ export default function NavBar(): JSX.Element {
   const historyResults = () => {
     navigate("/results", { replace: true });
   };
+  const robotLibrary = () => {
+    navigate("/robotLibrary", { replace: true });
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -70,7 +73,7 @@ export default function NavBar(): JSX.Element {
             onClick={(e) => executeSimulation()}
             data-testid="ejecutarSim"
           >
-            Ejecutar Simulacion
+            Simulación
           </Button>
           <Button
             sx={{ mr: 5 }}
@@ -94,6 +97,13 @@ export default function NavBar(): JSX.Element {
             onClick={(e) => historyResults()}
           >
             Historial de partidas
+          </Button>
+          <Button
+            sx={{ mr: 5 }}
+            color="inherit"
+            onClick={(e) => robotLibrary()}
+          >
+            Biblioteca de Robots
           </Button>
           <Button
             sx={{ mr: 5 }}

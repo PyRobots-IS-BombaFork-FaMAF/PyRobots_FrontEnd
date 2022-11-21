@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import CreateRobot from "../features/newrobot/CreateRobot";
 import { isValidRobotName } from "../features/newrobot/CreateRobotUtils";

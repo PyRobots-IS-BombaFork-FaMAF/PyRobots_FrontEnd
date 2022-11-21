@@ -3,7 +3,7 @@ import swal from "sweetalert2";
 import axios from "../../api/axios";
 import { pageColor } from "../Style";
 
-export function signUpApi(formData: FormData, navigate : Function): void {
+export function signUpApi(formData: FormData, navigate: Function): void {
   axios
     .post("users/register", formData)
     .then((res) => {

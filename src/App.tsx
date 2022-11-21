@@ -10,6 +10,7 @@ import NewSimulation from "./features/board/NewSimulation";
 import NotFound from "./features/NotFound";
 import PersistLogin from "./features/PersistLogin";
 import RequiereAuth from "./features/RequiereAuth";
+import RobotLibrary from "./features/listRobotsAndStats/RobotLibrary";
 import SignIn from "./features/login/SignIn";
 import SignUp from "./features/register/SignUp";
 
@@ -28,6 +29,7 @@ function App(): JSX.Element {
           {/* protected routes */}
           <Route element={<PersistLogin />}>
             <Route element={<RequiereAuth />}>
+              <Route path="/robotLibrary" element={<RobotLibrary />} />
               <Route path="/Simulation/" element={<NewSimulation />} />
               <Route path="/createRobot" element={<CreateRobot />} />
               <Route path="/" element={<Home />} />
