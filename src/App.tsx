@@ -1,17 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import NewSimulation from "./features/board/NewSimulation";
 import CreateRobot from "./features/newrobot/CreateRobot";
-import ListMatches from "./features/listMatches/ListMatches";
-import SignIn from "./features/login/SignIn";
-import NewGame from "./features/newGame/NewGame";
-import NotFound from "./features/NotFound";
-import Home from "./features/directories/Home";
-import PersistLogin from "./features/PersistLogin";
 import EmailValidationPage from "./features/register/emailValidation";
-import SignUp from "./features/register/SignUp";
-import RequiereAuth from "./features/RequiereAuth";
 import HistoryResults from "./features/results/results";
+import Home from "./features/directories/Home";
+import ListMatches from "./features/listMatches/ListMatches";
+import NewGame from "./features/newGame/NewGame";
+import NewSimulation from "./features/board/NewSimulation";
+import NotFound from "./features/NotFound";
+import PersistLogin from "./features/PersistLogin";
+import RequiereAuth from "./features/RequiereAuth";
+import SignIn from "./features/login/SignIn";
+import SignUp from "./features/register/SignUp";
 
 import "./App.css";
 
