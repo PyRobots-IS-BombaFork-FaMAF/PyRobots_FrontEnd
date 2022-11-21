@@ -66,7 +66,6 @@ const Profile = () => {
           item
           xs={6}
           sx={{
-            backgroundColor: "#f2f2f2",
             borderRadius: "5px",
           }}
         >
