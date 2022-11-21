@@ -235,7 +235,7 @@ export const Lobby = ({
                         };base64,${
                           player.avatar_robot_image.split("'")[1].split("'")[0]
                         }`}
-                        sx={{ height: "100px", width: "100px", mt: -1, ml: 3 }}
+                        sx={{ height: "100px", width: "100px", ml: 3 }}
                       />
                     </Grid>
                     <Grid item xs={3}>
