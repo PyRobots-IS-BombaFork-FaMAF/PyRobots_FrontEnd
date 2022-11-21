@@ -14,7 +14,7 @@ import { useState } from "react";
 import swal from "sweetalert2";
 
 import axios, { setToken } from "../../api/axios";
-import { Button_sx } from "../Style";
+import { Button_sx, pageColor } from "../Style";
 
 function Copyright(props: any): JSX.Element {
   return (
@@ -71,7 +71,7 @@ export default function SignIn(): JSX.Element {
         title: "Error",
         text: error,
         icon: "error",
-        confirmButtonColor: "#43B647",
+        confirmButtonColor: pageColor,
       });
     }
   };

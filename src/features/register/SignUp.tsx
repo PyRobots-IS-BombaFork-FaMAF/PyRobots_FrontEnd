@@ -14,7 +14,7 @@ import swal from "sweetalert2";
 
 import { signUpApi } from "./SignUpApi";
 import { isValidEmail, isValidPassword, isValidUserName } from "./SignUpUtils";
-import { Button_sx } from "../Style";
+import { Button_sx, pageColor } from "../Style";
 
 function Copyright(props: any): JSX.Element {
   return (
@@ -69,7 +69,7 @@ export default function SignUp(): JSX.Element {
           title: "Error",
           text: "Las contraseñas deben coincidir",
           icon: "error",
-          confirmButtonColor: "#43B647",
+          confirmButtonColor: pageColor,
         });
       }
     }

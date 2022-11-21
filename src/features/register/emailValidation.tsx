@@ -1,12 +1,10 @@
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
-import {
-  Navigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import swal from "sweetalert2";
 
 import { emailValidationAPI, errorResponse } from "./emailValidationAPI";
+import { pageColor } from "../Style";
 
 export function SuccessPage({ res }: { res: string }): JSX.Element {
   swal.fire({
@@ -21,6 +19,7 @@ export function ErrorPage({ res }: { res: string }): JSX.Element {
     title: "Error",
     text: res,
     icon: "error",
+    confirmButtonColor: pageColor,
   });
   return <Navigate to="/login" />;
 }

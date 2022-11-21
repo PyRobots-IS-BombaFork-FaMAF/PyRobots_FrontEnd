@@ -9,7 +9,7 @@ import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import { callApiLaunchApi } from "./LaunchGameApi";
 import { leaveMatchApi } from "./LeaveGameApi";
 import { callApiListMatch } from "../listMatches/ListMatchesApi";
-import { Button_sx } from "../Style";
+import { Button_sx, pageColor } from "../Style";
 
 export type Player = {
   player: string;
@@ -191,7 +191,7 @@ export const Lobby = ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        border: "2px groove #43B647",
+        border: `2px groove ${pageColor}`,
         borderRadius: 10,
       }}
     >
@@ -208,7 +208,7 @@ export const Lobby = ({
                     mt: 5,
                     borderStyle: "double",
                     borderRadius: 60,
-                    borderColor: "#43B647",
+                    borderColor: pageColor,
                   }}
                 >
                   <Grid item xs={2}>

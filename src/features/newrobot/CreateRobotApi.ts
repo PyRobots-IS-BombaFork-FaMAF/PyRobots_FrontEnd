@@ -1,6 +1,7 @@
 import swal, { SweetAlertResult } from "sweetalert2";
 
 import axios from "../../api/axios";
+import { pageColor } from "../Style";
 
 export async function postRobot(
   data: FormData
@@ -20,7 +21,7 @@ export async function postRobot(
           swal.fire({
             title: response.data[0],
             icon: "success",
-            confirmButtonColor: "#43B647",
+            confirmButtonColor: pageColor,
           })
         );
       })
@@ -29,7 +30,7 @@ export async function postRobot(
           title: "Error",
           text: error.response.data.detail,
           icon: "error",
-          confirmButtonColor: "#43B647",
+          confirmButtonColor: pageColor,
         });
         if (error.response.status === 401) {
           localStorage.clear();

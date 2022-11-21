@@ -13,6 +13,7 @@ import {
 } from "./SimulationAPI";
 import NavBar from "../directories/NavBar";
 import { ListOfRobots } from "../robotApi/ListOfRobots";
+import { Button_sx } from "../Style";
 
 function onSubmit_newSimulation(
   setSimulationResult: React.Dispatch<
@@ -106,13 +107,9 @@ export function SimulationForm(
           variant="contained"
           data-testid="submit"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-            },
           }}
         >
           Nueva simulación

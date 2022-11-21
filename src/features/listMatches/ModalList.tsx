@@ -9,7 +9,7 @@ import {
 import { Box, Container } from "@mui/system";
 
 import { Robot } from "../joinGame/JoinGame";
-import { Button_sx } from "../Style";
+import { Button_sx, pageColor } from "../Style";
 
 type ModalProps = {
   open: boolean;
@@ -29,7 +29,7 @@ export const modalStyle = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "white !important",
-  border: "2px solid #43B647",
+  border: `2px solid ${pageColor}`,
   borderRadius: 5,
   boxShadow: 24,
   pt: 2,

@@ -7,6 +7,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 
+import { pageColor } from "../Style";
+
 export default function NavBar(): JSX.Element {
   const navigate = useNavigate();
   const createRobot = () => {
@@ -26,12 +28,16 @@ export default function NavBar(): JSX.Element {
     navigate("/login", { replace: true });
   };
   const historyResults = () => {
-    navigate("/results", {replace:true});
-  }
+    navigate("/results", { replace: true });
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="relative" data-testid="AppBar" sx={{backgroundColor:"#43B647"}}>
+      <AppBar
+        position="relative"
+        data-testid="AppBar"
+        sx={{ backgroundColor: pageColor }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -86,7 +92,7 @@ export default function NavBar(): JSX.Element {
             sx={{ mr: 5 }}
             color="inherit"
             onClick={(e) => historyResults()}
-            >
+          >
             Historial de partidas
           </Button>
           <Button
