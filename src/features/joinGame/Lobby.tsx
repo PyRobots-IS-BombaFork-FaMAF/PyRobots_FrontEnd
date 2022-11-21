@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { callApiLaunchApi } from "./LaunchGameApi";
 import { leaveMatchApi } from "./LeaveGameApi";
 import { callApiListMatch } from "../listMatches/ListMatchesApi";
+import { Button_sx } from "../Style";
 
 export type PlayerLobby = {
   player: string;
@@ -108,13 +109,9 @@ const Buttons = ({
           onClick={() => launchGame()}
           variant="contained"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #45E14B",
-            },
           }}
           disabled={!isCreator}
         >

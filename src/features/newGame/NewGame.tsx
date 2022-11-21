@@ -11,6 +11,7 @@ import { Robot } from "../joinGame/JoinGame";
 import { createMatchApi, newGameInfo } from "./NewGameApi";
 import { ListOfRobots } from "../robotApi/ListOfRobots";
 import { callApiListRobot } from "../robotApi/ListRobotApi";
+import { Button_sx } from "../Style";
 
 import "../directories/Home.css";
 
@@ -192,13 +193,9 @@ function GameForm(): JSX.Element {
           variant="contained"
           data-testid="submit"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-            },
           }}
         >
           Crear Partida

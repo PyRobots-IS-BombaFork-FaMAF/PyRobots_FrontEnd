@@ -1,7 +1,7 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { Circle, Group, Layer, Line, Rect, Stage } from "react-konva";
 
-import { Animate } from "./Animation";
+import { Animate, ControlProps } from "./Animation";
 import {
   animationInfo,
   boardConfig,
@@ -15,6 +15,7 @@ import {
   robotNameInfo,
 } from "./boardHelper";
 import { simulationResult } from "./SimulationAPI";
+import { Button_sx } from "../Style";
 
 function BackGround(board: boardConfig): JSX.Element {
   return (
@@ -165,7 +166,7 @@ function MainBoard({
 
 export function RobotName({ name, color }: robotNameInfo): JSX.Element {
   return (
-    <div>
+    <div key={"RobotName" + color}>
       <strong>
         <span style={{ color: color }}>{"• "}</span>
         {name}
@@ -178,7 +179,7 @@ export function RobotInfo(robot: robotInSideTextConfig): JSX.Element {
   return (
     <div
       data-testid={"RobotInfo " + robot.name}
-      key={"Robot in board" + robot.name}
+      key={"RobotInfo" + robot.color}
     >
       <h3 style={{ fontWeight: "normal" }}>
         <RobotName name={robot.name} color={robot.color} />
@@ -225,9 +226,23 @@ function ShowWinners({
   );
 }
 
+function controls(control: ControlProps): JSX.Element {
+  return (
+    <div>
+      <Button sx={Button_sx} onClick={control.restart}>
+        Reiniciar
+      </Button>
+      <Button sx={{ ...Button_sx, ml: 1 }} onClick={control.pause}>
+        Pausar
+      </Button>
+    </div>
+  );
+}
+
 export function renderFrame(
   animation: animationInfo,
-  frame: number
+  frame: number,
+  control: ControlProps
 ): JSX.Element {
   const after_end: boolean = frame >= animation.rounds_amount;
 
@@ -274,16 +289,28 @@ export function renderFrame(
   );
 
   return (
-    <Grid container data-testid="Board" sx={{ paddingTop: 1 }}>
-      <MainBoard
-        board_size={animation.board_size}
-        robots={robotsInGame}
-        missiles={animation.missiles[frame] ?? []}
-      />
-      <div style={{ textAlign: "left", paddingLeft: 5 }}>
-        <SideText robots={robotsInSideText} />
-        {after_end ? ShowWinners({ winners: winners }) : <div />}
-      </div>
+    <Grid
+      container
+      data-testid="Board"
+      sx={{ paddingTop: 1, position: "absolute" }}
+    >
+      <Grid item xs="auto">
+        <MainBoard
+          board_size={animation.board_size}
+          robots={robotsInGame}
+          missiles={animation.missiles[frame] ?? []}
+        />
+      </Grid>
+      <Grid item xs="auto" style={{ textAlign: "left", paddingLeft: 5 }}>
+        <div>
+          <SideText robots={robotsInSideText} />
+          {after_end ? ShowWinners({ winners: winners }) : <div />}
+        </div>
+        <div style={{ position: "absolute", bottom: 0, paddingBottom: "5px" }}>
+          {controls(control)}
+        </div>
+      </Grid>
+      <Grid></Grid>
     </Grid>
   );
 }
@@ -298,8 +325,12 @@ export function Board({
 
   return (
     <div data-testid="Board">
-      {Animate(animation.rounds_amount, 50, 5, (frame: number) =>
-        renderFrame(animation, frame)
+      {Animate(
+        animation.rounds_amount,
+        50,
+        5,
+        (frame: number, control: ControlProps) =>
+          renderFrame(animation, frame, control)
       )}
     </div>
   );
