@@ -74,7 +74,7 @@ export const ModalList = ({
           sx={{ width: 350 }}
           onChange={handleChange}
         >
-          <MenuItem value=""/>
+          <MenuItem value="" />
           {arrRobot.map((elem: Robot, key) => {
             return (
               <MenuItem key={key} value={`${key}`}>

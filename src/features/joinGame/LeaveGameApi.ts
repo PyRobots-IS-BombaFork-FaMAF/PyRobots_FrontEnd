@@ -2,8 +2,6 @@ import swal from "sweetalert2";
 
 import axios from "../../api/axios";
 
-
-
 export function leaveMatchApi(roomId: string, access_token: string | null) {
   axios
     .post(

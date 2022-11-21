@@ -19,31 +19,41 @@ export const RobotsAndStats = ({ robot }: StatsProps): JSX.Element => {
       }}
     >
       <CardContent>
-      <Box display="flex" justifyContent="center" alignItems="center" p={2} >
-        <Avatar
+        <Box display="flex" justifyContent="center" alignItems="center" p={2}>
+          <Avatar
             alt="Robot"
             data-testid="avatar"
-            src={`data:image/${robot.avatar_name.split('.')[1]};base64,${robot.avatar_img.split("'")[1].split("'")[0]}`}
-            sx={{ height: "150px", width: "150px", border:"1px solid lightgray"}}
-            />
-      </Box>
+            src={`data:image/${robot.avatar_name.split(".")[1]};base64,${
+              robot.avatar_img.split("'")[1].split("'")[0]
+            }`}
+            sx={{
+              height: "150px",
+              width: "150px",
+              border: "1px solid lightgray",
+            }}
+          />
+        </Box>
         <Typography>
-          <strong>Robot: {robot.robot_name}</strong> 
+          <strong>Robot: {robot.robot_name}</strong>
         </Typography>
         <Typography>
-          <strong>Partidas Ganadas: {robot.wins}</strong> 
+          <strong>Partidas Ganadas: {robot.wins}</strong>
         </Typography>
         <Typography>
-          <strong>Partidas Perdidas: {robot.losses}</strong> 
+          <strong>Partidas Perdidas: {robot.losses}</strong>
         </Typography>
         <Typography>
-          <strong>Partidas Empatadas: {robot.tied}</strong> 
+          <strong>Partidas Empatadas: {robot.tied}</strong>
         </Typography>
         <Typography>
-          <strong>Partidas Totales: {robot.losses + robot.wins + robot.tied}</strong> 
+          <strong>
+            Partidas Totales: {robot.losses + robot.wins + robot.tied}
+          </strong>
         </Typography>
         <Typography>
-          <strong>Porcentaje Victorias: {(robot.wins * 100) / (robot.gamesPlayed)}%</strong>
+          <strong>
+            Porcentaje Victorias: {(robot.wins * 100) / robot.gamesPlayed}%
+          </strong>
         </Typography>
       </CardContent>
     </Card>
