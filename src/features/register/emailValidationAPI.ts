@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+
 import axios from "../../api/axios";
 
 export type emailValidationInfo = {
