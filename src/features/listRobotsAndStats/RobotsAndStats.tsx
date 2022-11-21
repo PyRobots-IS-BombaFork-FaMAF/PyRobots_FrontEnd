@@ -52,7 +52,7 @@ export const RobotsAndStats = ({ robot }: StatsProps): JSX.Element => {
         </Typography>
         <Typography>
           <strong>
-            Porcentaje Victorias: {(robot.wins * 100) / robot.gamesPlayed}%
+            Porcentaje Victorias: {isNaN((robot.wins * 100) / robot.gamesPlayed) ? 0 : (robot.wins * 100) / robot.gamesPlayed}%
           </strong>
         </Typography>
       </CardContent>

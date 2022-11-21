@@ -2,10 +2,10 @@ import { render, screen } from "@testing-library/react";
 import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
 import RobotLibrary from "../features/listRobotsAndStats/RobotLibrary";
-import MockAdapter from "axios-mock-adapter";
+import AxiosMockAdapter from "axios-mock-adapter"
 import { RobotsAndStats } from "../features/listRobotsAndStats/RobotsAndStats";
 
-const mock = new MockAdapter(axios);
+const mock = new AxiosMockAdapter(axios);
 
 describe("Testear componente RobotLibrary", () => {
   afterEach(() => {
