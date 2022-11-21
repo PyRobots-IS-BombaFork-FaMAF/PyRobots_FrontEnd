@@ -9,6 +9,7 @@ import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import { callApiLaunchApi } from "./LaunchGameApi";
 import { leaveMatchApi } from "./LeaveGameApi";
 import { callApiListMatch } from "../listMatches/ListMatchesApi";
+import { Button_sx } from "../Style";
 
 export type Player = {
   player: string;
@@ -57,9 +58,9 @@ const Buttons = ({
           leaveMatchApi(
             roomId,
             localStorage.getItem("access_token")?.toString()!
-          );          
+          );
           setTimeout(() => {
-            if(socket){
+            if (socket) {
               socket.close();
             }
             callApiListMatch({}, setMatches);
@@ -85,10 +86,9 @@ const Buttons = ({
               callApiListMatch({}, setMatches);
               setShowLobby(false);
             }, 1000);
-            if(socket){
+            if (socket) {
               socket.close();
             }
-            
           }}
           variant="contained"
           sx={{
@@ -109,13 +109,9 @@ const Buttons = ({
           onClick={() => launchGame()}
           variant="contained"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #45E14B",
-            },
           }}
           disabled={!isCreator}
         >
@@ -165,13 +161,13 @@ export const Lobby = ({
 
     const wsCurrent = ws.current;
     return () => {
-      wsCurrent?.close()
+      wsCurrent?.close();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if(!ws.current) return;
+    if (!ws.current) return;
     ws.current.onmessage = (event) => {
       const json = JSON.parse(event.data);
       console.log(json);
@@ -183,7 +179,7 @@ export const Lobby = ({
         setServerMessage(json.message);
       }
     };
-  }, [])
+  }, []);
   return (
     <Grid
       key={myKey}

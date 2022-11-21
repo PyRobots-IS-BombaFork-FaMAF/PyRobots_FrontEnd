@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import NavBar from "../directories/NavBar";
 import { postRobot } from "./CreateRobotApi";
 import { isValidRobotName } from "./CreateRobotUtils";
+import { Button_sx } from "../Style";
 
 import "./CreateRobot.css";
 
@@ -106,14 +107,10 @@ function CreateRobot(): JSX.Element {
           variant="contained"
           data-testid="submit-robot"
           sx={{
+            ...Button_sx,
             mt: 1,
             mb: 1,
             width: "100%",
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-            },
           }}
         >
           Crear Robot
