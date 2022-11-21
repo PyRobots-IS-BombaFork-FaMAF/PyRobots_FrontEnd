@@ -1,4 +1,4 @@
-import {screen, render} from "@testing-library/react"
+import { screen, render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import PassRecover from "../features/passwordRecovery/PassRecover";
 import { SendCode } from "../features/passwordRecovery/SendCode";
@@ -44,60 +44,60 @@ describe("Test al componente PassRecover", () => {
 });
 
 describe("Test al componente SendCode", () => {
-    test("Se renderiza el textfield contraseña", () => {
-      render(
-        <BrowserRouter>
-          <SendCode />
-        </BrowserRouter>
-      );
-      const pass = screen.getByTestId("pass")
-      expect(pass).toBeInTheDocument();
-    });
-    test("Se renderiza el textfield confirmar contraseña", () => {
-      render(
-        <BrowserRouter>
-          <SendCode />
-        </BrowserRouter>
-      );
-      const pass = screen.getByTestId("passConfirm");
-      expect(pass).toBeInTheDocument();
-    });
-    test("Se renderiza el textfield codigo", () => {
-        render(
-          <BrowserRouter>
-            <SendCode />
-          </BrowserRouter>
-        );
-        const code = screen.getByTestId("codigo");
-        expect(code).toBeInTheDocument();
-      });
-      test("Se renderiza el button submit", () => {
-        render(
-          <BrowserRouter>
-            <SendCode />
-          </BrowserRouter>
-        );
-        const submit = screen.getByTestId("submit");
-        expect(submit).toBeInTheDocument();
-      });
-      describe("Test al componente SendEmail", () => {
-        test("Se renderiza el textfield username", () => {
-          render(
-            <BrowserRouter>
-              <SendEmail />
-            </BrowserRouter>
-          );
-          const user = screen.getByTestId("user")
-          expect(user).toBeInTheDocument();
-        });
-          test("Se renderiza el button submit", () => {
-            render(
-              <BrowserRouter>
-                <SendEmail/>
-              </BrowserRouter>
-            );
-            const submit = screen.getByTestId("submit");
-            expect(submit).toBeInTheDocument();
-          });
-      });
+  test("Se renderiza el textfield contraseña", () => {
+    render(
+      <BrowserRouter>
+        <SendCode />
+      </BrowserRouter>
+    );
+    const pass = screen.getByTestId("pass");
+    expect(pass).toBeInTheDocument();
   });
+  test("Se renderiza el textfield confirmar contraseña", () => {
+    render(
+      <BrowserRouter>
+        <SendCode />
+      </BrowserRouter>
+    );
+    const pass = screen.getByTestId("passConfirm");
+    expect(pass).toBeInTheDocument();
+  });
+  test("Se renderiza el textfield codigo", () => {
+    render(
+      <BrowserRouter>
+        <SendCode />
+      </BrowserRouter>
+    );
+    const code = screen.getByTestId("codigo");
+    expect(code).toBeInTheDocument();
+  });
+  test("Se renderiza el button submit", () => {
+    render(
+      <BrowserRouter>
+        <SendCode />
+      </BrowserRouter>
+    );
+    const submit = screen.getByTestId("submit");
+    expect(submit).toBeInTheDocument();
+  });
+  describe("Test al componente SendEmail", () => {
+    test("Se renderiza el textfield username", () => {
+      render(
+        <BrowserRouter>
+          <SendEmail />
+        </BrowserRouter>
+      );
+      const user = screen.getByTestId("user");
+      expect(user).toBeInTheDocument();
+    });
+    test("Se renderiza el button submit", () => {
+      render(
+        <BrowserRouter>
+          <SendEmail />
+        </BrowserRouter>
+      );
+      const submit = screen.getByTestId("submit");
+      expect(submit).toBeInTheDocument();
+    });
+  });
+});
