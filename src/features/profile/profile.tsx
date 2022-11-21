@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../directories/NavBar";
 import { callApiFetchInfo } from "./profileApi";
 import { userInfo } from "./profileBoardHelper";
+import uploadAvatarApi from "./uploadAvatarApi";
 
 const theme = createTheme({
   components: {
@@ -29,12 +30,41 @@ const theme = createTheme({
         root: {
           width: "120px",
           height: "120px",
-          margin: "40px",
+          margin: "40px 40px 10px 40px",
         },
       },
     },
   },
 });
+
+export function ButtonChangeAvatar(): JSX.Element {
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const avatarImage = document.getElementById("user-image")?.childNodes[0] as HTMLImageElement | null
+    const file: File | null | undefined = e.target.files?.item(0);
+    if (file !== null && file !== undefined) {
+      const imageUpload: string = URL.createObjectURL(file);
+      if (avatarImage !== null) {
+        const avatar: FormData = new FormData();
+        avatar.append("new_avatar", file)
+        uploadAvatarApi(avatar)
+        avatarImage!.src = imageUpload;
+      }
+    }
+  };
+
+  return (
+    <div className="div-image">
+      <p className="botton-text">Cargar una foto </p>
+      <input
+        name="avatar-user"
+        onChange={handleChange}
+        className="input-avatar"
+        type="file"
+      />
+    </div>
+  );
+}
 
 const Profile = () => {
   const access_token = localStorage.getItem("access_token")?.toString();
@@ -80,11 +110,13 @@ const Profile = () => {
             <Grid item xs="auto">
               <Avatar
                 variant="rounded"
+                id="user-image"
                 alt="User Avatar"
                 src={`data:image/${info!.avatar_name.split(".")[1]};base64,${
                   info!.avatar_img.split("'")[1].split("'")[0]
                 }`}
               />
+              <ButtonChangeAvatar />
             </Grid>
             <Grid item xs="auto" sx={{ margin: "auto" }}>
               <Typography variant="h3" sx={{ margin: "auto" }}>
