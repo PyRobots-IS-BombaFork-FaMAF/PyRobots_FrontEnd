@@ -13,8 +13,10 @@ import RequiereAuth from "./features/RequiereAuth";
 import RobotLibrary from "./features/listRobotsAndStats/RobotLibrary";
 import SignIn from "./features/login/SignIn";
 import SignUp from "./features/register/SignUp";
+import PassRecover from "./features/passwordRecovery/PassRecover";
 
 import "./App.css";
+
 
 function App(): JSX.Element {
   return (
@@ -25,6 +27,7 @@ function App(): JSX.Element {
           <Route path="/register" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="/validate" element={<EmailValidationPage />} />
+          <Route path="/recoverPassword" element={<PassRecover/>} />
 
           {/* protected routes */}
           <Route element={<PersistLogin />}>
