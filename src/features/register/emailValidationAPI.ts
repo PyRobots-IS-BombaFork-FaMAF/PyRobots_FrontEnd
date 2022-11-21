@@ -9,7 +9,7 @@ export type emailValidationInfo = {
 
 export type errorResponse = {
   detail: string;
-}
+};
 
 export function emailValidationAPI({
   email,
