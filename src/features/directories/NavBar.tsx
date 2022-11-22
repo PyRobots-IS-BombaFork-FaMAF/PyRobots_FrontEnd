@@ -6,7 +6,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { userInfo } from "../profile/profileBoardHelper";
+import { userInfo } from "../profile/profileHelper";
 import { callApiFetchInfo } from "../profile/profileApi";
 import { Avatar, CircularProgress, Grid, Menu, MenuItem } from "@mui/material";
 

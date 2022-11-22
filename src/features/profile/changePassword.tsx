@@ -36,7 +36,7 @@ const theme = createTheme({
   },
 });
 
-const FormChangePassword = () => {
+export const FormChangePassword = () => {
   const [errPass, setErrPass] = useState<boolean>(true);
   const [errNewPass, setErrNewPass] = useState<boolean>(true);
   const [errConfPass, setErrConfPass] = useState<boolean>(true);
@@ -79,7 +79,7 @@ const FormChangePassword = () => {
     >
       <Stack spacing={1}>
         <Avatar>
-          <PasswordIcon />
+          <PasswordIcon data-testid="icon-pass"/>
         </Avatar>
         <Typography variant="h5" sx={{ padding: "10px" }}>
           Cambiar contraseña
@@ -88,6 +88,7 @@ const FormChangePassword = () => {
           name="old_password"
           label="Contraseña actual"
           type="password"
+          data-testid="actual-pass"
           required
           onChange={(
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
