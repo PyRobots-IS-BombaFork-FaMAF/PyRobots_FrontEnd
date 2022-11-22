@@ -46,8 +46,8 @@ export default function PassRecover(): JSX.Element {
     if (!emailSent) {
       const usern = data.get("username") as string;
       if (usern !== "") {
-        callApiGetCode(usern, setEmailSent);
-        setUsername(usern);
+        callApiGetCode(usern.toLowerCase(), setEmailSent);
+        setUsername(usern.toLowerCase());
       } else {
         swal.fire({
           title: "Error",

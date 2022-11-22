@@ -50,7 +50,7 @@ export default function SignIn(): JSX.Element {
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("isLoggedIn", "true");
       if (username) {
-        localStorage.setItem("username", username?.toString());
+        localStorage.setItem("username", username?.toString().toLowerCase());
       }
       if (password) {
         localStorage.setItem("password", password?.toString());
