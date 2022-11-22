@@ -47,7 +47,6 @@ export default function NavBar(): JSX.Element {
   };
 
   const handleCloseUserMenu = (event : React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-    console.log(event!.currentTarget!.innerText);
     if (event.currentTarget.innerText === "Perfil") {
       profile();
     } else if (event.currentTarget.innerText === "Logout") {
