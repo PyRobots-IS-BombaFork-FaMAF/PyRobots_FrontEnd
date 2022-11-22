@@ -9,6 +9,7 @@ import {
 import { Box, Container } from "@mui/system";
 
 import { Robot } from "../joinGame/JoinGame";
+import { Button_sx, pageColor } from "../Style";
 
 type ModalProps = {
   open: boolean;
@@ -28,8 +29,8 @@ export const modalStyle = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "white !important",
-  border: "2px solid #43B647",
-  borderRadius: 5,
+  border: `2px solid ${pageColor}`,
+  borderRadius: "10px",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -74,7 +75,7 @@ export const ModalList = ({
           sx={{ width: 350 }}
           onChange={handleChange}
         >
-          <MenuItem value=""/>
+          <MenuItem value="" />
           {arrRobot.map((elem: Robot, key) => {
             return (
               <MenuItem key={key} value={`${key}`}>
@@ -87,14 +88,10 @@ export const ModalList = ({
           fullWidth
           variant="contained"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
             width: 350,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-            },
           }}
           onClick={handleClose}
         >
@@ -106,14 +103,10 @@ export const ModalList = ({
           fullWidth
           variant="contained"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
             width: 350,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-            },
           }}
         >
           Unirse

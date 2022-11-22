@@ -26,7 +26,16 @@ describe("Componente Board", () => {
           { coords: { x: 10, y: 10 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 20, y: 10 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 20, y: 20 }, direction: 20, speed: 10, damage: 0 },
-          { coords: { x: 30, y: 20 }, direction: 20, speed: 10, damage: 0 },
+          {
+            coords: { x: 30, y: 20 },
+            direction: 20,
+            speed: 10,
+            damage: 0,
+            missile: {
+              direction: 20,
+              distance: 100,
+            },
+          },
           { coords: { x: 30, y: 30 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 40, y: 30 }, direction: 20, speed: 10, damage: 0 },
           { coords: { x: 40, y: 40 }, direction: 20, speed: 10, damage: 0 },
@@ -62,52 +71,73 @@ describe("Componente Board", () => {
   const animation: animationInfo =
     simulationResult_to_animationInfo(simulation);
 
-  test("Campos de texto de `renderFrame`", () => {
-    render(renderFrame(animation, 0));
+  test("Campos de texto de `renderFrame` en el frame 0", () => {
+    render(
+      renderFrame(animation, 0, { restart: () => null, pause: () => null })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
-    expect(board).toHaveTextContent("fork bomb");
-    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("• fork bomb");
+    expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
-  test("Campos de texto de `renderFrame`", () => {
-    render(renderFrame(animation, 1));
+  test("Campos de texto de `renderFrame` en el frame 1", () => {
+    render(
+      renderFrame(animation, 1, { restart: () => null, pause: () => null })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
-    expect(board).toHaveTextContent("fork bomb");
-    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("• fork bomb");
+    expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 50%");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
-  test("Campos de texto de `renderFrame`", () => {
-    render(renderFrame(animation, 10));
+  test("Campos de texto de `renderFrame` en el frame 10", () => {
+    render(
+      renderFrame(animation, 10, { restart: () => null, pause: () => null })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
-    expect(board).toHaveTextContent("fork bomb");
-    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("• fork bomb");
+    expect(board).toHaveTextContent("• teipysgrif");
     expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 0%");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
-  test("Campos de texto de `renderFrame`", () => {
-    render(renderFrame(animation, 100000000));
+  test("Campos de texto de `renderFrame` en mas frames que los que dura ", () => {
+    render(
+      renderFrame(animation, 100000000, {
+        restart: () => null,
+        pause: () => null,
+      })
+    );
     const board: HTMLElement = screen.getByTestId("Board");
     expect(board).toBeInTheDocument();
     expect(board).toHaveTextContent("Simulación");
-    expect(board).toHaveTextContent("fork bomb");
-    expect(board).toHaveTextContent("teipysgrif");
+    expect(board).toHaveTextContent("• fork bomb");
+    expect(board).toHaveTextContent("• teipysgrif");
+    expect(board).toHaveTextContent("Vida: 100%");
     expect(board).toHaveTextContent("Vida: 0%");
+    expect(board).toHaveTextContent("El ganador es:");
+    expect(board).toHaveTextContent("Reiniciar");
+    expect(board).toHaveTextContent("Pausar");
   });
 
   test("Componente `RobotInfo`", () => {
     render(<RobotInfo name="Robot de prueba" color="Red" life={1} />);
     const board: HTMLElement = screen.getByTestId("RobotInfo Robot de prueba");
-    expect(board).toHaveTextContent("Robot de prueba");
+    expect(board).toHaveTextContent("• Robot de prueba");
     expect(board).toHaveTextContent("Vida: 100%");
   });
 });
@@ -398,6 +428,7 @@ describe("Funciones dentro del componente `Board`", () => {
                 },
               ],
               color: "red",
+              winner: true,
             },
           ],
           missiles: [[]],
@@ -473,6 +504,7 @@ describe("Funciones dentro del componente `Board`", () => {
                 },
               ],
               color: "red",
+              winner: false,
             },
             {
               name: "хай живе україна",
@@ -510,6 +542,7 @@ describe("Funciones dentro del componente `Board`", () => {
                 },
               ],
               color: "blue",
+              winner: true,
             },
           ],
           missiles: [
@@ -619,6 +652,7 @@ describe("Funciones dentro del componente `Board`", () => {
                   damage: 0,
                 },
               ],
+              winner: true,
             },
           ],
           missiles: [

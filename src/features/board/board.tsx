@@ -1,7 +1,7 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { Circle, Group, Layer, Line, Rect, Stage } from "react-konva";
 
-import { Animate } from "./Animation";
+import { Animate, ControlProps } from "./Animation";
 import {
   animationInfo,
   boardConfig,
@@ -12,8 +12,10 @@ import {
   robotInAnimationInfo,
   robotInSideTextConfig,
   simulationResult_to_animationInfo,
+  robotNameInfo,
 } from "./boardHelper";
 import { simulationResult } from "./SimulationAPI";
+import { Button_sx } from "../Style";
 
 function BackGround(board: boardConfig): JSX.Element {
   return (
@@ -162,17 +164,27 @@ function MainBoard({
   );
 }
 
+export function RobotName({ name, color }: robotNameInfo): JSX.Element {
+  return (
+    <div key={"RobotName" + color}>
+      <strong>
+        <span style={{ color: color }}>{"• "}</span>
+        {name}
+      </strong>
+    </div>
+  );
+}
+
 export function RobotInfo(robot: robotInSideTextConfig): JSX.Element {
   return (
     <div
       data-testid={"RobotInfo " + robot.name}
-      key={"Robot in board" + robot.name}
+      key={"RobotInfo" + robot.color}
     >
-      <h3>
-        <span style={{ color: robot.color }}>{"• "}</span>
-        {robot.name}
+      <h3 style={{ fontWeight: "normal" }}>
+        <RobotName name={robot.name} color={robot.color} />
       </h3>
-      <p>{`Vida: ${robot.life * 100}%`}</p>
+      <p>{`Vida: ${Math.round(robot.life * 100)}%`}</p>
     </div>
   );
 }
@@ -190,19 +202,65 @@ function SideText({
   );
 }
 
+function ShowWinners({
+  winners,
+}: {
+  winners: Array<robotNameInfo>;
+}): JSX.Element {
+  return (
+    <div style={{ paddingTop: 10 }}>
+      {winners.length === 0 ? (
+        <div>No hay ganadores</div>
+      ) : winners.length === 1 ? (
+        <div>
+          El ganador es:
+          {RobotName(winners[0])}
+        </div>
+      ) : (
+        <div>
+          Empate entre los robots:
+          {winners.map(RobotName)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function controls(control: ControlProps): JSX.Element {
+  return (
+    <div>
+      <Button sx={Button_sx} onClick={control.restart}>
+        Reiniciar
+      </Button>
+      <Button sx={{ ...Button_sx, ml: 1 }} onClick={control.pause}>
+        Pausar
+      </Button>
+    </div>
+  );
+}
+
 export function renderFrame(
   animation: animationInfo,
-  frame: number
+  frame: number,
+  control: ControlProps
 ): JSX.Element {
+  const after_end: boolean = frame >= animation.rounds_amount;
+
   const robotsInGame: robotInFrameConfig[] = animation.robots.flatMap(
     (robot: robotInAnimationInfo) => {
-      return robot.rounds.length <= frame
+      const robot_frame: number | null =
+        after_end && robot.winner
+          ? animation.rounds_amount - 1
+          : frame < robot.rounds.length
+          ? frame
+          : null;
+      return robot_frame === null
         ? []
         : [
             {
               name: robot.name,
               color: robot.color,
-              coords: robot.rounds[frame].coords,
+              coords: robot.rounds[robot_frame].coords,
             },
           ];
     }
@@ -210,22 +268,49 @@ export function renderFrame(
 
   const robotsInSideText: robotInSideTextConfig[] = animation.robots.map(
     (robot: robotInAnimationInfo) => {
+      const robot_frame: number | null =
+        after_end && robot.winner
+          ? animation.rounds_amount - 1
+          : frame < robot.rounds.length
+          ? frame
+          : null;
       return {
         name: robot.name,
         color: robot.color,
-        life: 1 - (robot.rounds[frame]?.damage ?? 1),
+        life: 1 - (robot.rounds[robot_frame!]?.damage ?? 1),
       };
     }
   );
 
+  const winners: Array<robotNameInfo> = animation.robots.flatMap(
+    (robot: robotInAnimationInfo) => {
+      return robot.winner ? [{ name: robot.name, color: robot.color }] : [];
+    }
+  );
+
   return (
-    <Grid container data-testid="Board">
-      <MainBoard
-        board_size={animation.board_size}
-        robots={robotsInGame}
-        missiles={animation.missiles[frame] ?? []}
-      />
-      <SideText robots={robotsInSideText} />
+    <Grid
+      container
+      data-testid="Board"
+      sx={{ paddingTop: 1, position: "absolute" }}
+    >
+      <Grid item xs="auto">
+        <MainBoard
+          board_size={animation.board_size}
+          robots={robotsInGame}
+          missiles={animation.missiles[frame] ?? []}
+        />
+      </Grid>
+      <Grid item xs="auto" style={{ textAlign: "left", paddingLeft: 5 }}>
+        <div>
+          <SideText robots={robotsInSideText} />
+          {after_end ? ShowWinners({ winners: winners }) : <div />}
+        </div>
+        <div style={{ position: "absolute", bottom: 0, paddingBottom: "5px" }}>
+          {controls(control)}
+        </div>
+      </Grid>
+      <Grid></Grid>
     </Grid>
   );
 }
@@ -240,8 +325,12 @@ export function Board({
 
   return (
     <div data-testid="Board">
-      {Animate(animation.rounds_amount - 1, 50, 5, (frame: number) =>
-        renderFrame(animation, frame)
+      {Animate(
+        animation.rounds_amount,
+        50,
+        5,
+        (frame: number, control: ControlProps) =>
+          renderFrame(animation, frame, control)
       )}
     </div>
   );

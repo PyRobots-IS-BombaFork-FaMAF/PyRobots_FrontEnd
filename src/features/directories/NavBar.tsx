@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { userInfo } from "../profile/profileHelper";
 import { callApiFetchInfo } from "../profile/profileApi";
 import { Avatar, CircularProgress, Grid, Menu, MenuItem } from "@mui/material";
+import { pageColor } from "../Style";
 
 export default function NavBar(): JSX.Element {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -43,7 +44,10 @@ export default function NavBar(): JSX.Element {
     navigate("/results", { replace: true });
   };
   const profile = () => {
-    navigate("/profile", { replace: true });
+    navigate("/profile", {  replace: true });
+  };
+  const robotLibrary = () => {
+    navigate("/robotLibrary", { replace:  true  });
   };
 
   const handleCloseUserMenu = (event : React.MouseEvent<HTMLLIElement, MouseEvent>) => {
@@ -51,7 +55,7 @@ export default function NavBar(): JSX.Element {
       profile();
     } else if (event.currentTarget.innerText === "Logout") {
       logOut();
-    }
+    };
     setAnchorElUser(null)
   };
 
@@ -76,9 +80,13 @@ export default function NavBar(): JSX.Element {
   ) : (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
+       
         position="relative"
+       
         data-testid="AppBar"
-        sx={{ backgroundColor: "#43B647" }}
+       
+        sx={{  backgroundColor:  pageColor  }}
+      
       >
         <Toolbar>
           <Typography
@@ -103,7 +111,7 @@ export default function NavBar(): JSX.Element {
             onClick={(e) => executeSimulation()}
             data-testid="ejecutarSim"
           >
-            Ejecutar Simulacion
+            Simulación
           </Button>
           <Button
             sx={{ mr: 5 }}
@@ -128,7 +136,14 @@ export default function NavBar(): JSX.Element {
           >
             Historial de partidas
           </Button>
-          <IconButton
+          <Button
+            sx={{ mr: 5 }}
+            color="inherit"
+            onClick={(e) => robotLibrary()}
+          >
+            Biblioteca de Robots
+          </Button>
+          <Button
             sx={{ mr: 5 }}
             color="inherit"
             onClick={handleOpenUserMenu}
@@ -140,7 +155,7 @@ export default function NavBar(): JSX.Element {
                 info!.avatar_img.split("'")[1].split("'")[0]
               }`}
             />
-          </IconButton>
+          </Button>
           <Menu
             sx={{ mt: "45px" }}
             id="menu-appbar"

@@ -11,6 +11,7 @@ import { Robot } from "../joinGame/JoinGame";
 import { createMatchApi, newGameInfo } from "./NewGameApi";
 import { ListOfRobots } from "../robotApi/ListOfRobots";
 import { callApiListRobot } from "../robotApi/ListRobotApi";
+import { Button_sx } from "../Style";
 
 import "../directories/Home.css";
 
@@ -50,11 +51,7 @@ function onSubmit_newGame(
   const robotId = data.get("select-robot");
   if (typeof robotId === "string") {
     if (robotId) {
-      newGameInfo.robot = arrRobot.find(
-        (robot: Robot) => robot.id === parseInt(robotId)
-      )!.name;
-      // The should be a robot with that id, but they come from two different request,
-      // so it's not fully guaranteed // FIXME (needs changes in the backend)
+      newGameInfo.robot = parseInt(robotId);
     }
   }
 
@@ -196,13 +193,9 @@ function GameForm(): JSX.Element {
           variant="contained"
           data-testid="submit"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-            },
           }}
         >
           Crear Partida

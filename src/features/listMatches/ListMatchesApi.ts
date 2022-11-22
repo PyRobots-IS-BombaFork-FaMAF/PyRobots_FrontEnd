@@ -1,7 +1,8 @@
 import swal from "sweetalert2";
 
 import axios from "../../api/axios";
-import { ListPlayer, Player } from "../joinGame/Lobby";
+import { pageColor } from "../Style";
+import { ListPlayerMatch, PlayerMatch } from "../joinGame/JoinGame";
 
 export type ListMatchesFilter = {
   game_name?: string;
@@ -20,7 +21,7 @@ export type Match = {
   _websocketurl: string;
   _current_players: number;
   _creator: string;
-  _players: ListPlayer;
+  _players: ListPlayerMatch;
   _creation_date: string; // Formato "año-mes-día hora:minuto:segundo"
   _password: string; // No es la contraseña real, si no un hash irreversible
   _private: boolean;
@@ -50,7 +51,7 @@ async function listMatchesApi(
           title: "Error",
           text: error.response.data.detail,
           icon: "error",
-          confirmButtonColor: "#43B647",
+          confirmButtonColor: pageColor,
         });
         if (error.response.status === 401) {
           localStorage.clear();
@@ -74,7 +75,7 @@ export function callApiListMatch(
       JSON.parse(value).map((match: Match) => {
         if (
           match._players
-            .map((elem: Player) => {
+            .map((elem: PlayerMatch) => {
               return (
                 elem.player === localStorage.getItem("username")?.toString()!
               );

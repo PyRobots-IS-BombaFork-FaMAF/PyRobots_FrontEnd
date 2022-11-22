@@ -13,6 +13,7 @@ import {
 } from "./SimulationAPI";
 import NavBar from "../directories/NavBar";
 import { ListOfRobots } from "../robotApi/ListOfRobots";
+import { Button_sx } from "../Style";
 
 function onSubmit_newSimulation(
   setSimulationResult: React.Dispatch<
@@ -69,13 +70,13 @@ function onSubmit_newSimulation(
 // Regex of input validation (in string because `pattern` requires a string)
 export const rounds_amount_regex: string = "^([1-9][0-9]{0,3}|10000)$";
 
-function SimulationForm(
+export function SimulationForm(
   setSimulationResult: React.Dispatch<
     React.SetStateAction<simulationResult | null>
   >
 ): JSX.Element {
   return (
-    <Container>
+    <Container data-testid="newSimulation">
       <Box
         component="form"
         onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
@@ -106,13 +107,9 @@ function SimulationForm(
           variant="contained"
           data-testid="submit"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #0d8f11",
-            },
           }}
         >
           Nueva simulación

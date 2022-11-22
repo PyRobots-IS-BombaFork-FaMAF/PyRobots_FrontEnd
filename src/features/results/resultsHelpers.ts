@@ -40,4 +40,4 @@ export type resultForCards = {
 // Functions
 
 export const searchName = (players: player) =>
-localStorage.getItem("username")?.toString() === players.player;
+  localStorage.getItem("username")?.toString() === players.player;

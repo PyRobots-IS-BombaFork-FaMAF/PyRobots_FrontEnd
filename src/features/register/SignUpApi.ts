@@ -1,8 +1,9 @@
 import swal from "sweetalert2";
 
 import axios from "../../api/axios";
+import { pageColor } from "../Style";
 
-export function signUpApi(formData: FormData, navigate : Function): void {
+export function signUpApi(formData: FormData, navigate: Function): void {
   axios
     .post("users/register", formData)
     .then((res) => {
@@ -10,7 +11,7 @@ export function signUpApi(formData: FormData, navigate : Function): void {
         swal.fire({
           title: res.data[0],
           icon: "success",
-          confirmButtonColor: "#43B647",
+          confirmButtonColor: pageColor,
         });
         navigate("/login", { replace: true });
       }
@@ -20,7 +21,7 @@ export function signUpApi(formData: FormData, navigate : Function): void {
         title: "Error",
         text: err.response.data.detail,
         icon: "error",
-        confirmButtonColor: "#43B647",
+        confirmButtonColor: pageColor,
       });
     });
 }

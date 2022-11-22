@@ -1,9 +1,14 @@
 import { ListMatch } from "../listMatches/ListMatchesApi";
 
-export type Player =
+export type ListPlayerMatch = PlayerMatch[];
+export type PlayerMatch = {
+  player: string;
+  robot: string;
+};
+export type PlayerJoinMatch =
   | {
       game_id: number;
-      robot: string;
+      robot: number;
       password: string;
     }
   | {
@@ -27,7 +32,6 @@ export const joinGame = (
       _status: string;
     };
   },
-  robot: string,
   setActualMatch: Function,
   setIsCreator: Function,
   setMatches: Function,
@@ -41,18 +45,14 @@ export const joinGame = (
     data.row._current_players < data.row._max_players ||
     data.row._status === "joined"
   ) {
-    if (match?._creator !== userName) {
+    if (match?._creator !== userName.toLowerCase()) {
       setIsCreator(false);
       const players = match?._players;
       if (
-        !players?.find((elem) => {
+        !players?.find((elem: PlayerMatch) => {
           return elem.player === userName;
         })
       ) {
-        players?.push({
-          player: userName,
-          robot: robot,
-        });
         if (players) {
           match._players = players;
           match._current_players = match._current_players + 1;

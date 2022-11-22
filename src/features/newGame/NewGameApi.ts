@@ -1,6 +1,7 @@
 import swal from "sweetalert2";
 
 import axios from "../../api/axios";
+import { pageColor } from "../Style";
 
 export type newGameInfo = {
   rounds?: number;
@@ -9,7 +10,7 @@ export type newGameInfo = {
   max_players?: number;
   min_players?: number;
   password?: string;
-  robot?: string;
+  robot?: number;
 };
 
 export function createMatchApi(
@@ -28,7 +29,7 @@ export function createMatchApi(
         swal.fire({
           title: response.data.msg,
           icon: "success",
-          confirmButtonColor: "#43B647",
+          confirmButtonColor: pageColor,
         });
       })
       .catch(function (error) {
@@ -36,7 +37,7 @@ export function createMatchApi(
           title: "Error",
           text: error.response.data.detail,
           icon: "error",
-          confirmButtonColor: "#43B647",
+          confirmButtonColor: pageColor,
         });
         if (error.response.status === 401) {
           localStorage.clear();

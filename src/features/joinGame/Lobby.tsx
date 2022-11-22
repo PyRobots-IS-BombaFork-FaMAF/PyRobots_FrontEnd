@@ -3,22 +3,23 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
-
-import defaultPlayer from "../../assets/img/defaultPlayer.jpg";
-import defaultRobot from "../../assets/img/defaultRobot.jpg";
 import { callApiLaunchApi } from "./LaunchGameApi";
 import { leaveMatchApi } from "./LeaveGameApi";
 import { callApiListMatch } from "../listMatches/ListMatchesApi";
+import { Button_sx, pageColor } from "../Style";
 
-export type Player = {
+export type PlayerLobby = {
   player: string;
   robot: string;
+  avatar_robot_image: string;
+  avatar_robot_name: string;
+  avatar_user_image: string;
+  avatar_user_name: string;
 };
-export type ListPlayer = Player[];
+export type ListPlayerLobby = PlayerLobby[];
 type PropsLobby = {
   myKey: number;
   setShowLobby: Function;
-  players: ListPlayer;
   isCreator: boolean;
   roomId: string;
   roomUrl: string;
@@ -57,13 +58,13 @@ const Buttons = ({
           leaveMatchApi(
             roomId,
             localStorage.getItem("access_token")?.toString()!
-          );          
+          );
           setTimeout(() => {
-            if(socket){
-              socket.close();
-            }
             callApiListMatch({}, setMatches);
             setShowLobby(false);
+            if (socket) {
+              socket.close();
+            }
           }, 1000);
         }
       });
@@ -84,11 +85,10 @@ const Buttons = ({
             setTimeout(() => {
               callApiListMatch({}, setMatches);
               setShowLobby(false);
+              if (socket) {
+                socket.close();
+              }
             }, 1000);
-            if(socket){
-              socket.close();
-            }
-            
           }}
           variant="contained"
           sx={{
@@ -109,13 +109,9 @@ const Buttons = ({
           onClick={() => launchGame()}
           variant="contained"
           sx={{
+            ...Button_sx,
             mt: 3,
             mb: 2,
-            backgroundColor: "#43B647",
-            "&:hover": {
-              backgroundColor: "#43B647",
-              boxShadow: "0rem 0.1rem 0.5rem #45E14B",
-            },
           }}
           disabled={!isCreator}
         >
@@ -146,44 +142,38 @@ const Buttons = ({
 
 export const Lobby = ({
   myKey,
-  players,
   setShowLobby,
   isCreator,
   roomId,
   roomUrl,
   setMatches,
 }: PropsLobby) => {
-  const [playersSocket, setPlayersSocket] = useState<ListPlayer>([]);
+  const [playersSocket, setPlayersSocket] = useState<ListPlayerLobby>([]);
   const [serverMessage, setServerMessage] = useState("");
   const [disableAbandone, setDisableAbandone] = useState(false);
   const ws = useRef<WebSocket | null>(null);
-
   useEffect(() => {
-    ws.current = new WebSocket(`ws://127.0.0.1:8000${roomUrl}`);
-    ws.current.onopen = () => console.log("ws opened");
-    ws.current.onclose = () => console.log("ws closed");
-
-    const wsCurrent = ws.current;
-    return () => {
-      wsCurrent?.close()
+    const socket = new WebSocket(`ws://127.0.0.1:8000${roomUrl}`);
+    ws.current = socket;
+    socket.onopen = () => {
+      console.log("ws open");
+      socket.onmessage = async (event) => {
+        const json = JSON.parse(event.data);
+        console.log(json);
+        if (json.status === 0 || json.status === 1 || json.status === 4) {
+          setPlayersSocket(json.players);
+          setServerMessage(json.message);
+        } else if (json.status === 2 || json.status === 3) {
+          setDisableAbandone(true);
+          setServerMessage(json.message);
+        }
+      };
     };
+    socket.onclose = () => console.log("ws closed");
+    return () => socket.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [ws]);
 
-  useEffect(() => {
-    if(!ws.current) return;
-    ws.current.onmessage = (event) => {
-      const json = JSON.parse(event.data);
-      console.log(json);
-      if (json.status === 0 || json.status === 1 || json.status === 4) {
-        setPlayersSocket(json.players);
-        setServerMessage(json.message);
-      } else if (json.status === 2 || json.status === 3) {
-        setDisableAbandone(true);
-        setServerMessage(json.message);
-      }
-    };
-  }, [])
   return (
     <Grid
       key={myKey}
@@ -195,51 +185,71 @@ export const Lobby = ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        border: "2px groove #43B647",
-        borderRadius: 10,
+        border: `2px groove ${pageColor}`,
+        borderRadius: "10px",
       }}
     >
       <Grid>
         <Container>
           <Stack spacing={3}>
-            {playersSocket.map((player: Player, key: number): JSX.Element => {
-              return (
-                <Stack
-                  direction="row"
-                  key={key}
-                  sx={{
-                    width: "30vw",
-                    mt: 5,
-                    borderStyle: "double",
-                    borderRadius: 60,
-                    borderColor: "#43B647",
-                  }}
-                >
-                  <Grid item xs={2}>
-                    <Avatar
-                      alt="Player"
-                      src={defaultPlayer}
-                      sx={{ height: "50px", width: "50px" }}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="h6"> {player.player} </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Avatar
-                      alt="Robot"
-                      src={defaultRobot}
-                      sx={{ height: "50px", width: "50px" }}
-                    />
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="h6">{player.robot} </Typography>
-                  </Grid>
-                </Stack>
-              );
-            })}
+            {playersSocket.map(
+              (player: PlayerLobby, key: number): JSX.Element => {
+                return (
+                  <Stack
+                    direction="row"
+                    key={key}
+                    sx={{
+                      width: "40vw",
+                      mt: 5,
+                      borderStyle: "double",
+                      borderRadius: "10px",
+                      borderColor: pageColor,
+                    }}
+                  >
+                    <Grid item xs={3}>
+                      <Avatar
+                        alt="Player"
+                        src={`data:image/${
+                          player.avatar_user_name.split(".")[1]
+                        };base64,${
+                          player.avatar_user_image.split("'")[1].split("'")[0]
+                        }`}
+                        sx={{
+                          height: "100px",
+                          width: "100px",
+                          border: "10px solid transparent",
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography variant="h6" sx={{ mt: 4 }}>
+                        {" "}
+                        {player.player}{" "}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Avatar
+                        alt="Robot"
+                        src={`data:image/${
+                          player.avatar_robot_name.split(".")[1]
+                        };base64,${
+                          player.avatar_robot_image.split("'")[1].split("'")[0]
+                        }`}
+                        sx={{ height: "100px", width: "100px", ml: 3 }}
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography variant="h6" sx={{ mt: 4, ml: 3 }}>
+                        {player.robot}{" "}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={3}></Grid>
+                  </Stack>
+                );
+              }
+            )}
           </Stack>
-          <h6>{serverMessage}</h6>
+          <h4>{serverMessage}</h4>
         </Container>
       </Grid>
       <Buttons
