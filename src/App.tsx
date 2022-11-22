@@ -14,6 +14,8 @@ import RobotLibrary from "./features/listRobotsAndStats/RobotLibrary";
 import SignIn from "./features/login/SignIn";
 import SignUp from "./features/register/SignUp";
 import PassRecover from "./features/passwordRecovery/PassRecover";
+import Profile from "./features/profile/profile";
+import ChangePassword from "./features/profile/changePassword";
 
 import "./App.css";
 
@@ -39,6 +41,8 @@ function App(): JSX.Element {
               <Route path="/results" element={<HistoryResults />} />
               <Route path="/listMatches" element={<ListMatches />} />
               <Route path="/newGame" element={<NewGame />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/changePassword" element={<ChangePassword />} />
             </Route>
           </Route>
 

@@ -1,15 +1,27 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { userInfo } from "../profile/profileHelper";
+import { callApiFetchInfo } from "../profile/profileApi";
+import { Avatar, CircularProgress, Grid, Menu, MenuItem } from "@mui/material";
 import { pageColor } from "../Style";
 
 export default function NavBar(): JSX.Element {
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [info, setInfo] = useState<userInfo | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const access_token = localStorage.getItem("access_token")?.toString();
+  const settings = ["Perfil", "Logout"];
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+
   const navigate = useNavigate();
   const createRobot = () => {
     navigate("/createRobot", { replace: true });
@@ -30,27 +42,52 @@ export default function NavBar(): JSX.Element {
   const historyResults = () => {
     navigate("/results", { replace: true });
   };
+  const profile = () => {
+    navigate("/profile", {  replace: true });
+  };
   const robotLibrary = () => {
-    navigate("/robotLibrary", { replace: true });
+    navigate("/robotLibrary", { replace:  true  });
   };
 
-  return (
+  const handleCloseUserMenu = (event : React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    if (event.currentTarget.innerText === "Perfil") {
+      profile();
+    } else if (event.currentTarget.innerText === "Logout") {
+      logOut();
+    };
+    setAnchorElUser(null)
+  };
+
+  useEffect(() => {
+    callApiFetchInfo(access_token, setInfo, setLoading);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return loading ? (
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minHeight: "100vh" }}
+    >
+      <Grid item xs={3}>
+        <CircularProgress />
+      </Grid>
+    </Grid>
+  ) : (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
+       
         position="relative"
+       
         data-testid="AppBar"
-        sx={{ backgroundColor: pageColor }}
+       
+        sx={{  backgroundColor:  pageColor  }}
+      
       >
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 3 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
             variant="h6"
             component="div"
@@ -108,11 +145,38 @@ export default function NavBar(): JSX.Element {
           <Button
             sx={{ mr: 5 }}
             color="inherit"
-            onClick={(e) => logOut()}
+            onClick={handleOpenUserMenu}
             data-testid="logOut"
           >
-            Logout
+            <Avatar
+              sx={{ width: "50px", height: "50px", margin: "0" }}
+              src={`data:image/${info!.avatar_name.split(".")[1]};base64,${
+                info!.avatar_img.split("'")[1].split("'")[0]
+              }`}
+            />
           </Button>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {settings.map((setting) => (
+              <MenuItem key={setting} onClick={e => handleCloseUserMenu(e)}>
+                    {setting}
+              </MenuItem>
+            ))}
+          </Menu>
         </Toolbar>
       </AppBar>
     </Box>

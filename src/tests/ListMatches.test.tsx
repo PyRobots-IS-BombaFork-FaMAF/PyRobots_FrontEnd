@@ -12,13 +12,4 @@ describe("Test al componente ListMatches", () => {
     const form = screen.getByTestId("formList");
     expect(form).toBeInTheDocument();
   });
-  test("Esta el NavBar", () => {
-    render(
-      <BrowserRouter>
-        <ListMatches />
-      </BrowserRouter>
-    );
-    const crearRobot = screen.getByTestId("crearRobot");
-    expect(crearRobot).toBeInTheDocument();
-  });
 });
