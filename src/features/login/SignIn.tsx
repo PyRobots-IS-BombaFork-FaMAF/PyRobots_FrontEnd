@@ -10,7 +10,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Navigate, useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
 import swal from "sweetalert2";
 
 import axios, { setToken } from "../../api/axios";
@@ -39,7 +38,6 @@ const theme = createTheme();
 export default function SignIn(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
-  const [error, setError] = useState("");
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -60,16 +58,9 @@ export default function SignIn(): JSX.Element {
 
       navigate("/", { replace: true });
     } catch (err: any) {
-      if (!err?.response) {
-        setError("No hay respuesta del servidor");
-      } else if (err.response?.status === 401) {
-        setError("Usuario o contraseña inválidos");
-      } else {
-        setError("Inicio de sesión fallido");
-      }
       swal.fire({
         title: "Error",
-        text: error,
+        text: err.response.data.detail,
         icon: "error",
         confirmButtonColor: pageColor,
       });
